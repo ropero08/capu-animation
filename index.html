@@ -1,0 +1,384 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Capu Animation - Página</title>
+  <style>
+    /* Reset y diseño simple */
+    :root{--accent:#5B6EF6;--muted:#666}
+    *{box-sizing:border-box;font-family:Inter,Segoe UI,Arial,sans-serif}
+    body{margin:0;background:#f6f8ff;color:#111}
+    .container{max-width:1100px;margin:24px auto;padding:16px}
+
+    header{display:flex;align-items:center;justify-content:space-between;padding:12px 0}
+    .brand{display:flex;align-items:center;gap:12px}
+    .logo{width:56px;height:56px;border-radius:10px;background:linear-gradient(135deg,var(--accent),#7ad0ff);display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:18px}
+    h1{margin:0;font-size:20px}
+    nav{display:flex;gap:12px;align-items:center}
+    input.search{padding:8px 12px;border-radius:8px;border:1px solid #ddd;min-width:220px}
+    .userBtn{display:flex;align-items:center;gap:8px;cursor:pointer}
+    .avatar{width:42px;height:42px;border-radius:50%;background:#ddd;overflow:hidden}
+    .avatar img{width:100%;height:100%;object-fit:cover}
+
+    /* Paginas */
+    .page{display:none}
+    .active{display:block}
+
+    /* Caja de inicio */
+    .homeCard{background:white;padding:28px;border-radius:12px;box-shadow:0 6px 18px rgba(20,30,80,0.06);text-align:center}
+    .actions{margin-top:18px;display:flex;gap:12px;justify-content:center}
+    .btn{background:var(--accent);color:white;padding:10px 14px;border-radius:10px;border:none;cursor:pointer}
+    .btn.ghost{background:transparent;color:var(--accent);border:1px solid var(--accent)}
+
+    /* Layout principal */
+    .grid{display:grid;grid-template-columns:1fr 300px;gap:18px;margin-top:18px}
+    .main{background:white;padding:16px;border-radius:12px}
+    .side{background:white;padding:16px;border-radius:12px}
+
+    .section{margin-bottom:18px}
+    .section h2{margin:0 0 8px 0}
+    .cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px}
+    .card{border:1px solid #eee;padding:8px;border-radius:10px;background:#fff}
+    .card video{width:100%;border-radius:8px;background:#000}
+    .meta{display:flex;align-items:center;gap:8px;margin-top:8px}
+    .meta .thumb{width:44px;height:44px;border-radius:6px;background:#eee}
+    .meta .title{font-weight:600}
+    .small{font-size:13px;color:var(--muted)}
+
+    .uploadArea{border:2px dashed #e6e9ff;padding:12px;border-radius:10px;text-align:center}
+    .field{margin-top:8px}
+    .field input,.field textarea{width:100%;padding:8px;border-radius:8px;border:1px solid #ddd}
+
+    footer{margin-top:24px;text-align:center;color:var(--muted)}
+
+    /* Modal simple */
+    .modal{position:fixed;inset:0;background:rgba(0,0,0,0.45);display:none;align-items:center;justify-content:center}
+    .modal.open{display:flex}
+    .modal .card{width:420px}
+
+    /* editable visuals */
+    [contenteditable]{outline:2px dashed transparent;padding:4px;border-radius:6px}
+    .editing [contenteditable]{outline-color:rgba(91,110,246,0.25);}
+
+    @media (max-width:900px){.grid{grid-template-columns:1fr}.side{order:2}}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="brand">
+        <div class="logo">CA</div>
+        <div>
+          <div style="font-size:12px;color:var(--muted)">Capu Animation</div>
+          <h1 id="pageTitle">Capu Animation</h1>
+        </div>
+      </div>
+
+      <nav>
+        <input id="search" class="search" placeholder="Buscar videos, títulos, descripciones..." />
+        <div class="userBtn" id="userBtn">
+          <div class="avatar" id="navAvatar"><img src="" alt="" onerror="this.style.display='none'"></div>
+          <div id="navEmail" class="small">Invitado</div>
+        </div>
+      </nav>
+    </header>
+
+    <!-- PÁGINA DE INICIO / LOGIN -->
+    <div id="page-welcome" class="page active">
+      <div class="homeCard">
+        <h2 style="font-size:28px;margin-bottom:6px">Capu Animation</h2>
+        <p class="small">Comparte, organiza y presenta tus videos animados. Crea cuenta para empezar.</p>
+        <div class="actions">
+          <button class="btn" id="btnCreate">Crear cuenta</button>
+          <button class="btn ghost" id="btnLogin">Iniciar sesión</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- PÁGINA PRINCIPAL -->
+    <div id="page-main" class="page">
+      <div class="grid">
+        <div class="main">
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <div>
+              <h2 id="welcomeTitle">Bienvenido</h2>
+              <div id="purposeText" contenteditable="true">Este es el propósito de la página. Haz click aquí para editarlo. Guarda los cambios con el botón "Guardar página".</div>
+            </div>
+            <div>
+              <button class="btn" id="btnEditPage">Guardar página</button>
+            </div>
+          </div>
+
+          <!-- Tres distribuciones -->
+          <div class="section" id="distribuciones">
+            <h2>Distribuciones</h2>
+            <div style="display:flex;gap:10px;margin-bottom:12px">
+              <button class="btn" data-dist="Dist A">Dist A</button>
+              <button class="btn" data-dist="Dist B">Dist B</button>
+              <button class="btn" data-dist="Dist C">Dist C</button>
+            </div>
+
+            <!-- Contenedor donde se muestran cartas de una distribucion seleccionada -->
+            <div id="distArea">
+              <div style="margin-bottom:12px" class="small">Selecciona una distribución para ver y subir videos.</div>
+              <div class="uploadArea" id="uploadArea">
+                <div class="small">Subir video (URL o archivo). También puedes adjuntar un PDF y texto.</div>
+                <div class="field"><input id="videoUrl" placeholder="Pegar URL de video (mp4)"/></div>
+                <div class="field"><input type="file" id="videoFile" accept="video/*"/></div>
+                <div class="field"><input id="videoTitle" placeholder="Título del video"/></div>
+                <div class="field"><textarea id="videoDesc" rows="3" placeholder="Descripción pequeña"></textarea></div>
+                <div class="field"><input type="file" id="pdfFile" accept="application/pdf"/></div>
+                <div style="display:flex;gap:8px;justify-content:center;margin-top:8px">
+                  <button class="btn" id="btnAddVideo">Agregar video</button>
+                  <button class="btn ghost" id="btnClearStorage">Limpiar datos</button>
+                </div>
+              </div>
+
+              <div id="cardsContainer" style="margin-top:12px"></div>
+            </div>
+          </div>
+
+        </div>
+
+        <aside class="side">
+          <div style="text-align:center">
+            <div class="avatar" style="width:90px;height:90px;margin:0 auto" id="profileAvatar"><img src="" alt=""></div>
+            <div id="profileEmail" style="margin-top:8px;font-weight:600">Invitado</div>
+            <div class="small" style="margin-top:6px">Sube tu foto:</div>
+            <input type="file" id="avatarUpload" accept="image/*"/>
+          </div>
+
+          <hr style="margin:12px 0;border:none;border-top:1px solid #eee"/>
+          <div>
+            <h3 style="margin:0 0 8px 0">Edición rápida</h3>
+            <div class="field"><input id="siteTitleEdit" placeholder="Título del sitio"/></div>
+            <div class="field"><input id="welcomeEdit" placeholder="Texto bienvenida"/></div>
+            <div style="display:flex;gap:8px;margin-top:8px"><button class="btn" id="applyEdits">Aplicar</button></div>
+          </div>
+        </aside>
+      </div>
+
+      <footer>
+        Página creada como demo. Todo se guarda localmente en tu navegador (localStorage). Ideal para GitHub Pages.
+      </footer>
+    </div>
+
+    <!-- Modal: Crear cuenta / Login simple -->
+    <div id="modal" class="modal">
+      <div class="card">
+        <div style="padding:18px">
+          <h3 id="modalTitle">Crear cuenta</h3>
+          <div class="field"><input id="emailInput" placeholder="Correo electrónico"/></div>
+          <div class="field"><input id="nameInput" placeholder="Nombre (opcional)"/></div>
+          <div class="field"><input id="passwordInput" placeholder="Contraseña (solo local)" type="password"/></div>
+          <div style="display:flex;gap:8px;margin-top:12px;justify-content:flex-end">
+            <button class="btn" id="modalSave">Guardar</button>
+            <button class="btn ghost" id="modalCancel">Cancelar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    // ----- Utilidades de almacenamiento local -----
+    const KEY_PREFIX = 'capu_';
+    function save(key, value){localStorage.setItem(KEY_PREFIX+key, JSON.stringify(value))}
+    function load(key, fallback){const v = localStorage.getItem(KEY_PREFIX+key); return v?JSON.parse(v):fallback}
+
+    // Usuarios simples: guardamos {email,name,password,avatarDataURL}
+    let currentUser = load('session', null);
+    const users = load('users', {});
+    // Datos: distribuciones -> map nombre -> array de videos
+    let data = load('data', { 'Dist A':[], 'Dist B':[], 'Dist C':[] });
+
+    // Elementos
+    const pageWelcome = document.getElementById('page-welcome');
+    const pageMain = document.getElementById('page-main');
+    const navEmail = document.getElementById('navEmail');
+    const navAvatar = document.getElementById('navAvatar');
+    const profileAvatar = document.getElementById('profileAvatar');
+    const profileEmail = document.getElementById('profileEmail');
+    const modal = document.getElementById('modal');
+
+    // Iniciar
+    function renderSession(){
+      if(currentUser){
+        navEmail.textContent = currentUser.email;
+        profileEmail.textContent = currentUser.name || currentUser.email;
+        // avatar
+        const img = navAvatar.querySelector('img');
+        const pimg = profileAvatar.querySelector('img');
+        if(currentUser.avatar){img.src=currentUser.avatar;img.style.display='block';pimg.src=currentUser.avatar;pimg.style.display='block'} else {img.style.display='none';pimg.style.display='none'}
+      } else {
+        navEmail.textContent='Invitado'; profileEmail.textContent='Invitado'; navAvatar.querySelector('img').style.display='none'; profileAvatar.querySelector('img').style.display='none'
+      }
+    }
+    renderSession();
+
+    // Mostrar inicio o principal
+    function showPage(id){document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));document.getElementById(id).classList.add('active')}
+
+    // Botones crear/login
+    document.getElementById('btnCreate').addEventListener('click',()=>openModal('create'))
+    document.getElementById('btnLogin').addEventListener('click',()=>openModal('login'))
+    document.getElementById('userBtn').addEventListener('click',()=>{ if(currentUser) showPage('page-main'); else openModal('login') })
+
+    function openModal(mode){modal.classList.add('open'); document.getElementById('modalTitle').textContent = mode==='create'?'Crear cuenta':'Iniciar sesión'; modal.dataset.mode=mode}
+    document.getElementById('modalCancel').addEventListener('click',()=>modal.classList.remove('open'))
+
+    document.getElementById('modalSave').addEventListener('click',()=>{
+      const email = document.getElementById('emailInput').value.trim();
+      const name = document.getElementById('nameInput').value.trim();
+      const pass = document.getElementById('passwordInput').value;
+      if(!email||!pass){alert('Introduce correo y contraseña');return}
+      const mode = modal.dataset.mode;
+      if(mode==='create'){
+        if(users[email]){alert('Ya existe ese correo. Usa otro.');return}
+        users[email] = {email,name,password:pass};
+        save('users',users);
+        currentUser = users[email];
+        save('session',currentUser);
+        modal.classList.remove('open');
+        showPage('page-main'); renderSession(); renderAll();
+      } else {
+        if(!users[email]||users[email].password!==pass){alert('Usuario/contraseña incorrectos');return}
+        currentUser = users[email]; save('session',currentUser); modal.classList.remove('open'); showPage('page-main'); renderSession(); renderAll();
+      }
+    })
+
+    // Avatar upload
+    document.getElementById('avatarUpload').addEventListener('change',async (e)=>{
+      const f = e.target.files[0]; if(!f) return;
+      const dataUrl = await fileToDataURL(f);
+      if(!currentUser){alert('Debes iniciar sesión para guardar avatar'); return}
+      currentUser.avatar = dataUrl; users[currentUser.email]=currentUser; save('users',users); save('session',currentUser); renderSession();
+    })
+
+    // Helpers
+    function fileToDataURL(file){return new Promise((res,rej)=>{const r=new FileReader();r.onload=()=>res(r.result);r.onerror=rej;r.readAsDataURL(file)})}
+
+    // Distribucion seleccionada
+    let activeDist = 'Dist A';
+    document.querySelectorAll('[data-dist]').forEach(b=>b.addEventListener('click',()=>{activeDist=b.dataset.dist; renderAll()}))
+
+    // Agregar video
+    document.getElementById('btnAddVideo').addEventListener('click',async ()=>{
+      const url = document.getElementById('videoUrl').value.trim();
+      const file = document.getElementById('videoFile').files[0];
+      const title = document.getElementById('videoTitle').value.trim() || 'Sin título';
+      const desc = document.getElementById('videoDesc').value.trim();
+      const pdf = document.getElementById('pdfFile').files[0];
+      if(!url && !file){alert('Pega una URL o selecciona un archivo de video');return}
+      if(!currentUser){alert('Debes iniciar sesión para agregar videos');return}
+      let videoData = { id:Date.now(), title, desc, author:currentUser.email, created:new Date().toISOString(), pdf:null };
+      if(url){videoData.src = url}
+      if(file){videoData.src = await fileToDataURL(file)}
+      if(pdf){videoData.pdf = await fileToDataURL(pdf); videoData.pdfName = pdf.name}
+      data[activeDist] = data[activeDist] || [];
+      data[activeDist].unshift(videoData);
+      save('data',data);
+      // limpiar campos
+      document.getElementById('videoUrl').value=''; document.getElementById('videoFile').value=''; document.getElementById('videoTitle').value=''; document.getElementById('videoDesc').value=''; document.getElementById('pdfFile').value='';
+      renderAll();
+    })
+
+    // Limpiar todo
+    document.getElementById('btnClearStorage').addEventListener('click',()=>{if(confirm('Borrar TODOS los datos (usuarios, sesión, videos)?')){localStorage.clear();location.reload()}})
+
+    // Render tarjetas
+    function renderAll(){
+      document.getElementById('pageTitle').textContent = load('siteTitle','Capu Animation');
+      document.getElementById('welcomeTitle').textContent = 'Bienvenido, '+(currentUser? (currentUser.name||currentUser.email) : 'Invitado');
+      document.getElementById('purposeText').textContent = load('purpose','Bienvenido a Capu Animation. Edita este texto.');
+
+      // mostrar distribucion activa
+      const cards = data[activeDist] || [];
+      const container = document.getElementById('cardsContainer'); container.innerHTML='';
+      const q = document.getElementById('search').value.trim().toLowerCase();
+      const filtered = cards.filter(c=>{
+        if(!q) return true; return (c.title+c.desc+c.author).toLowerCase().includes(q);
+      })
+      if(filtered.length===0) container.innerHTML = '<div class="small">No hay videos en esta distribución.</div>';
+      filtered.forEach(item=>{
+        const div = document.createElement('div'); div.className='card';
+        div.innerHTML = `
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <div style="font-weight:700">${escapeHtml(item.title)}</div>
+            <div style="font-size:12px;color:var(--muted)">${new Date(item.created).toLocaleString()}</div>
+          </div>
+          <div style="margin-top:8px">
+            <video controls src="${item.src || ''}"></video>
+          </div>
+          <div class="meta">
+            <div class="thumb"></div>
+            <div style="flex:1">
+              <div class="title">${escapeHtml(item.author)}</div>
+              <div class="small">${escapeHtml(item.desc || '')}</div>
+            </div>
+          </div>
+          <div style="display:flex;gap:8px;margin-top:8px;flex-wrap:wrap">
+            <button class="btn" data-id="${item.id}" onclick="openEdit(${item.id})">Editar</button>
+            ${item.pdf?`<a class="btn ghost" href="${item.pdf}" download="${item.pdfName||'adjunto.pdf'}">Descargar PDF</a>`:''}
+          </div>
+        `;
+        container.appendChild(div);
+      })
+      renderSession();
+    }
+
+    // Escape simple
+    function escapeHtml(s){ if(!s) return ''; return s.replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;') }
+
+    // Buscador
+    document.getElementById('search').addEventListener('input',()=>renderAll())
+
+    // Edición del sitio desde panel
+    document.getElementById('applyEdits').addEventListener('click',()=>{
+      const title = document.getElementById('siteTitleEdit').value.trim();
+      const welcome = document.getElementById('welcomeEdit').value.trim();
+      if(title){ save('siteTitle', title) }
+      if(welcome){ save('purpose', welcome) }
+      alert('Cambios aplicados'); renderAll();
+    })
+
+    // Guardar pagina (propósito editable)
+    document.getElementById('btnEditPage').addEventListener('click',()=>{
+      const text = document.getElementById('purposeText').textContent.trim(); save('purpose', text); alert('Propósito guardado');
+    })
+
+    // abrir modal de editar/borar video
+    window.openEdit = function(id){
+      // buscar en distribuciones
+      let found=null, distKey=null;
+      for(const k of Object.keys(data)){
+        const item = (data[k]||[]).find(x=>x.id===id);
+        if(item){ found=item; distKey=k; break }
+      }
+      if(!found) return alert('No encontrado');
+      // abrir prompt-based editor (simple)
+      const newTitle = prompt('Editar título', found.title); if(newTitle===null) return;
+      const newDesc = prompt('Editar descripción', found.desc||''); if(newDesc===null) return;
+      if(confirm('¿Quieres eliminar este video? (Cancelar = No)')){
+        data[distKey] = data[distKey].filter(x=>x.id!==id); save('data',data); renderAll(); return;
+      }
+      found.title = newTitle; found.desc = newDesc; save('data',data); renderAll();
+    }
+
+    // Cargar datos iniciales si no existen
+    if(!load('data')){ save('data',data) }
+
+    // Si hay sesión y usuario no cargado en users, aseguramos estructura
+    if(currentUser && !users[currentUser.email]){ users[currentUser.email]=currentUser; save('users',users); }
+
+    // Cargar guardados
+    renderAll();
+
+    // Guardar sesión en unload
+    window.addEventListener('beforeunload',()=>{ save('data',data); if(currentUser) save('session',currentUser) })
+
+  </script>
+</body>
+</html>
