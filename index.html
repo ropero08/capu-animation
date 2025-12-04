@@ -1,334 +1,425 @@
 <!doctype html>
 <html lang="es">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>CAPU Animation</title>
-  <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400;700&family=Montserrat:ital,wght@0,400;0,700;1,600&display=swap" rel="stylesheet">
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>CAPU Animation</title>
 
-  <style>
-    :root{
-      /* 🎨 COLORES BASE (EDITABLES DESDE PANEL) */
-      --bg:#fffaf6;
-      --card:#fff;
-      --accent:#f7d6d0;
-      --muted:#6b6464;
-      --soft:#f3eefc;
+<!-- Tipos de letra bonitos -->
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
 
-      /* Colores personalizados */
-      --color-primario: #fbe8e6;
-      --color-secundario: #e8f6f3;
-      --color-texto: #2b2b2b;
+<style>
+:root{
+  --primary:#5b3f5b;
+  --muted:#6b6464;
+  --card:#ffffff;
+  --soft-bg: rgba(255,255,255,0.92);
+  --accent-1:#f5d6e6;
+  --accent-2:#e8f2fb;
+  --round:14px;
+}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0;font-family:'Poppins',system-ui,Segoe UI,Roboto,Arial;color:var(--primary);background:linear-gradient(180deg,#fffaf6,#fff1e6);}
 
-      /* FONDOS PERSONALIZABLES */
-      --bg-landing: url('');
-      --bg-app: url('');
-    }
+/* ---------- LANDING (registro) ---------- */
+#landing-wrap{
+  position:relative;
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background-image: url('bg_registration.png'); /* cambia si quieres */
+  background-size:cover;
+  background-position:center;
+}
+#landing-overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(180deg, rgba(255,255,255,0.14), rgba(255,255,255,0.18));
+  backdrop-filter: blur(4px);
+}
 
-    *{box-sizing:border-box}
-    body{
-      font-family:'Josefin Sans', system-ui, sans-serif;
-      margin:0;
-      color:var(--color-texto);
-    }
+/* Central card */
+.card-join{
+  position:relative; z-index:2;
+  width:92%; max-width:640px;
+  padding:36px;
+  border-radius:20px;
+  background:var(--soft-bg);
+  box-shadow: 0 20px 60px rgba(20,10,30,0.12);
+  text-align:center;
+}
 
-    /* 🎨 Fondo del Landing (Antes de iniciar sesión) */
-    #landing{
-      background: var(--bg-landing), linear-gradient(180deg,var(--color-secundario),var(--color-primario));
-      background-size: cover;
-      background-position: center;
-      padding:40px 28px; 
-      text-align:center
-    }
+/* Title */
+.title {
+  font-family:'Playfair Display', serif;
+  font-size:48px;
+  color:var(--primary);
+  margin:0 0 6px 0;
+  letter-spacing:0.6px;
+}
+.lead { color:var(--muted); margin-bottom:18px; font-size:15px }
 
-    /* Fondo después de iniciar sesión */
-    #app{
-      background: var(--bg-app), linear-gradient(180deg,var(--color-primario),var(--color-secundario));
-      background-size: cover;
-      background-position: center;
-      min-height: 100vh;
-      padding-bottom: 50px;
-    }
+/* Inputs and button */
+.input { width:100%; padding:12px 14px; border-radius:12px; border:1px solid #efe6ee; margin-top:10px; font-size:15px }
+.btn { display:inline-block; padding:12px 20px; border-radius:12px; background:linear-gradient(180deg,var(--accent-1),#f1cfe1); border:none; font-weight:600; cursor:pointer; color:#3a233a; margin-top:14px; box-shadow:0 8px 26px rgba(100,60,100,0.08) }
+.btn:hover{ transform: translateY(-3px) }
 
-    /* HEADER */
-    header{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      padding:18px 28px;
-    }
+/* small tip */
+.small-tip{ font-size:13px;color:var(--muted); margin-top:12px; }
 
-    .logo{
-      font-family:'Montserrat';
-      font-weight:700;
-      color:#5b4b4b;
-      font-size:34px;
-      letter-spacing:1px
-    }
+/* ---------- HEADER (app) ---------- */
+header.app-header{
+  display:flex; gap:16px; align-items:center; justify-content:space-between;
+  padding:12px 28px; background:rgba(255,255,255,0.95); position:sticky; top:0; z-index:20;
+  backdrop-filter: blur(6px); box-shadow:0 10px 30px rgba(20,10,30,0.04);
+}
+.logo-left { display:flex; align-items:center; gap:12px; }
+.logo-text { font-weight:700; font-size:20px; color:var(--primary); font-family:'Playfair Display', serif; }
+.search { flex:1; max-width:640px; margin:0 16px; }
+.search input { width:100%; padding:10px 12px; border-radius:999px; border:1px solid #efe6ee; font-size:15px; }
+.user-area { display:flex; align-items:center; gap:12px; }
+.username { font-weight:600; color:var(--muted); font-size:14px; }
+.avatar { width:50px; height:50px; border-radius:50%; overflow:hidden; border:2px solid rgba(0,0,0,0.06); cursor:pointer }
+.avatar img { width:100%; height:100%; object-fit:cover }
 
-    .sub{font-size:12px;color:var(--muted);}
+/* ---------- LAYOUT ---------- */
+.container { max-width:1100px; margin:22px auto; padding:0 18px; }
+.card { background:var(--card); padding:18px; border-radius:12px; box-shadow:0 10px 30px rgba(20,10,30,0.04) }
 
-    .hero{padding:40px 28px; text-align:center}
-    .bigtitle{font-family:'Montserrat';font-size:64px;color:#5b4b4b;margin:8px 0}
-    .lead{max-width:800px;margin:0 auto;color:#4b3f3f}
+/* DISTRIBUCIONES grid (improved) */
+.grid { display:grid; grid-template-columns:repeat(3,1fr); gap:18px; margin-top:18px; align-items:start; }
+@media(max-width:980px){ .grid { grid-template-columns:1fr } .search { max-width:300px } }
 
-    .btn{
-      display:inline-block;
-      padding:10px 18px;
-      border-radius:14px;
-      background:var(--color-primario);
-      border:1px solid rgba(0,0,0,0.06);
-      cursor:pointer
-    }
-    .btn.secondary{
-      background:transparent;
-      border:1px solid rgba(0,0,0,0.15)
-    }
+/* Distribution box */
+.dist { padding:16px; border-radius:12px; background:linear-gradient(180deg,rgba(255,255,255,0.96),#fff); min-height:260px; display:flex; flex-direction:column; gap:10px }
+.dist .hdr { display:flex; align-items:center; justify-content:space-between; gap:10px }
+.dist h3 { margin:0; font-size:18px }
+.dist .desc { flex:1; margin-top:8px; padding:10px; border-radius:10px; border:1px solid #f0e7f1; resize:vertical; min-height:60px }
 
-    .container{max-width:1100px;margin:20px auto;padding:18px}
-    .card{
-      background:var(--card);
-      padding:18px;
-      border-radius:14px;
-      box-shadow:0 6px 18px rgba(58,50,50,0.06)
-    }
+/* preview area for the uploaded media */
+.preview { margin-top:8px; border-radius:10px; overflow:hidden; background:#faf7fb; padding:8px; border:1px dashed #efe6ee }
+.preview video, .preview iframe, .preview img { width:100%; height:auto; display:block; border-radius:8px }
 
-    /* GRID */
-    .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:18px}
+/* file row style */
+.file-row { display:flex; gap:10px; flex-wrap:wrap; align-items:center }
+.file-row label { background:#fff; border:1px solid #efe6ee; padding:8px 10px; border-radius:10px; cursor:pointer }
 
-    .dist{
-      padding:12px;
-      border-radius:14px;
-      background:rgba(255,255,255,0.85);
-      min-height:260px
-    }
+/* gallery */
+.gallery-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:12px; margin-top:12px }
 
-    /* PANEL DE CONFIGURACIÓN */
-    #configPanel{
-      position:fixed;
-      bottom:20px;
-      right:20px;
-      background:#ffffffcc;
-      backdrop-filter:blur(6px);
-      padding:16px;
-      border-radius:12px;
-      box-shadow:0 6px 18px rgba(0,0,0,0.2);
-      display:none;
-      z-index:9999;
-    }
-    #configPanel h3{margin:0 0 10px 0;}
-    #configPanel input[type="color"],
-    #configPanel input[type="file"]{
-      margin-bottom:10px;
-    }
+/* edit panel */
+.edit-panel { position:fixed; right:18px; bottom:18px; background:var(--card); padding:12px; border-radius:12px; box-shadow:0 12px 36px rgba(20,10,40,0.08); width:240px; z-index:40 }
+.edit-panel .label{ font-size:13px; color:var(--muted); margin-top:8px }
 
-    #openConfig{
-      position:fixed;
-      right:20px;
-      bottom:20px;
-      z-index:999;
-      padding:12px 16px;
-      border-radius:50%;
-      background:#ffdcdc;
-      cursor:pointer;
-      border:1px solid #0002;
-      font-weight:bold;
-    }
-  </style>
+/* footer */
+.footer { text-align:center; color:var(--muted); padding:28px 0 }
+
+/* accessibility focus */
+input:focus, textarea:focus, button:focus { outline: 3px solid rgba(165,122,166,0.12); outline-offset:3px }
+</style>
 </head>
-
 <body>
 
-  <header>
-    <div class="logo">CAPU <span style="color:#7a6b6b">Animation</span></div>
-    <div id="topRight" class="nav">
-      <button id="btnCreate" class="btn">Crear cuenta</button>
-    </div>
-  </header>
+<!-- small decorative corner image (optional) -->
+<img src="https://i.imgur.com/BO5WC0m.png" alt="Madre Eduviges" style="position:fixed;left:16px;top:16px;width:86px;border-radius:10px;box-shadow:0 10px 26px rgba(0,0,0,0.08);z-index:30;opacity:0.95">
 
-  <main>
+<!-- LANDING (registro) -->
+<div id="landing-wrap" role="banner" aria-labelledby="mainTitle">
+  <div id="landing-overlay" aria-hidden="true"></div>
 
-    <!-- LANDING -->
-    <section id="landing" class="hero">
-      <div class="bigtitle">CAPU Animation</div>
-      <p class="lead">Un espacio para compartir videos, documentos y devoción dominicana.</p>
-      <div style="margin-top:20px">
-        <button id="openCreate" class="btn">Crear cuenta con correo</button>
+  <div class="card-join" role="main">
+    <div id="mainTitle" class="title">CAPU ANIMATION</div>
+    <div class="lead">Comparte animaciones, formación y devoción con estilo.</div>
+
+    <form id="registerForm" onsubmit="return doRegister(event)" aria-label="Formulario de registro">
+      <input id="regName" class="input" type="text" placeholder="Tu nombre completo" required aria-label="Nombre">
+      <input id="regEmail" class="input" type="email" placeholder="Tu correo (Gmail)" required aria-label="Correo">
+      <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+        <button class="btn" type="submit">Crear cuenta y entrar</button>
       </div>
-    </section>
+    </form>
 
-    <!-- MODAL -->
-    <div id="registerModal" style="display:none;position:fixed;inset:0;background:#0005;align-items:center;justify-content:center;">
-      <div class="card" style="width:360px;margin:auto">
-        <h3>Crear cuenta</h3>
-        <p class="sub">Ingresa tu correo para entrar</p>
-        <input id="emailInput" type="email" placeholder="tu@correo.com" style="width:100%;padding:10px;border-radius:8px;margin-top:8px;border:1px solid #eee">
-        <div style="margin-top:12px;display:flex;gap:8px;justify-content:flex-end">
-          <button id="cancelReg" class="btn secondary">Cancelar</button>
-          <button id="submitReg" class="btn">Crear y entrar</button>
-        </div>
-      </div>
-    </div>
-
-    <!-- APP -->
-    <section id="app" style="display:none">
-      <div class="container">
-        <div class="card" style="display:flex;justify-content:space-between;align-items:center">
-          <div>
-            <div style="font-size:20px;font-weight:700">Bienvenid@, <span id="userName">usuario</span></div>
-            <div class="sub">Comparte animaciones y documentos</div>
-          </div>
-          <div class="user-pill">
-            <div id="userEmail"></div>
-            <div class="avatar"><img id="avatarImg" src="https://via.placeholder.com/80?text=U" width="40"></div>
-          </div>
-        </div>
-
-        <div style="margin-top:16px" class="card">
-          <h3>Propósito</h3>
-          <div id="purposeText" class="editable" contenteditable="true">Aquí puedes escribir...</div>
-          <button id="savePurpose" class="btn">Guardar</button>
-        </div>
-
-        <div style="margin-top:18px" class="card">
-          <h3>Distribuciones</h3>
-          <div class="grid" id="distsContainer"></div>
-        </div>
-
-      </div>
-    </section>
-
-    <footer style="padding:28px;text-align:center;color:var(--muted)">CAPU Animation • Demo local</footer>
-
-  </main>
-
-  <!-- ⚙ PANEL CONFIGURACIÓN -->
-  <button id="openConfig">⚙</button>
-
-  <div id="configPanel">
-    <h3>Personalizar</h3>
-
-    Fondo Landing:
-    <input type="file" id="bgLandingInput"><br>
-
-    Fondo App:
-    <input type="file" id="bgAppInput"><br>
-
-    Color Primario:
-    <input type="color" id="colorPrimario"><br>
-
-    Color Secundario:
-    <input type="color" id="colorSecundario"><br>
-
-    Color Texto:
-    <input type="color" id="colorTexto"><br>
-
-    <button id="resetStyles" class="btn secondary">Reset</button>
+    <div class="small-tip">¿Quieres personalizar el fondo? Usa el panel 🎨 abajo a la derecha.</div>
   </div>
+</div>
 
-  <script>
-    /* ------------------------------
-       LOGIN SIMPLE
-    ------------------------------ */
-    const registerModal = document.getElementById('registerModal');
-    const emailInput = document.getElementById('emailInput');
-    const app = document.getElementById('app');
-    const landing = document.getElementById('landing');
+<!-- APP header (hidden until login) -->
+<header class="app-header" id="appHeader" style="display:none" role="navigation">
+  <div class="logo-left"><div class="logo-text">CAPU <span style="color:#a57aa6">Animation</span></div></div>
 
-    document.getElementById('openCreate').onclick = () => registerModal.style.display='flex';
-    document.getElementById('btnCreate').onclick = () => registerModal.style.display='flex';
-    document.getElementById('cancelReg').onclick = () => registerModal.style.display='none';
+  <div class="search"><input id="searchInput" placeholder="Buscar por título o descripción..." aria-label="Buscar"></div>
 
-    document.getElementById('submitReg').onclick = ()=>{
-      const email = emailInput.value.trim();
-      if(!email.includes('@')) return alert("Correo inválido");
-      localStorage.setItem("capu_user", JSON.stringify({email, name: email.split('@')[0]}));
-      initApp();
-    };
+  <div class="user-area">
+    <div class="username" id="displayName"></div>
+    <div class="avatar" id="avatarWrap" title="Cambiar foto de perfil"><img id="avatarImg" src="https://via.placeholder.com/120?text=U" alt="Avatar"></div>
+    <button class="small-btn" id="logoutBtn" style="display:none">Salir</button>
+  </div>
+</header>
 
-    function initApp(){
-      const u = JSON.parse(localStorage.getItem("capu_user"));
-      if(!u) return;
+<!-- MAIN APP -->
+<main id="appMain" style="display:none">
+  <div class="container">
 
-      landing.style.display='none';
-      app.style.display='block';
+    <section class="card" aria-label="Bienvenida">
+      <h2 style="margin:0 0 8px 0">Bienvenid@, <span id="welcomeName" style="font-weight:700"></span></h2>
+      <p style="margin:0;color:var(--muted)">Crea distribuciones, sube video y PDF y verás una vista previa inmediata.</p>
+    </section>
 
-      /* ❗ OCULTAR HEADER DESPUÉS DE INICIAR SESIÓN */
-      document.querySelector("header").style.display = "none";
+    <!-- DISTRIBUCIONES -->
+    <section class="card" style="margin-top:18px">
+      <h3 style="margin:0 0 12px 0">Distribuciones</h3>
+      <div class="grid" id="distsContainer" role="list">
+        <!-- JS crea 3 cajas (cada una con preview inmediato) -->
+      </div>
+    </section>
 
-      document.getElementById("userName").textContent = u.name;
-      document.getElementById("userEmail").textContent = u.email;
+    <!-- GALERÍA / RECURSOS -->
+    <section class="card" style="margin-top:18px">
+      <h3 style="margin:0 0 12px 0">Galería / Recursos</h3>
+      <div style="display:flex;gap:8px;align-items:center">
+        <input id="resourceUrl" class="input" placeholder="Pegar URL pública (imagen, video, PDF)">
+        <select id="resourceType" style="padding:10px;border-radius:10px">
+          <option value="auto">Detectar</option>
+          <option value="image">Imagen</option>
+          <option value="video">Video</option>
+          <option value="pdf">PDF</option>
+        </select>
+        <button class="btn" id="addResourceBtn">Añadir</button>
+      </div>
+      <div id="gallery" class="gallery-grid" aria-live="polite"></div>
+    </section>
+
+    <footer class="footer">CAPU Animation • Guardado local (tu navegador)</footer>
+  </div>
+</main>
+
+<!-- EDIT PANEL -->
+<div class="edit-panel" id="editPanel" aria-label="Panel de personalización">
+  <div style="font-weight:700">🎨 Personalizar</div>
+
+  <div class="label">Fondo de registro (imagen)</div>
+  <input type="file" id="bgFile" accept="image/*">
+
+  <div class="label">Color de fondo (sustituye imagen)</div>
+  <input type="color" id="bgColor" value="#ffffff">
+
+  <hr style="margin:8px 0">
+
+  <div class="label">Avatar (perfil)</div>
+  <input type="file" id="avatarFile" accept="image/*">
+
+  <div style="display:flex;gap:8px;margin-top:8px">
+    <button class="small-btn" id="saveStyles">Guardar</button>
+    <button class="small-btn" id="resetStyles">Reset</button>
+  </div>
+  <div style="font-size:12px;color:var(--muted);margin-top:8px">Los cambios se guardan localmente en tu navegador.</div>
+</div>
+
+<script>
+// short helper
+const $ = id => document.getElementById(id);
+
+/* ---------- REGISTRO / LOGIN ---------- */
+function doRegister(e){
+  e.preventDefault();
+  const name = $.regName.value.trim();
+  const email = $.regEmail.value.trim();
+  if(!name || !email) return alert('Completa nombre y correo');
+  const user = { name, email, avatar: null };
+  localStorage.setItem('capu_user', JSON.stringify(user));
+  initApp();
+  return false;
+}
+
+function initApp(){
+  const raw = localStorage.getItem('capu_user');
+  if(!raw) return;
+  const user = JSON.parse(raw);
+
+  // swap views
+  document.getElementById('landing-wrap').style.display = 'none';
+  $.appHeader.style.display = '';
+  $.appMain.style.display = '';
+
+  // set user display
+  $.welcomeName.textContent = user.name;
+  $.displayName.textContent = user.name;
+  if(user.avatar) $.avatarImg.src = user.avatar;
+  $.logoutBtn.style.display = 'inline-block';
+
+  renderDists();
+  renderGallery();
+}
+
+/* ---------- AVATAR ---------- */
+$.avatarFile.addEventListener('change', (ev) => {
+  const f = ev.target.files[0]; if(!f) return;
+  const fr = new FileReader();
+  fr.onload = ()=> {
+    $.avatarImg.src = fr.result;
+    const user = JSON.parse(localStorage.getItem('capu_user')||'{}');
+    user.avatar = fr.result;
+    localStorage.setItem('capu_user', JSON.stringify(user));
+  };
+  fr.readAsDataURL(f);
+});
+// click avatar to change
+document.getElementById('avatarWrap').addEventListener('click', ()=> $.avatarFile.click());
+// logout
+$.logoutBtn.addEventListener('click', ()=>{
+  localStorage.removeItem('capu_user');
+  location.reload();
+});
+
+/* ---------- BACKGROUND EDIT ---------- */
+$.bgFile.addEventListener('change', (ev)=>{
+  const f = ev.target.files[0]; if(!f) return;
+  const fr = new FileReader();
+  fr.onload = ()=> {
+    document.getElementById('landing-wrap').style.backgroundImage = `url('${fr.result}')`;
+    localStorage.setItem('capu_bg', fr.result);
+  };
+  fr.readAsDataURL(f);
+});
+$.bgColor.addEventListener('input', (ev)=>{
+  document.getElementById('landing-wrap').style.background = ev.target.value;
+  localStorage.setItem('capu_bg_color', ev.target.value);
+});
+
+// load stored styles
+window.addEventListener('load', ()=>{
+  if(localStorage.getItem('capu_bg')) document.getElementById('landing-wrap').style.backgroundImage = `url('${localStorage.getItem('capu_bg')}')`;
+  if(localStorage.getItem('capu_bg_color')) document.getElementById('landing-wrap').style.background = localStorage.getItem('capu_bg_color');
+  if(localStorage.getItem('capu_user')) initApp();
+});
+
+/* ---------- DISTRIBUCIONES (mejoradas con preview inmediato) ---------- */
+function renderDists(){
+  const cont = $.distsContainer;
+  cont.innerHTML = '';
+  const saved = JSON.parse(localStorage.getItem('capu_dists')||'null') || [
+    {id:1,title:'Distribución 1',text:'',media:[]},
+    {id:2,title:'Distribución 2',text:'',media:[]},
+    {id:3,title:'Distribución 3',text:'',media:[]}
+  ];
+  // save default if none
+  if(!localStorage.getItem('capu_dists')) localStorage.setItem('capu_dists', JSON.stringify(saved));
+
+  saved.forEach((d, idx)=>{
+    const box = document.createElement('div'); box.className = 'dist';
+    box.innerHTML = `
+      <div class="hdr">
+        <h3 contenteditable="true" class="dist-title">${d.title}</h3>
+        <div style="display:flex;gap:8px">
+          <button class="small-btn edit-btn">Editar</button>
+        </div>
+      </div>
+      <textarea class="desc-area desc" placeholder="Descripción...">${d.text||''}</textarea>
+      <div class="file-row">
+        <label>Subir video <input type="file" accept="video/*" style="display:none" class="video-up"></label>
+        <label>Subir PDF <input type="file" accept="application/pdf" style="display:none" class="pdf-up"></label>
+        <button class="small-btn save-dist">Guardar</button>
+      </div>
+      <div class="preview" aria-live="polite"></div>
+    `;
+    cont.appendChild(box);
+
+    const videoUp = box.querySelector('.video-up');
+    const pdfUp = box.querySelector('.pdf-up');
+    const preview = box.querySelector('.preview');
+    const saveBtn = box.querySelector('.save-dist');
+
+    // render existing media previews
+    function paintMedia(){
+      preview.innerHTML = '';
+      (d.media||[]).forEach((m)=>{
+        if(m.type === 'video'){
+          const v = document.createElement('video'); v.controls = true; v.src = m.url; v.style.width='100%'; v.style.borderRadius='8px';
+          preview.appendChild(v);
+        }
+        if(m.type === 'pdf'){
+          const iframe = document.createElement('iframe'); iframe.src = m.url; iframe.style.width='100%'; iframe.style.height='360px'; iframe.style.border='none'; preview.appendChild(iframe);
+        }
+      });
     }
+    paintMedia();
 
-    if(localStorage.getItem("capu_user")) initApp();
-
-    /* ------------------------------
-       PANEL CONFIGURACIÓN
-    ------------------------------ */
-    const panel = document.getElementById("configPanel");
-
-    document.getElementById("openConfig").onclick = ()=>{
-      panel.style.display = panel.style.display === "block" ? "none" : "block";
-    };
-
-    // Fondo Landing
-    document.getElementById("bgLandingInput").onchange = e=>{
-      const f = e.target.files[0];
-      if(!f) return;
+    // video upload -> immediate preview + save in storage under objectURL
+    videoUp.addEventListener('change', (ev)=>{
+      const f = ev.target.files[0]; if(!f) return;
       const url = URL.createObjectURL(f);
-      document.documentElement.style.setProperty("--bg-landing", `url('${url}')`);
-      localStorage.setItem("bgLanding", url);
-    };
+      d.media = d.media || [];
+      d.media.push({type:'video', url});
+      saveAndRerender();
+    });
 
-    // Fondo App
-    document.getElementById("bgAppInput").onchange = e=>{
-      const f = e.target.files[0];
-      if(!f) return;
+    // pdf upload -> immediate iframe preview
+    pdfUp.addEventListener('change', (ev)=>{
+      const f = ev.target.files[0]; if(!f) return;
       const url = URL.createObjectURL(f);
-      document.documentElement.style.setProperty("--bg-app", `url('${url}')`);
-      localStorage.setItem("bgApp", url);
-    };
+      d.media = d.media || [];
+      d.media.push({type:'pdf', url});
+      saveAndRerender();
+    });
 
-    // Colores
-    document.getElementById("colorPrimario").oninput = e=>{
-      document.documentElement.style.setProperty("--color-primario", e.target.value);
-      localStorage.setItem("colorPrimario", e.target.value);
-    };
+    saveBtn.addEventListener('click', ()=>{
+      d.title = box.querySelector('.dist-title').textContent.trim();
+      d.text = box.querySelector('.desc-area').value.trim();
+      saveAndRerender();
+      alert('Sección guardada');
+    });
 
-    document.getElementById("colorSecundario").oninput = e=>{
-      document.documentElement.style.setProperty("--color-secundario", e.target.value);
-      localStorage.setItem("colorSecundario", e.target.value);
-    };
+    function saveAndRerender(){
+      const all = JSON.parse(localStorage.getItem('capu_dists')||'[]');
+      all[idx] = d;
+      localStorage.setItem('capu_dists', JSON.stringify(all));
+      renderDists();
+    }
+  });
+}
 
-    document.getElementById("colorTexto").oninput = e=>{
-      document.documentElement.style.setProperty("--color-texto", e.target.value);
-      localStorage.setItem("colorTexto", e.target.value);
-    };
+/* ---------- GALLERY ---------- */
+function detectType(url){
+  if(/\.(jpg|jpeg|png|gif|webp)$/i.test(url)) return 'image';
+  if(/\.(mp4|webm|ogg)$/i.test(url)) return 'video';
+  if(/\.pdf$/i.test(url)) return 'pdf';
+  return 'image';
+}
+document.getElementById('addResourceBtn').addEventListener('click', ()=>{
+  const url = $.resourceUrl.value.trim(); if(!url) return alert('Pega una URL válida');
+  let type = $.resourceType.value;
+  if(type === 'auto') type = detectType(url);
+  const list = JSON.parse(localStorage.getItem('capu_gallery')||'[]');
+  list.unshift({url,type});
+  localStorage.setItem('capu_gallery', JSON.stringify(list));
+  renderGallery();
+  $.resourceUrl.value = '';
+});
+function renderGallery(){
+  const g = $.gallery; g.innerHTML = '';
+  const list = JSON.parse(localStorage.getItem('capu_gallery')||'[]');
+  list.forEach((it, idx) => {
+    const card = document.createElement('div');
+    card.style.background = '#fff'; card.style.padding = '8px'; card.style.borderRadius = '10px'; card.style.boxShadow = '0 10px 30px rgba(0,0,0,0.05)';
+    if(it.type === 'image') card.innerHTML = `<img src="${it.url}" style="width:100%;border-radius:8px">`;
+    else if(it.type === 'video') card.innerHTML = `<video controls src="${it.url}" style="width:100%;border-radius:8px"></video>`;
+    else if(it.type === 'pdf') card.innerHTML = `<a href="${it.url}" target="_blank">Abrir PDF</a>`;
+    const del = document.createElement('button'); del.className='small-btn'; del.textContent='Eliminar'; del.style.marginTop='8px';
+    del.addEventListener('click', ()=>{ list.splice(idx,1); localStorage.setItem('capu_gallery', JSON.stringify(list)); renderGallery(); });
+    card.appendChild(del);
+    g.appendChild(card);
+  });
+}
 
-    // Cargar estilos guardados
-    window.onload = ()=>{
-      if(localStorage.bgLanding)
-        document.documentElement.style.setProperty("--bg-landing", `url('${localStorage.bgLanding}')`);
-
-      if(localStorage.bgApp)
-        document.documentElement.style.setProperty("--bg-app", `url('${localStorage.bgApp}')`);
-
-      if(localStorage.colorPrimario)
-        document.documentElement.style.setProperty("--color-primario", localStorage.colorPrimario);
-
-      if(localStorage.colorSecundario)
-        document.documentElement.style.setProperty("--color-secundario", localStorage.colorSecundario);
-
-      if(localStorage.colorTexto)
-        document.documentElement.style.setProperty("--color-texto", localStorage.colorTexto);
-    };
-
-    // Reset
-    document.getElementById("resetStyles").onclick = ()=>{
-      localStorage.clear();
-      location.reload();
-    };
-  </script>
-
+/* ---------- SEARCH ---------- */
+$.searchInput.addEventListener('input', function(){
+  const q = this.value.toLowerCase();
+  document.querySelectorAll('.dist').forEach(div=>{
+    const title = div.querySelector('.dist-title')?.textContent?.toLowerCase()||'';
+    const desc = div.querySelector('.desc')?.value?.toLowerCase()||'';
+    div.style.display = (title + desc).includes(q) ? 'flex' : 'none';
+  });
+});
+</script>
 </body>
 </html>
