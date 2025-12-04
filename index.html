@@ -106,7 +106,11 @@ input:focus, textarea:focus, button:focus { outline: 3px solid rgba(165,122,166,
   <div class="container">
     <section class="card" aria-label="Bienvenida">
       <h2>Bienvenid@, <span id="welcomeName" style="font-weight:700"></span></h2>
-      <p style="color:var(--muted)">Crea distribuciones, sube video y PDF y verás una vista previa inmediata.</p>
+      <p style="color:var(--muted)">
+        Bienvenido a Capu Animation, tu espacio de videos animados sobre los Santos Dominicos. 
+        Aquí podrás explorar sus vidas, enseñanzas y milagros a través de animaciones divertidas y educativas. 
+        ¡Aprende, diviértete y deja que la historia te inspire!
+      </p>
     </section>
 
     <section class="card">
@@ -120,7 +124,7 @@ input:focus, textarea:focus, button:focus { outline: 3px solid rgba(165,122,166,
 
 <div class="edit-panel hidden" id="editPanel">
   <div style="font-weight:700">🎨 Personalizar</div>
-  <div class="tiny">Fondo</div>
+  <div class="tiny">Fondo de la página</div>
   <input type="file" id="bgFile" accept="image/*">
   <input type="color" id="bgColor" value="#ffffff">
   <div style="display:flex;gap:8px;margin-top:8px">
@@ -164,7 +168,7 @@ function logout(){
   location.reload();
 }
 
-// Fondo personalizado en toda la app
+// Fondo personalizado para app
 function applyBackground(){
   const bg = localStorage.getItem('capu_bg');
   const bgc = localStorage.getItem('capu_bg_color');
@@ -179,6 +183,16 @@ function applyBackground(){
   else{
     document.body.style.background = 'linear-gradient(180deg,#fffaf6,#fff1e6)';
   }
+}
+
+// Fondo personalizado para landing
+let stagedBgLanding = {img:null,color:null};
+function applyLandingBackground(){
+  const bg = localStorage.getItem('capu_landing_bg');
+  const bgc = localStorage.getItem('capu_landing_bg_color');
+  if(bg) $('landing-wrap').style.backgroundImage=`url('${bg}')`;
+  else if(bgc) $('landing-wrap').style.background=bgc;
+  else $('landing-wrap').style.background='linear-gradient(180deg,#fffaf6,#fff1e6)';
 }
 
 function initApp(){
@@ -280,39 +294,35 @@ $('avatarWrap').addEventListener('click',()=> $('avatarFile').click());
 // Panel
 $('openPanelHeader').addEventListener('click',()=>$('editPanel').classList.toggle('hidden'));
 
-// Background
-let stagedBg = {img:null,color:null};
+// Fondo del landing
+$('previewBg').addEventListener('click',()=>{
+  if(stagedBgLanding.img) $('landing-wrap').style.backgroundImage=`url('${stagedBgLanding.img}')`;
+  else if(stagedBgLanding.color) $('landing-wrap').style.background=stagedBgLanding.color;
+});
+$('applyBg').addEventListener('click',()=>{
+  if(stagedBgLanding.img){ 
+    localStorage.setItem('capu_landing_bg', stagedBgLanding.img);
+    $('landing-wrap').style.backgroundImage=`url('${stagedBgLanding.img}')`;
+  } else if(stagedBgLanding.color){
+    localStorage.setItem('capu_landing_bg_color', stagedBgLanding.color);
+    $('landing-wrap').style.background=stagedBgLanding.color;
+  }
+});
+$('clearBg').addEventListener('click',()=>{
+  localStorage.removeItem('capu_landing_bg'); 
+  localStorage.removeItem('capu_landing_bg_color');
+  stagedBgLanding={img:null,color:null}; $('bgFile').value=''; $('bgColor').value='#ffffff';
+  applyLandingBackground();
+});
+
+// Background landing file/color
 $('bgFile').addEventListener('change',ev=>{
   const f = ev.target.files[0]; if(!f) return;
   const fr = new FileReader();
-  fr.onload=()=>{ stagedBg.img=fr.result; alert('Imagen cargada. Vista previa o Aplicar.'); };
+  fr.onload=()=>{ stagedBgLanding.img=fr.result; alert('Imagen cargada. Vista previa o Aplicar.'); };
   fr.readAsDataURL(f);
 });
-$('bgColor').addEventListener('input',ev=>stagedBg.color=ev.target.value);
-$('previewBg').addEventListener('click',()=>{
-  if(stagedBg.img) document.body.style.backgroundImage=`url('${stagedBg.img}')`;
-  else if(stagedBg.color) document.body.style.background=stagedBg.color;
-});
-$('applyBg').addEventListener('click',()=>{
-  if(stagedBg.img){localStorage.setItem('capu_bg',stagedBg.img); applyBackground();}
-  else if(stagedBg.color){localStorage.setItem('capu_bg_color',stagedBg.color); applyBackground();}
-});
-$('clearBg').addEventListener('click',()=>{
-  localStorage.removeItem('capu_bg'); localStorage.removeItem('capu_bg_color');
-  stagedBg={img:null,color:null}; $('bgFile').value=''; $('bgColor').value='#ffffff';
-  applyBackground();
-});
+$('bgColor').addEventListener('input',ev=>stagedBgLanding.color=ev.target.value);
+
 $('saveStyles').addEventListener('click',()=>alert('Estilos guardados en tu navegador. Pulsa Aplicar.'));
-$('resetStyles').addEventListener('click',()=>{localStorage.removeItem('capu_bg');localStorage.removeItem('capu_bg_color');location.reload();});
-
-// Load
-window.addEventListener('load',()=>{
-  applyBackground();
-  if(localStorage.getItem('capu_current')) initApp();
-});
-
-$('logoutBtn').addEventListener('click',logout);
-</script>
-
-</body>
-</html>
+$('resetStyles').addEventListener('click',()=>{localStorage.removeItem('capu_bg');localStorage.removeItem('capu_bg_color');localStorage.removeItem('capu_landing_bg');localStorage.removeItem('cap
