@@ -1,425 +1,407 @@
 <!doctype html>
 <html lang="es">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>CAPU Animation</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>CAPU Animation</title>
 
-<!-- Tipos de letra bonitos -->
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
 
-<style>
-:root{
-  --primary:#5b3f5b;
-  --muted:#6b6464;
-  --card:#ffffff;
-  --soft-bg: rgba(255,255,255,0.92);
-  --accent-1:#f5d6e6;
-  --accent-2:#e8f2fb;
-  --round:14px;
-}
-*{box-sizing:border-box}
-html,body{height:100%;margin:0;font-family:'Poppins',system-ui,Segoe UI,Roboto,Arial;color:var(--primary);background:linear-gradient(180deg,#fffaf6,#fff1e6);}
+  <style>
+    :root{
+      --primary:#5b3f5b;
+      --muted:#6b6464;
+      --card:#ffffff;
+      --soft-bg: rgba(255,255,255,0.92);
+      --accent1:#f5d6e6;
+      --accent2:#e8f2fb;
+      --round:14px;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%;margin:0;font-family:'Poppins',system-ui,Roboto,Arial;color:var(--primary);background:linear-gradient(180deg,#fffaf6,#fff1e6);}
 
-/* ---------- LANDING (registro) ---------- */
-#landing-wrap{
-  position:relative;
-  min-height:100vh;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  background-image: url('bg_registration.png'); /* cambia si quieres */
-  background-size:cover;
-  background-position:center;
-}
-#landing-overlay{
-  position:absolute;inset:0;
-  background:linear-gradient(180deg, rgba(255,255,255,0.14), rgba(255,255,255,0.18));
-  backdrop-filter: blur(4px);
-}
+    /* ---------- LANDING / REGISTER ---------- */
+    #landing-wrap{
+      position:relative;
+      min-height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      background:linear-gradient(180deg,#fffaf6,#fff1e6); /* default */
+      background-size:cover;
+      background-position:center;
+    }
+    #landing-overlay{
+      position:absolute;inset:0;background:linear-gradient(180deg, rgba(255,255,255,0.12), rgba(255,255,255,0.18));backdrop-filter: blur(3px);
+    }
+    .card-join{
+      position:relative; z-index:2;
+      width:92%; max-width:640px;
+      padding:36px;border-radius:18px;background:var(--soft-bg);
+      box-shadow: 0 18px 50px rgba(20,10,30,0.12); text-align:center;
+    }
+    .title { font-family:'Playfair Display', serif; font-size:42px; color:var(--primary); margin:0 0 6px 0; }
+    .lead { color:var(--muted); margin-bottom:16px; font-size:15px }
+    .input { width:100%; padding:12px 14px; border-radius:12px; border:1px solid #efe6ee; margin-top:10px; font-size:15px }
+    .btn { display:inline-block; padding:12px 20px; border-radius:12px; background:linear-gradient(180deg,var(--accent1),#f1cfe1); border:none; font-weight:600; cursor:pointer; color:#3a233a; margin-top:14px; box-shadow:0 8px 22px rgba(100,60,100,0.08) }
+    .btn:hover{ transform:translateY(-3px) }
+    .small-tip{ font-size:13px;color:var(--muted); margin-top:12px; }
 
-/* Central card */
-.card-join{
-  position:relative; z-index:2;
-  width:92%; max-width:640px;
-  padding:36px;
-  border-radius:20px;
-  background:var(--soft-bg);
-  box-shadow: 0 20px 60px rgba(20,10,30,0.12);
-  text-align:center;
-}
+    /* ---------- APP HEADER ---------- */
+    header.app-header{
+      display:flex; gap:16px; align-items:center; justify-content:space-between;
+      padding:12px 28px; background:rgba(255,255,255,0.95); position:sticky; top:0; z-index:50;
+      backdrop-filter: blur(6px); box-shadow:0 10px 30px rgba(20,10,30,0.04);
+    }
+    .logo-left{display:flex;align-items:center;gap:12px}
+    .logo-text{font-weight:700;font-size:20px;color:var(--primary);font-family:'Playfair Display',serif}
+    .search{flex:1;max-width:640px;margin:0 16px}
+    .search input{width:100%;padding:10px 12px;border-radius:999px;border:1px solid #efe6ee;font-size:15px}
+    .user-area{display:flex;align-items:center;gap:12px}
+    .username{font-weight:600;color:var(--muted);font-size:14px}
+    .avatar{width:50px;height:50px;border-radius:50%;overflow:hidden;border:2px solid rgba(0,0,0,0.06);cursor:pointer}
+    .avatar img{width:100%;height:100%;object-fit:cover}
 
-/* Title */
-.title {
-  font-family:'Playfair Display', serif;
-  font-size:48px;
-  color:var(--primary);
-  margin:0 0 6px 0;
-  letter-spacing:0.6px;
-}
-.lead { color:var(--muted); margin-bottom:18px; font-size:15px }
+    /* ---------- LAYOUT ---------- */
+    .container{max-width:1100px;margin:22px auto;padding:0 18px}
+    .card{background:var(--card);padding:18px;border-radius:12px;box-shadow:0 10px 30px rgba(20,10,30,0.04)}
+    .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:18px;align-items:start}
+    @media(max-width:980px){.grid{grid-template-columns:1fr}.search{max-width:300px}}
 
-/* Inputs and button */
-.input { width:100%; padding:12px 14px; border-radius:12px; border:1px solid #efe6ee; margin-top:10px; font-size:15px }
-.btn { display:inline-block; padding:12px 20px; border-radius:12px; background:linear-gradient(180deg,var(--accent-1),#f1cfe1); border:none; font-weight:600; cursor:pointer; color:#3a233a; margin-top:14px; box-shadow:0 8px 26px rgba(100,60,100,0.08) }
-.btn:hover{ transform: translateY(-3px) }
+    /* distribution */
+    .dist{padding:16px;border-radius:12px;background:linear-gradient(180deg,rgba(255,255,255,0.96),#fff);min-height:260px;display:flex;flex-direction:column;gap:10px}
+    .dist .hdr{display:flex;align-items:center;justify-content:space-between;gap:10px}
+    .dist h3{margin:0;font-size:18px}
+    .desc { flex:1; margin-top:8px; padding:10px; border-radius:10px; border:1px solid #f0e7f1; min-height:70px; resize:vertical }
+    .file-row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+    .file-row label{background:#fff;border:1px solid #efe6ee;padding:8px 10px;border-radius:10px;cursor:pointer}
+    .preview{margin-top:8px;border-radius:10px;overflow:hidden;background:#faf7fb;padding:8px;border:1px dashed #efe6ee}
+    .preview video,.preview iframe,.preview img{width:100%;height:auto;display:block;border-radius:8px}
 
-/* small tip */
-.small-tip{ font-size:13px;color:var(--muted); margin-top:12px; }
+    /* gallery */
+    .gallery-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin-top:12px}
 
-/* ---------- HEADER (app) ---------- */
-header.app-header{
-  display:flex; gap:16px; align-items:center; justify-content:space-between;
-  padding:12px 28px; background:rgba(255,255,255,0.95); position:sticky; top:0; z-index:20;
-  backdrop-filter: blur(6px); box-shadow:0 10px 30px rgba(20,10,30,0.04);
-}
-.logo-left { display:flex; align-items:center; gap:12px; }
-.logo-text { font-weight:700; font-size:20px; color:var(--primary); font-family:'Playfair Display', serif; }
-.search { flex:1; max-width:640px; margin:0 16px; }
-.search input { width:100%; padding:10px 12px; border-radius:999px; border:1px solid #efe6ee; font-size:15px; }
-.user-area { display:flex; align-items:center; gap:12px; }
-.username { font-weight:600; color:var(--muted); font-size:14px; }
-.avatar { width:50px; height:50px; border-radius:50%; overflow:hidden; border:2px solid rgba(0,0,0,0.06); cursor:pointer }
-.avatar img { width:100%; height:100%; object-fit:cover }
+    /* edit panel (small) */
+    .edit-panel{position:fixed;right:18px;bottom:18px;background:var(--card);padding:12px;border-radius:12px;box-shadow:0 12px 36px rgba(20,10,40,0.08);width:220px;z-index:60}
+    .edit-panel input[type=color], .edit-panel input[type=file]{display:block;margin:8px 0;width:100%}
+    .edit-panel .tiny{font-size:13px;color:var(--muted);margin-top:6px}
+    .small-btn{padding:8px 10px;border-radius:10px;border:1px solid #efe6ee;background:#fff;cursor:pointer}
 
-/* ---------- LAYOUT ---------- */
-.container { max-width:1100px; margin:22px auto; padding:0 18px; }
-.card { background:var(--card); padding:18px; border-radius:12px; box-shadow:0 10px 30px rgba(20,10,30,0.04) }
+    /* footer */
+    .footer{text-align:center;color:var(--muted);padding:28px 0}
 
-/* DISTRIBUCIONES grid (improved) */
-.grid { display:grid; grid-template-columns:repeat(3,1fr); gap:18px; margin-top:18px; align-items:start; }
-@media(max-width:980px){ .grid { grid-template-columns:1fr } .search { max-width:300px } }
-
-/* Distribution box */
-.dist { padding:16px; border-radius:12px; background:linear-gradient(180deg,rgba(255,255,255,0.96),#fff); min-height:260px; display:flex; flex-direction:column; gap:10px }
-.dist .hdr { display:flex; align-items:center; justify-content:space-between; gap:10px }
-.dist h3 { margin:0; font-size:18px }
-.dist .desc { flex:1; margin-top:8px; padding:10px; border-radius:10px; border:1px solid #f0e7f1; resize:vertical; min-height:60px }
-
-/* preview area for the uploaded media */
-.preview { margin-top:8px; border-radius:10px; overflow:hidden; background:#faf7fb; padding:8px; border:1px dashed #efe6ee }
-.preview video, .preview iframe, .preview img { width:100%; height:auto; display:block; border-radius:8px }
-
-/* file row style */
-.file-row { display:flex; gap:10px; flex-wrap:wrap; align-items:center }
-.file-row label { background:#fff; border:1px solid #efe6ee; padding:8px 10px; border-radius:10px; cursor:pointer }
-
-/* gallery */
-.gallery-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:12px; margin-top:12px }
-
-/* edit panel */
-.edit-panel { position:fixed; right:18px; bottom:18px; background:var(--card); padding:12px; border-radius:12px; box-shadow:0 12px 36px rgba(20,10,40,0.08); width:240px; z-index:40 }
-.edit-panel .label{ font-size:13px; color:var(--muted); margin-top:8px }
-
-/* footer */
-.footer { text-align:center; color:var(--muted); padding:28px 0 }
-
-/* accessibility focus */
-input:focus, textarea:focus, button:focus { outline: 3px solid rgba(165,122,166,0.12); outline-offset:3px }
-</style>
+    /* accessibility focus */
+    input:focus, textarea:focus, button:focus { outline: 3px solid rgba(165,122,166,0.12); outline-offset:3px }
+  </style>
 </head>
 <body>
 
-<!-- small decorative corner image (optional) -->
-<img src="https://i.imgur.com/BO5WC0m.png" alt="Madre Eduviges" style="position:fixed;left:16px;top:16px;width:86px;border-radius:10px;box-shadow:0 10px 26px rgba(0,0,0,0.08);z-index:30;opacity:0.95">
+  <!-- small decorative -->
+  <img src="https://i.imgur.com/BO5WC0m.png" alt="Madre Eduviges" style="position:fixed;left:16px;top:16px;width:86px;border-radius:10px;box-shadow:0 10px 26px rgba(0,0,0,0.08);z-index:30;opacity:0.95">
 
-<!-- LANDING (registro) -->
-<div id="landing-wrap" role="banner" aria-labelledby="mainTitle">
-  <div id="landing-overlay" aria-hidden="true"></div>
+  <!-- LANDING (register) -->
+  <div id="landing-wrap" role="banner">
+    <div id="landing-overlay" aria-hidden="true"></div>
 
-  <div class="card-join" role="main">
-    <div id="mainTitle" class="title">CAPU ANIMATION</div>
-    <div class="lead">Comparte animaciones, formación y devoción con estilo.</div>
+    <div class="card-join" role="main" aria-labelledby="brand">
+      <div id="brand" class="title">CAPU ANIMATION</div>
+      <div class="lead">Comparte animaciones, formación y devoción en tonos delicados</div>
 
-    <form id="registerForm" onsubmit="return doRegister(event)" aria-label="Formulario de registro">
-      <input id="regName" class="input" type="text" placeholder="Tu nombre completo" required aria-label="Nombre">
-      <input id="regEmail" class="input" type="email" placeholder="Tu correo (Gmail)" required aria-label="Correo">
-      <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
-        <button class="btn" type="submit">Crear cuenta y entrar</button>
-      </div>
-    </form>
+      <form id="registerForm" onsubmit="return doRegister(event)" aria-label="Formulario de registro">
+        <input id="regName" class="input" type="text" placeholder="Tu nombre completo" required aria-label="Nombre">
+        <input id="regEmail" class="input" type="email" placeholder="Tu correo (Gmail)" required aria-label="Correo">
+        <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+          <button class="btn" type="submit">Crear cuenta y entrar</button>
+        </div>
+      </form>
 
-    <div class="small-tip">¿Quieres personalizar el fondo? Usa el panel 🎨 abajo a la derecha.</div>
+      <div class="small-tip">Personaliza el fondo con el panel 🎨 abajo a la derecha.</div>
+    </div>
   </div>
-</div>
 
-<!-- APP header (hidden until login) -->
-<header class="app-header" id="appHeader" style="display:none" role="navigation">
-  <div class="logo-left"><div class="logo-text">CAPU <span style="color:#a57aa6">Animation</span></div></div>
+  <!-- APP header (hidden until login) -->
+  <header class="app-header" id="appHeader" style="display:none" role="navigation">
+    <div class="logo-left">
+      <div class="logo-text">CAPU <span style="color:#a57aa6">Animation</span></div>
+    </div>
 
-  <div class="search"><input id="searchInput" placeholder="Buscar por título o descripción..." aria-label="Buscar"></div>
+    <div class="search"><input id="searchInput" placeholder="Buscar por título o descripción..." aria-label="Buscar"></div>
 
-  <div class="user-area">
-    <div class="username" id="displayName"></div>
-    <div class="avatar" id="avatarWrap" title="Cambiar foto de perfil"><img id="avatarImg" src="https://via.placeholder.com/120?text=U" alt="Avatar"></div>
-    <button class="small-btn" id="logoutBtn" style="display:none">Salir</button>
+    <div class="user-area">
+      <div class="username" id="displayName"></div>
+      <div class="avatar" id="avatarWrap" title="Cambiar foto de perfil"><img id="avatarImg" src="https://via.placeholder.com/120?text=U" alt="avatar"></div>
+      <button class="small-btn" id="logoutBtn" style="display:none">Salir</button>
+    </div>
+  </header>
+
+  <!-- MAIN APP -->
+  <main id="appMain" style="display:none">
+    <div class="container">
+
+      <section class="card" aria-label="Bienvenida">
+        <h2 style="margin:0 0 8px 0">Bienvenid@, <span id="welcomeName" style="font-weight:700"></span></h2>
+        <p style="margin:0;color:var(--muted)">Crea distribuciones, sube video y PDF y verás una vista previa inmediata.</p>
+      </section>
+
+      <!-- three sections / distribuciones -->
+      <section class="card" style="margin-top:18px">
+        <h3 style="margin:0 0 12px 0">Secciones principales</h3>
+        <div class="grid" id="distsContainer" role="list"></div>
+      </section>
+
+      <!-- gallery / resources -->
+      <section class="card" style="margin-top:18px">
+        <h3 style="margin:0 0 12px 0">Galería / Recursos</h3>
+        <div style="display:flex;gap:8px;align-items:center">
+          <input id="resourceUrl" class="input" placeholder="Pegar URL pública (imagen, video, PDF)">
+          <select id="resourceType" style="padding:10px;border-radius:10px">
+            <option value="auto">Detectar</option>
+            <option value="image">Imagen</option>
+            <option value="video">Video</option>
+            <option value="pdf">PDF</option>
+          </select>
+          <button class="btn" id="addResourceBtn">Añadir</button>
+        </div>
+        <div id="gallery" class="gallery-grid" aria-live="polite"></div>
+      </section>
+
+      <footer class="footer">CAPU Animation — Guardado en tu navegador</footer>
+    </div>
+  </main>
+
+  <!-- small edit panel bottom-right -->
+  <div class="edit-panel" id="editPanel" aria-label="Panel de personalización">
+    <div style="font-weight:700">🎨 Personalizar</div>
+
+    <div class="tiny">Fondo de registro (imagen)</div>
+    <input type="file" id="bgFile" accept="image/*">
+
+    <div class="tiny">Color de fondo (sustituye imagen)</div>
+    <input type="color" id="bgColor" value="#ffffff">
+
+    <hr style="margin:8px 0">
+
+    <div class="tiny">Avatar (perfil)</div>
+    <input type="file" id="avatarFile" accept="image/*">
+
+    <div style="display:flex;gap:8px;margin-top:8px">
+      <button class="small-btn" id="saveStyles">Guardar</button>
+      <button class="small-btn" id="resetStyles">Reset</button>
+    </div>
+    <div style="font-size:12px;color:var(--muted);margin-top:8px">Los cambios se guardan en tu navegador.</div>
   </div>
-</header>
-
-<!-- MAIN APP -->
-<main id="appMain" style="display:none">
-  <div class="container">
-
-    <section class="card" aria-label="Bienvenida">
-      <h2 style="margin:0 0 8px 0">Bienvenid@, <span id="welcomeName" style="font-weight:700"></span></h2>
-      <p style="margin:0;color:var(--muted)">Crea distribuciones, sube video y PDF y verás una vista previa inmediata.</p>
-    </section>
-
-    <!-- DISTRIBUCIONES -->
-    <section class="card" style="margin-top:18px">
-      <h3 style="margin:0 0 12px 0">Distribuciones</h3>
-      <div class="grid" id="distsContainer" role="list">
-        <!-- JS crea 3 cajas (cada una con preview inmediato) -->
-      </div>
-    </section>
-
-    <!-- GALERÍA / RECURSOS -->
-    <section class="card" style="margin-top:18px">
-      <h3 style="margin:0 0 12px 0">Galería / Recursos</h3>
-      <div style="display:flex;gap:8px;align-items:center">
-        <input id="resourceUrl" class="input" placeholder="Pegar URL pública (imagen, video, PDF)">
-        <select id="resourceType" style="padding:10px;border-radius:10px">
-          <option value="auto">Detectar</option>
-          <option value="image">Imagen</option>
-          <option value="video">Video</option>
-          <option value="pdf">PDF</option>
-        </select>
-        <button class="btn" id="addResourceBtn">Añadir</button>
-      </div>
-      <div id="gallery" class="gallery-grid" aria-live="polite"></div>
-    </section>
-
-    <footer class="footer">CAPU Animation • Guardado local (tu navegador)</footer>
-  </div>
-</main>
-
-<!-- EDIT PANEL -->
-<div class="edit-panel" id="editPanel" aria-label="Panel de personalización">
-  <div style="font-weight:700">🎨 Personalizar</div>
-
-  <div class="label">Fondo de registro (imagen)</div>
-  <input type="file" id="bgFile" accept="image/*">
-
-  <div class="label">Color de fondo (sustituye imagen)</div>
-  <input type="color" id="bgColor" value="#ffffff">
-
-  <hr style="margin:8px 0">
-
-  <div class="label">Avatar (perfil)</div>
-  <input type="file" id="avatarFile" accept="image/*">
-
-  <div style="display:flex;gap:8px;margin-top:8px">
-    <button class="small-btn" id="saveStyles">Guardar</button>
-    <button class="small-btn" id="resetStyles">Reset</button>
-  </div>
-  <div style="font-size:12px;color:var(--muted);margin-top:8px">Los cambios se guardan localmente en tu navegador.</div>
-</div>
 
 <script>
-// short helper
-const $ = id => document.getElementById(id);
+  // short helper
+  const $ = id => document.getElementById(id);
 
-/* ---------- REGISTRO / LOGIN ---------- */
-function doRegister(e){
-  e.preventDefault();
-  const name = $.regName.value.trim();
-  const email = $.regEmail.value.trim();
-  if(!name || !email) return alert('Completa nombre y correo');
-  const user = { name, email, avatar: null };
-  localStorage.setItem('capu_user', JSON.stringify(user));
-  initApp();
-  return false;
-}
-
-function initApp(){
-  const raw = localStorage.getItem('capu_user');
-  if(!raw) return;
-  const user = JSON.parse(raw);
-
-  // swap views
-  document.getElementById('landing-wrap').style.display = 'none';
-  $.appHeader.style.display = '';
-  $.appMain.style.display = '';
-
-  // set user display
-  $.welcomeName.textContent = user.name;
-  $.displayName.textContent = user.name;
-  if(user.avatar) $.avatarImg.src = user.avatar;
-  $.logoutBtn.style.display = 'inline-block';
-
-  renderDists();
-  renderGallery();
-}
-
-/* ---------- AVATAR ---------- */
-$.avatarFile.addEventListener('change', (ev) => {
-  const f = ev.target.files[0]; if(!f) return;
-  const fr = new FileReader();
-  fr.onload = ()=> {
-    $.avatarImg.src = fr.result;
-    const user = JSON.parse(localStorage.getItem('capu_user')||'{}');
-    user.avatar = fr.result;
+  /* ---------- REGISTRO / LOGIN ---------- */
+  function doRegister(e){
+    e.preventDefault();
+    const name = $.regName.value.trim();
+    const email = $.regEmail.value.trim();
+    if(!name || !email) return alert('Completa nombre y correo');
+    const user = { name, email, avatar: null };
     localStorage.setItem('capu_user', JSON.stringify(user));
-  };
-  fr.readAsDataURL(f);
-});
-// click avatar to change
-document.getElementById('avatarWrap').addEventListener('click', ()=> $.avatarFile.click());
-// logout
-$.logoutBtn.addEventListener('click', ()=>{
-  localStorage.removeItem('capu_user');
-  location.reload();
-});
+    initApp();
+    return false;
+  }
 
-/* ---------- BACKGROUND EDIT ---------- */
-$.bgFile.addEventListener('change', (ev)=>{
-  const f = ev.target.files[0]; if(!f) return;
-  const fr = new FileReader();
-  fr.onload = ()=> {
-    document.getElementById('landing-wrap').style.backgroundImage = `url('${fr.result}')`;
-    localStorage.setItem('capu_bg', fr.result);
-  };
-  fr.readAsDataURL(f);
-});
-$.bgColor.addEventListener('input', (ev)=>{
-  document.getElementById('landing-wrap').style.background = ev.target.value;
-  localStorage.setItem('capu_bg_color', ev.target.value);
-});
+  function initApp(){
+    const raw = localStorage.getItem('capu_user');
+    if(!raw) return;
+    const user = JSON.parse(raw);
 
-// load stored styles
-window.addEventListener('load', ()=>{
-  if(localStorage.getItem('capu_bg')) document.getElementById('landing-wrap').style.backgroundImage = `url('${localStorage.getItem('capu_bg')}')`;
-  if(localStorage.getItem('capu_bg_color')) document.getElementById('landing-wrap').style.background = localStorage.getItem('capu_bg_color');
-  if(localStorage.getItem('capu_user')) initApp();
-});
+    // swap views
+    document.getElementById('landing-wrap').style.display = 'none';
+    $.appHeader.style.display = '';
+    $.appMain.style.display = '';
 
-/* ---------- DISTRIBUCIONES (mejoradas con preview inmediato) ---------- */
-function renderDists(){
-  const cont = $.distsContainer;
-  cont.innerHTML = '';
-  const saved = JSON.parse(localStorage.getItem('capu_dists')||'null') || [
-    {id:1,title:'Distribución 1',text:'',media:[]},
-    {id:2,title:'Distribución 2',text:'',media:[]},
-    {id:3,title:'Distribución 3',text:'',media:[]}
-  ];
-  // save default if none
-  if(!localStorage.getItem('capu_dists')) localStorage.setItem('capu_dists', JSON.stringify(saved));
+    // set user display
+    $.welcomeName.textContent = user.name;
+    $.displayName.textContent = user.name;
+    if(user.avatar) $.avatarImg.src = user.avatar;
+    $.logoutBtn.style.display = 'inline-block';
 
-  saved.forEach((d, idx)=>{
-    const box = document.createElement('div'); box.className = 'dist';
-    box.innerHTML = `
-      <div class="hdr">
-        <h3 contenteditable="true" class="dist-title">${d.title}</h3>
-        <div style="display:flex;gap:8px">
-          <button class="small-btn edit-btn">Editar</button>
+    renderDists();
+    renderGallery();
+  }
+
+  /* ---------- AVATAR UPLOAD ---------- */
+  $.avatarFile.addEventListener('change', (ev) => {
+    const f = ev.target.files[0]; if(!f) return;
+    const fr = new FileReader();
+    fr.onload = ()=> {
+      $.avatarImg.src = fr.result;
+      const user = JSON.parse(localStorage.getItem('capu_user')||'{}');
+      user.avatar = fr.result;
+      localStorage.setItem('capu_user', JSON.stringify(user));
+    };
+    fr.readAsDataURL(f);
+  });
+  // click avatar to change
+  document.getElementById('avatarWrap').addEventListener('click', ()=> $.avatarFile.click());
+
+  // logout
+  $.logoutBtn.addEventListener('click', ()=>{
+    localStorage.removeItem('capu_user');
+    location.reload();
+  });
+
+  /* ---------- BACKGROUND EDIT ---------- */
+  $.bgFile.addEventListener('change', (ev)=>{
+    const f = ev.target.files[0]; if(!f) return;
+    const fr = new FileReader();
+    fr.onload = ()=> {
+      document.getElementById('landing-wrap').style.backgroundImage = `url('${fr.result}')`;
+      localStorage.setItem('capu_bg', fr.result);
+    };
+    fr.readAsDataURL(f);
+  });
+  $.bgColor.addEventListener('input', (ev)=>{
+    document.getElementById('landing-wrap').style.background = ev.target.value;
+    localStorage.setItem('capu_bg_color', ev.target.value);
+  });
+
+  // load stored styles
+  window.addEventListener('load', ()=>{
+    if(localStorage.getItem('capu_bg')) document.getElementById('landing-wrap').style.backgroundImage = `url('${localStorage.getItem('capu_bg')}')`;
+    if(localStorage.getItem('capu_bg_color')) document.getElementById('landing-wrap').style.background = localStorage.getItem('capu_bg_color');
+    if(localStorage.getItem('capu_user')) initApp();
+  });
+
+  // Save / Reset styles (buttons)
+  $.saveStyles.addEventListener('click', ()=>{ alert('Estilos guardados en tu navegador.'); });
+  $.resetStyles.addEventListener('click', ()=>{ localStorage.removeItem('capu_bg'); localStorage.removeItem('capu_bg_color'); location.reload(); });
+
+  /* ---------- DISTRIBUCIONES with immediate preview ---------- */
+  function renderDists(){
+    const cont = $.distsContainer;
+    cont.innerHTML = '';
+    const saved = JSON.parse(localStorage.getItem('capu_dists')||'null') || [
+      {id:1,title:'Sección 1',text:'',media:[]},
+      {id:2,title:'Sección 2',text:'',media:[]},
+      {id:3,title:'Sección 3',text:'',media:[]}
+    ];
+    if(!localStorage.getItem('capu_dists')) localStorage.setItem('capu_dists', JSON.stringify(saved));
+
+    saved.forEach((d, idx)=>{
+      const box = document.createElement('div'); box.className = 'dist';
+      box.innerHTML = `
+        <div class="hdr">
+          <h3 contenteditable="true" class="dist-title">${d.title}</h3>
+          <div style="display:flex;gap:8px">
+            <button class="small-btn edit-btn">Editar</button>
+          </div>
         </div>
-      </div>
-      <textarea class="desc-area desc" placeholder="Descripción...">${d.text||''}</textarea>
-      <div class="file-row">
-        <label>Subir video <input type="file" accept="video/*" style="display:none" class="video-up"></label>
-        <label>Subir PDF <input type="file" accept="application/pdf" style="display:none" class="pdf-up"></label>
-        <button class="small-btn save-dist">Guardar</button>
-      </div>
-      <div class="preview" aria-live="polite"></div>
-    `;
-    cont.appendChild(box);
+        <textarea class="desc" placeholder="Descripción...">${d.text||''}</textarea>
+        <div class="file-row">
+          <label>Subir video <input type="file" accept="video/*" style="display:none" class="video-up"></label>
+          <label>Subir PDF <input type="file" accept="application/pdf" style="display:none" class="pdf-up"></label>
+          <button class="small-btn save-dist">Guardar</button>
+        </div>
+        <div class="preview" aria-live="polite"></div>
+      `;
+      cont.appendChild(box);
 
-    const videoUp = box.querySelector('.video-up');
-    const pdfUp = box.querySelector('.pdf-up');
-    const preview = box.querySelector('.preview');
-    const saveBtn = box.querySelector('.save-dist');
+      const videoUp = box.querySelector('.video-up');
+      const pdfUp = box.querySelector('.pdf-up');
+      const preview = box.querySelector('.preview');
+      const saveBtn = box.querySelector('.save-dist');
 
-    // render existing media previews
-    function paintMedia(){
-      preview.innerHTML = '';
-      (d.media||[]).forEach((m)=>{
-        if(m.type === 'video'){
-          const v = document.createElement('video'); v.controls = true; v.src = m.url; v.style.width='100%'; v.style.borderRadius='8px';
-          preview.appendChild(v);
-        }
-        if(m.type === 'pdf'){
-          const iframe = document.createElement('iframe'); iframe.src = m.url; iframe.style.width='100%'; iframe.style.height='360px'; iframe.style.border='none'; preview.appendChild(iframe);
-        }
+      // paint existing media (object URLs only last session)
+      function paintMedia(){
+        preview.innerHTML = '';
+        (d.media||[]).forEach((m)=>{
+          if(m.type === 'video'){
+            const v = document.createElement('video'); v.controls = true; v.src = m.url; v.style.width='100%'; v.style.borderRadius='8px';
+            preview.appendChild(v);
+          }
+          if(m.type === 'pdf'){
+            const iframe = document.createElement('iframe'); iframe.src = m.url; iframe.style.width='100%'; iframe.style.height='300px'; iframe.style.border='none'; preview.appendChild(iframe);
+          }
+        });
+      }
+      paintMedia();
+
+      // video upload -> immediate preview + save in storage under objectURL
+      videoUp.addEventListener('change', (ev)=>{
+        const f = ev.target.files[0]; if(!f) return;
+        const url = URL.createObjectURL(f);
+        d.media = d.media || [];
+        d.media.push({type:'video', url});
+        saveAndRerender();
       });
-    }
-    paintMedia();
 
-    // video upload -> immediate preview + save in storage under objectURL
-    videoUp.addEventListener('change', (ev)=>{
-      const f = ev.target.files[0]; if(!f) return;
-      const url = URL.createObjectURL(f);
-      d.media = d.media || [];
-      d.media.push({type:'video', url});
-      saveAndRerender();
+      // pdf upload -> immediate iframe preview
+      pdfUp.addEventListener('change', (ev)=>{
+        const f = ev.target.files[0]; if(!f) return;
+        const url = URL.createObjectURL(f);
+        d.media = d.media || [];
+        d.media.push({type:'pdf', url});
+        saveAndRerender();
+      });
+
+      saveBtn.addEventListener('click', ()=>{
+        d.title = box.querySelector('.dist-title').textContent.trim();
+        d.text = box.querySelector('.desc').value.trim();
+        saveAndRerender();
+        alert('Sección guardada');
+      });
+
+      function saveAndRerender(){
+        const all = JSON.parse(localStorage.getItem('capu_dists')||'[]');
+        all[idx] = d;
+        localStorage.setItem('capu_dists', JSON.stringify(all));
+        renderDists();
+      }
     });
+  }
 
-    // pdf upload -> immediate iframe preview
-    pdfUp.addEventListener('change', (ev)=>{
-      const f = ev.target.files[0]; if(!f) return;
-      const url = URL.createObjectURL(f);
-      d.media = d.media || [];
-      d.media.push({type:'pdf', url});
-      saveAndRerender();
+  /* ---------- GALLERY ---------- */
+  function detectType(url){
+    if(/\.(jpg|jpeg|png|gif|webp)$/i.test(url)) return 'image';
+    if(/\.(mp4|webm|ogg)$/i.test(url)) return 'video';
+    if(/\.pdf$/i.test(url)) return 'pdf';
+    return 'image';
+  }
+  document.getElementById('addResourceBtn').addEventListener('click', ()=>{
+    const url = $.resourceUrl.value.trim(); if(!url) return alert('Pega una URL válida');
+    let type = $.resourceType.value;
+    if(type==='auto') type = detectType(url);
+    const list = JSON.parse(localStorage.getItem('capu_gallery')||'[]');
+    list.unshift({url,type});
+    localStorage.setItem('capu_gallery', JSON.stringify(list));
+    renderGallery();
+    $.resourceUrl.value = '';
+  });
+  function renderGallery(){
+    const g = $.gallery; g.innerHTML = '';
+    const list = JSON.parse(localStorage.getItem('capu_gallery')||'[]');
+    list.forEach((it, idx) => {
+      const card = document.createElement('div');
+      card.style.background = '#fff'; card.style.padding = '8px'; card.style.borderRadius = '10px'; card.style.boxShadow = '0 10px 30px rgba(0,0,0,0.05)';
+      if(it.type === 'image') card.innerHTML = `<img src="${it.url}" style="width:100%;border-radius:8px">`;
+      else if(it.type === 'video') card.innerHTML = `<video controls src="${it.url}" style="width:100%;border-radius:8px"></video>`;
+      else if(it.type === 'pdf') card.innerHTML = `<a href="${it.url}" target="_blank">Abrir PDF</a>`;
+      const del = document.createElement('button'); del.className='small-btn'; del.textContent='Eliminar'; del.style.marginTop='8px';
+      del.addEventListener('click', ()=>{ list.splice(idx,1); localStorage.setItem('capu_gallery', JSON.stringify(list)); renderGallery(); });
+      card.appendChild(del);
+      g.appendChild(card);
     });
+  }
 
-    saveBtn.addEventListener('click', ()=>{
-      d.title = box.querySelector('.dist-title').textContent.trim();
-      d.text = box.querySelector('.desc-area').value.trim();
-      saveAndRerender();
-      alert('Sección guardada');
+  /* ---------- SEARCH ---------- */
+  $.searchInput.addEventListener('input', function(){
+    const q = this.value.toLowerCase();
+    document.querySelectorAll('.dist').forEach(div=>{
+      const title = div.querySelector('.dist-title')?.textContent?.toLowerCase()||'';
+      const desc = div.querySelector('.desc')?.value?.toLowerCase()||'';
+      div.style.display = (title + desc).includes(q) ? 'flex' : 'none';
     });
-
-    function saveAndRerender(){
-      const all = JSON.parse(localStorage.getItem('capu_dists')||'[]');
-      all[idx] = d;
-      localStorage.setItem('capu_dists', JSON.stringify(all));
-      renderDists();
-    }
   });
-}
 
-/* ---------- GALLERY ---------- */
-function detectType(url){
-  if(/\.(jpg|jpeg|png|gif|webp)$/i.test(url)) return 'image';
-  if(/\.(mp4|webm|ogg)$/i.test(url)) return 'video';
-  if(/\.pdf$/i.test(url)) return 'pdf';
-  return 'image';
-}
-document.getElementById('addResourceBtn').addEventListener('click', ()=>{
-  const url = $.resourceUrl.value.trim(); if(!url) return alert('Pega una URL válida');
-  let type = $.resourceType.value;
-  if(type === 'auto') type = detectType(url);
-  const list = JSON.parse(localStorage.getItem('capu_gallery')||'[]');
-  list.unshift({url,type});
-  localStorage.setItem('capu_gallery', JSON.stringify(list));
-  renderGallery();
-  $.resourceUrl.value = '';
-});
-function renderGallery(){
-  const g = $.gallery; g.innerHTML = '';
-  const list = JSON.parse(localStorage.getItem('capu_gallery')||'[]');
-  list.forEach((it, idx) => {
-    const card = document.createElement('div');
-    card.style.background = '#fff'; card.style.padding = '8px'; card.style.borderRadius = '10px'; card.style.boxShadow = '0 10px 30px rgba(0,0,0,0.05)';
-    if(it.type === 'image') card.innerHTML = `<img src="${it.url}" style="width:100%;border-radius:8px">`;
-    else if(it.type === 'video') card.innerHTML = `<video controls src="${it.url}" style="width:100%;border-radius:8px"></video>`;
-    else if(it.type === 'pdf') card.innerHTML = `<a href="${it.url}" target="_blank">Abrir PDF</a>`;
-    const del = document.createElement('button'); del.className='small-btn'; del.textContent='Eliminar'; del.style.marginTop='8px';
-    del.addEventListener('click', ()=>{ list.splice(idx,1); localStorage.setItem('capu_gallery', JSON.stringify(list)); renderGallery(); });
-    card.appendChild(del);
-    g.appendChild(card);
-  });
-}
-
-/* ---------- SEARCH ---------- */
-$.searchInput.addEventListener('input', function(){
-  const q = this.value.toLowerCase();
-  document.querySelectorAll('.dist').forEach(div=>{
-    const title = div.querySelector('.dist-title')?.textContent?.toLowerCase()||'';
-    const desc = div.querySelector('.desc')?.value?.toLowerCase()||'';
-    div.style.display = (title + desc).includes(q) ? 'flex' : 'none';
-  });
-});
 </script>
 </body>
 </html>
