@@ -16,7 +16,7 @@
   --round:14px;
 }
 *{box-sizing:border-box;}
-html,body{height:100%;margin:0;font-family:'Poppins',system-ui,Roboto,Arial;color:var(--primary);background:linear-gradient(180deg,#fffaf6,#fff1e6);}
+html,body{height:100%;margin:0;font-family:'Poppins',system-ui,Roboto,Arial;color:var(--primary);background:linear-gradient(180deg,#fffaf6,#fff1e6);transition:background 0.3s,background-image 0.3s}
 
 /* LANDING / LOGIN */
 #landing-wrap{
@@ -51,11 +51,8 @@ header.app-header{display:flex;gap:16px;align-items:center;justify-content:space
 .dist{padding:16px;border-radius:12px;background:linear-gradient(180deg,rgba(255,255,255,0.96),#fff);min-height:260px;display:flex;flex-direction:column;gap:10px}
 .dist .hdr{display:flex;align-items:center;justify-content:space-between;gap:10px}
 .dist h3{margin:0;font-size:18px}
-.desc{flex:1;margin-top:8px;padding:10px;border-radius:10px;border:1px solid #f0e7f1;min-height:70px;resize:vertical}
 .file-row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
 .file-row label{background:#fff;border:1px solid #efe6ee;padding:8px 10px;border-radius:10px;cursor:pointer}
-.preview{margin-top:8px;border-radius:10px;overflow:hidden;background:#faf7fb;padding:8px;border:1px dashed #efe6ee}
-.preview video,.preview iframe,.preview img{width:100%;height:auto;display:block;border-radius:8px}
 
 /* Edit panel small */
 .edit-panel{position:fixed;right:18px;bottom:18px;background:var(--card);padding:12px;border-radius:12px;box-shadow:0 12px 36px rgba(20,10,40,0.08);width:260px;z-index:80;transition:transform .18s ease,opacity .18s ease}
@@ -63,9 +60,6 @@ header.app-header{display:flex;gap:16px;align-items:center;justify-content:space
 .edit-panel input[type=color], .edit-panel input[type=file]{display:block;margin:8px 0;width:100%}
 .edit-panel .tiny{font-size:13px;color:var(--muted);margin-top:6px}
 .small-btn{padding:8px 10px;border-radius:10px;border:1px solid #efe6ee;background:#fff;cursor:pointer}
-
-/* footer */
-.footer{text-align:center;color:var(--muted);padding:28px 0}
 
 /* modal */
 #modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.7);align-items:center;justify-content:center;z-index:100;}
@@ -94,7 +88,7 @@ input:focus, textarea:focus, button:focus { outline: 3px solid rgba(165,122,166,
     <input id="regName" class="input" type="text" placeholder="Tu nombre completo">
     <input id="regEmail" class="input" type="email" placeholder="Tu correo (Gmail)">
     <button class="btn" onclick="register()">Crear cuenta y entrar</button>
-    <div class="small-tip">Personaliza el fondo desde el panel 🎨 (se aplicará en la página principal).</div>
+    <div class="small-tip">Personaliza el fondo desde el panel 🎨</div>
   </div>
 </div>
 
@@ -158,10 +152,12 @@ input:focus, textarea:focus, button:focus { outline: 3px solid rgba(165,122,166,
 <script>
 const $ = id => document.getElementById(id);
 let users = JSON.parse(localStorage.getItem('capu_users')||'{}');
+
+// 3 secciones fijas
 let sections = [
   {id:1, title:'Sección 1', media:[]},
   {id:2, title:'Sección 2', media:[]},
-  {id:3, title:'Sección 3', media:[]},
+  {id:3, title:'Sección 3', media:[]}
 ];
 
 // REGISTRO
@@ -202,7 +198,7 @@ function initApp(){
   renderInteractiveSections();
 }
 
-// PERSONALIZAR AVATAR
+// AVATAR
 $('avatarFile').addEventListener('change',(ev)=>{
   const f = ev.target.files[0]; if(!f) return;
   const fr = new FileReader();
@@ -244,7 +240,7 @@ $('clearBg').addEventListener('click',()=>{
 $('saveStyles').addEventListener('click',()=>alert('Estilos guardados en tu navegador.'));
 $('resetStyles').addEventListener('click',()=>{localStorage.removeItem('capu_bg');localStorage.removeItem('capu_bg_color');location.reload();});
 
-// APLICAR FONDO AL CARGAR
+// APLICAR FONDO
 function applyBgToApp(){
   const bg = localStorage.getItem('capu_bg'); 
   const bgc = localStorage.getItem('capu_bg_color');
@@ -304,9 +300,7 @@ $('closeModal').addEventListener('click',()=>{$('modal').style.display='none';})
 
 // CARGAR
 window.addEventListener('load',()=>{
-  const bg = localStorage.getItem('capu_bg'); const bgc = localStorage.getItem('capu_bg_color');
-  if(bg) document.body.style.backgroundImage=`url('${bg}')`;
-  if(bgc) document.body.style.background=bgc;
+  applyBgToApp();
   if(localStorage.getItem('capu_current')) initApp();
 });
 
