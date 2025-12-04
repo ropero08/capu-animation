@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CAPU Animation</title>
+
+    <!-- TIPOGRAFÍA -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <style>
+        /* FUENTE Y FONDO */
+        body {
+            font-family: "Poppins", sans-serif;
+            background-color: #f6f1eb;
+            margin: 0;
+            padding: 0;
+            color: #444;
+        }
+
+        /* NAVBAR */
+        nav {
+            background-color: #fde0d9;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        nav h1 {
+            margin: 0;
+            font-size: 1.8rem;
+            color: #b8817d;
+            letter-spacing: 2px;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 20px;
+            margin: 0;
+            padding: 0;
+        }
+
+        nav ul li {
+            display: inline;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #b8817d;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+
+        nav a:hover {
+            color: #8c5f5b;
+        }
+
+        /* SECCIONES */
+        section {
+            padding: 60px 20px;
+            text-align: center;
+        }
+
+        .titulo {
+            font-size: 2.3rem;
+            color: #b8817d;
+            margin-bottom: 10px;
+        }
+
+        .sub {
+            color: #89605d;
+            opacity: 0.8;
+            margin-bottom: 30px;
+        }
+
+        /* CARDS */
+        .card {
+            background-color: white;
+            border-radius: 20px;
+            padding: 25px;
+            margin: 20px auto;
+            width: 85%;
+            max-width: 850px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            animation: aparecer 0.8s ease;
+        }
+
+        @keyframes aparecer {
+            from {opacity: 0; transform: translateY(20px);}
+            to {opacity: 1; transform: translateY(0);}
+        }
+
+        /* BOTONES */
+        button {
+            background-color: #eac7c2;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 10px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        button:hover {
+            background-color: #d8b4ae;
+        }
+
+        /* GALERÍA */
+        .galeria {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 15px;
+            padding: 20px;
+        }
+
+        .galeria img {
+            width: 100%;
+            border-radius: 15px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+            transition: 0.3s;
+        }
+
+        .galeria img:hover {
+            transform: scale(1.05);
+        }
+
+        /* FOOTER */
+        footer {
+            background-color: #fde0d9;
+            padding: 20px;
+            text-align: center;
+            color: #89605d;
+            margin-top: 40px;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+    <nav>
+        <h1>CAPU Animation</h1>
+        <ul>
+            <li><a href="#inicio">Inicio</a></li>
+            <li><a href="#galeria">Galería</a></li>
+            <li><a href="#equipo">Equipo</a></li>
+            <li><a href="#contacto">Contacto</a></li>
+        </ul>
+    </nav>
+
+    <!-- INICIO -->
+    <section id="inicio">
+        <h2 class="titulo">Bienvenidos</h2>
+        <p class="sub">Página oficial estilo pastel — CAPU Animation</p>
+
+        <div class="card">
+            <p>
+                Bienvenidos a la página oficial creada para CAPU Animation.  
+                Aquí podrás ver nuestros proyectos, animaciones, personajes y más.
+            </p>
+            <button>Ver proyectos</button>
+        </div>
+    </section>
+
+    <!-- GALERÍA -->
+    <section id="galeria">
+        <h2 class="titulo">Galería</h2>
+        <p class="sub">Imágenes subidas desde GitHub</p>
+
+        <div class="galeria">
+            <img src="https://raw.githubusercontent.com/usuario/repo/main/imagen1.png" alt="img1">
+            <img src="https://
