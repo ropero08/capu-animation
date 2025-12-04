@@ -3,325 +3,462 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>CAPU Animation</title>
-  <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400;700&family=Montserrat:ital,wght@0,400;0,700;1,600&display=swap" rel="stylesheet">
+  <title>CAPU Animation — Página completa</title>
+
+  <!-- Fuentes -->
+  <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400;700&family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+
   <style>
     :root{
-      --bg:#fffaf6;
-      --card:#fff;
-      --accent:#f7d6d0;
-      --muted:#6b6464;
-      --soft:#f3eefc;
+      --bg: #fff7f2;
+      --card: #ffffff;
+      --accent: #f7d6d0;
+      --muted: #6b6464;
       --pastel1: #fbe8e6;
       --pastel2: #e8f6f3;
       --pastel3: #fff1e6;
-      --glass: rgba(255,255,255,0.8);
+      --primary: #5b4b4b;
+      --glass: rgba(255,255,255,0.86);
+      --shadow: 0 10px 30px rgba(43,35,35,0.06);
     }
     *{box-sizing:border-box}
-    body{font-family:'Josefin Sans', system-ui, sans-serif; margin:0; background:linear-gradient(180deg,var(--pastel2),var(--pastel3)); color:#2b2b2b}
-    header{display:flex;align-items:center;justify-content:space-between;padding:18px 28px}
-    .logo{font-family:'Montserrat';font-weight:700;color:#5b4b4b;font-size:34px;letter-spacing:1px}
-    .sub{font-size:12px;color:var(--muted);}
-    .hero{padding:40px 28px; text-align:center}
-    .bigtitle{font-family:'Montserrat';font-size:64px;color:#5b4b4b;margin:8px 0}
-    .lead{max-width:800px;margin:0 auto;color:#4b3f3f}
+    body{margin:0;font-family:'Josefin Sans',system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;background:linear-gradient(180deg,var(--pastel2),var(--pastel3));color:var(--primary);-webkit-font-smoothing:antialiased}
+    .app{display:flex;min-height:100vh;gap:20px;padding:18px}
 
-    /* Buttons */
-    .btn{display:inline-block;padding:10px 18px;border-radius:14px;background:var(--pastel1);border:1px solid rgba(0,0,0,0.06);cursor:pointer}
-    .btn.secondary{background:transparent;border:1px solid rgba(0,0,0,0.08)}
-
-    /* Layout */
-    .container{max-width:1100px;margin:20px auto;padding:18px}
-    .card{background:var(--card);padding:18px;border-radius:14px;box-shadow:0 6px 18px rgba(58,50,50,0.06)}
-
-    /* Nav when logged */
-    .nav{display:flex;gap:12px;align-items:center}
-    .search{padding:8px 12px;border-radius:999px;border:1px solid rgba(0,0,0,0.08);min-width:260px}
-    .user-pill{display:flex;gap:10px;align-items:center}
-    .avatar{width:44px;height:44px;border-radius:50%;overflow:hidden;border:2px solid rgba(0,0,0,0.05)}
+    /* SIDEBAR */
+    .sidebar{width:260px;background:linear-gradient(180deg,var(--glass),#fff);border-radius:14px;padding:18px;box-shadow:var(--shadow);position:sticky;top:18px;height:calc(100vh - 36px);overflow:auto}
+    .brand{font-family:'Montserrat';font-size:22px;font-weight:700;margin-bottom:6px}
+    .brand small{display:block;font-size:12px;color:var(--muted);font-weight:600}
+    .profile{display:flex;gap:12px;align-items:center;margin-top:14px}
+    .avatar{width:56px;height:56px;border-radius:50%;overflow:hidden;border:2px solid rgba(0,0,0,0.05);cursor:pointer}
     .avatar img{width:100%;height:100%;object-fit:cover}
+    .userinfo{font-size:14px}
+    .userinfo .name{font-weight:700}
+    .userinfo .email{color:var(--muted);font-size:13px}
 
-    /* grid for distributions */
-    .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:18px}
-    .dist{padding:12px;border-radius:12px;background:linear-gradient(180deg,var(--glass),#fff);min-height:260px}
-    .dist h3{margin:0 0 10px 0}
-    .dist .videos{margin-top:10px;display:flex;flex-direction:column;gap:12px}
+    .menu{margin-top:18px;display:flex;flex-direction:column;gap:8px}
+    .menu button{background:transparent;border:none;padding:10px;border-radius:10px;text-align:left;cursor:pointer;font-weight:600;color:var(--primary)}
+    .menu button:hover{background:var(--pastel1)}
+
+    .small{font-size:13px;color:var(--muted);margin-top:12px}
+
+    /* CONTENT */
+    .content{flex:1;min-width:0}
+    .top{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:14px}
+    .title{font-family:'Montserrat';font-size:36px;margin:0}
+    .subtitle{color:var(--muted)}
+
+    .card{background:var(--card);padding:16px;border-radius:12px;box-shadow:var(--shadow);margin-bottom:14px}
+    .btn{display:inline-block;padding:8px 14px;border-radius:12px;background:var(--pastel1);border:1px solid rgba(0,0,0,0.06);cursor:pointer;font-weight:600}
+    .btn.secondary{background:transparent;border:1px solid rgba(0,0,0,0.06)}
+    .search{padding:10px 14px;border-radius:999px;border:1px solid rgba(0,0,0,0.06);min-width:220px}
+
+    /* grid dists */
+    .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+    .dist{padding:12px;border-radius:12px;background:linear-gradient(180deg,var(--glass),#fff);min-height:220px;transition:transform .18s ease}
+    .dist:hover{transform:translateY(-6px)}
+    .dist h3{margin:0 0 8px 0}
+    .videos{margin-top:10px;display:flex;flex-direction:column;gap:10px}
     .vid{display:flex;gap:12px;align-items:flex-start}
-    .vid video{width:160px;border-radius:8px}
-    .vid .meta{flex:1}
-    .meta p{margin:4px 0}
+    .vid video{width:140px;border-radius:8px}
+    .editable{padding:8px;border-radius:8px;border:1px dashed rgba(0,0,0,0.04);min-height:36px}
 
-    /* editor */
-    .editable{padding:6px;border-radius:8px;border:1px dashed rgba(0,0,0,0.04);background:transparent}
-    .controls{display:flex;gap:8px;margin-top:10px}
+    /* gallery */
+    .gallery{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px}
+    .gallery-item{background:#fff;border-radius:10px;padding:8px;box-shadow:0 6px 18px rgba(0,0,0,0.06);display:flex;flex-direction:column;align-items:center}
+    .gallery-item img, .gallery-item video{width:100%;border-radius:8px}
 
     /* responsive */
-    @media(max-width:900px){.grid{grid-template-columns:1fr}.bigtitle{font-size:44px}}
+    @media(max-width:1000px){
+      .app{flex-direction:column;padding:12px}
+      .sidebar{width:100%;height:auto;position:relative}
+      .grid{grid-template-columns:1fr}
+      .title{font-size:28px}
+    }
+
+    /* animations */
+    .fade{animation:fadeIn .45s ease both}
+    @keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
   </style>
 </head>
 <body>
-  <!-- Simple static GitHub Pages-ready single file. All data is stored in localStorage. -->
+  <div class="app">
 
-  <!-- Landing / header -->
-  <header>
-    <div class="logo">CAPU <span style="color:#7a6b6b">Animation</span></div>
-    <div id="topRight" class="nav">
-      <!-- Buttons shown before login -->
-      <button id="btnCreate" class="btn">Crear cuenta</button>
-    </div>
-  </header>
+    <!-- SIDEBAR -->
+    <aside class="sidebar fade" id="sidebar">
+      <div class="brand">CAPU <span style="color:#7a6b6b">Animation</span><small> — estilo dominico</small></div>
 
-  <main>
-    <section id="landing" class="hero">
-      <div class="bigtitle">CAPU Animation</div>
-      <p class="lead">Un espacio para compartir videos, documentos y la devoción dominicana. Colores en tonos pastel, posibilidad de editar contenido y subir tus propios videos y PDFs.</p>
-      <div style="margin-top:20px">
-        <button id="openCreate" class="btn">Crear cuenta con correo</button>
-      </div>
-      <div style="margin-top:26px;display:flex;gap:10px;justify-content:center;align-items:center">
-        <!-- Decorative saint images (replace with your own if you prefer) -->
-        <a href="https://www.metmuseum.org/art/collection/search/436054" target="_blank" title="Saint Dominic (Met)"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/57/Saint_Dominic_-_Carlo_Crivelli.jpg/160px-Saint_Dominic_-_Carlo_Crivelli.jpg" alt="Santo Dominico" width="120" style="border-radius:12px;box-shadow:0 6px 12px rgba(0,0,0,0.06)"></a>
-        <a href="https://en.wikipedia.org/wiki/Saint_Dominic" target="_blank" title="Saint Dominic (Wikipedia)"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/El_Greco_St_Dominic.jpg/160px-El_Greco_St_Dominic.jpg" alt="El Greco - Santo" width="120" style="border-radius:12px;box-shadow:0 6px 12px rgba(0,0,0,0.06)"></a>
-        <a href="https://advancingwomenartists.org/artists/plautilla-nelli/saint-dominic-receives-the-rosary" target="_blank" title="Saint Dominic receives the Rosary"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Saint_Dominic_and_Virgin.jpg/160px-Saint_Dominic_and_Virgin.jpg" alt="Rosario" width="120" style="border-radius:12px;box-shadow:0 6px 12px rgba(0,0,0,0.06)"></a>
-      </div>
-    </section>
-
-    <!-- Register modal (simple) -->
-    <div id="registerModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.35);align-items:center;justify-content:center;">
-      <div class="card" style="width:360px;margin:auto">
-        <h3>Crear cuenta</h3>
-        <p class="sub">Por favor ingresa tu correo. Con eso iniciarás sesión en esta demo.</p>
-        <input id="emailInput" type="email" placeholder="tu@correo.com" style="width:100%;padding:10px;border-radius:8px;margin-top:8px;border:1px solid #eee">
-        <div style="margin-top:12px;display:flex;gap:8px;justify-content:flex-end">
-          <button id="cancelReg" class="btn secondary">Cancelar</button>
-          <button id="submitReg" class="btn">Crear y entrar</button>
+      <div class="profile">
+        <div class="avatar" id="avatarWrap" title="Haz clic para cambiar foto (se guarda en tu navegador)">
+          <img id="avatarImg" src="https://via.placeholder.com/150?text=U" alt="avatar">
+        </div>
+        <div class="userinfo">
+          <div class="name" id="sideName">Invitado</div>
+          <div class="email" id="sideEmail">Sin sesión</div>
         </div>
       </div>
-    </div>
 
-    <!-- Main app (hidden until login) -->
-    <section id="app" style="display:none">
-      <div class="container">
-        <div class="card" style="display:flex;justify-content:space-between;align-items:center">
+      <div class="menu">
+        <button data-section="home">Inicio</button>
+        <button data-section="distribuciones">Distribuciones</button>
+        <button data-section="galeria">Galería</button>
+        <button data-section="contacto">Contacto</button>
+        <button id="logoutBtn" style="color:#b04f4f;display:none">Cerrar sesión</button>
+      </div>
+
+      <div class="small">Consejo: Sube tus archivos al repositorio y luego pega la URL raw en "Añadir recurso".</div>
+
+      <!-- input avatar hidden -->
+      <input id="avatarInput" type="file" accept="image/*" style="display:none">
+    </aside>
+
+    <!-- CONTENT -->
+    <main class="content">
+      <div class="top">
+        <div>
+          <h1 class="title">CAPU Animation</h1>
+          <div class="subtitle">Comparte animaciones, PDFs y recursos dominicos — todo en tonos pastel.</div>
+        </div>
+
+        <div style="display:flex;gap:10px;align-items:center">
+          <input id="searchBox" class="search" placeholder="Buscar..." style="display:none">
+          <button id="openRegisterTop" class="btn">Crear cuenta / Entrar</button>
+        </div>
+      </div>
+
+      <!-- HOME -->
+      <section id="home" class="card fade">
+        <h3 style="margin-top:0">Bienvenid@</h3>
+        <p class="small">Inicia sesión con tu correo para activar la edición, el buscador y la subida local de recursos.</p>
+
+        <div style="display:flex;gap:10px;margin-top:12px;flex-wrap:wrap">
+          <button id="openRegister" class="btn">Crear cuenta / Iniciar</button>
+          <button id="savePurposeBtn" class="btn secondary">Guardar propósito</button>
+        </div>
+
+        <div style="margin-top:16px;display:grid;grid-template-columns:1fr 1fr;gap:12px">
           <div>
-            <div style="font-size:20px;font-weight:700">Bienvenid@, <span id="userName">usuario</span></div>
-            <div class="sub">Propósito: compartir animaciones, documentos y material devocional dominicano.</div>
+            <h4>Propósito</h4>
+            <div id="purposeText" class="editable" contenteditable="true">Escribe el propósito del sitio aquí (clic para editar).</div>
           </div>
-          <div style="display:flex;align-items:center;gap:12px">
-            <input id="searchBox" class="search" placeholder="Buscar videos, títulos..." style="display:none">
-            <div class="user-pill">
-              <div style="text-align:right;margin-right:8px" id="userEmail"></div>
-              <div class="avatar"><img id="avatarImg" src="https://via.placeholder.com/80?text=U" alt="avatar"></div>
-            </div>
+          <div>
+            <h4>Decoración dominica</h4>
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/57/Saint_Dominic_-_Carlo_Crivelli.jpg/640px-Saint_Dominic_-_Carlo_Crivelli.jpg" alt="Santo" style="width:100%;border-radius:10px">
           </div>
         </div>
+      </section>
 
-        <!-- Editable purpose -->
-        <div style="margin-top:16px" class="card">
-          <h3>Propósito de la página</h3>
-          <div id="purposeText" class="editable" contenteditable="true">Aquí puedes escribir el propósito de tu sitio. Haz clic y edita este texto. Luego haz clic en "Guardar".</div>
-          <div class="controls">
-            <button id="savePurpose" class="btn">Guardar</button>
-            <button id="resetPurpose" class="btn secondary">Restablecer</button>
-          </div>
+      <!-- DISTRIBUCIONES -->
+      <section id="distribuciones" class="card fade" style="display:none">
+        <h3>Distribuciones</h3>
+        <p class="small">Cada sección puede contener videos, un texto y PDFs. Puedes editar todo y subir recursos manualmente.</p>
+
+        <div style="margin-top:12px" id="distsContainer" class="grid"></div>
+      </section>
+
+      <!-- GALERÍA -->
+      <section id="galeria" class="card fade" style="display:none">
+        <h3>Galería automática</h3>
+        <p class="small">Añade recursos (imágenes, videos o PDFs) pegando sus URLs públicas (raw Github o links directos).</p>
+
+        <div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap">
+          <input id="newResourceUrl" placeholder="Pega URL raw (imagen, video o PDF)" style="flex:1;padding:10px;border-radius:8px;border:1px solid #eee">
+          <select id="newResourceType" style="padding:10px;border-radius:8px;border:1px solid #eee">
+            <option value="auto">Detectar automáticamente</option>
+            <option value="image">Imagen</option>
+            <option value="video">Video</option>
+            <option value="pdf">PDF</option>
+          </select>
+          <button id="addResourceBtn" class="btn">Añadir recurso</button>
+          <button id="loadFromRepoBtn" class="btn secondary">Cargar assets.json (raw URL)</button>
         </div>
 
-        <!-- Distributions grid -->
-        <div style="margin-top:18px" class="card">
-          <h3>Distribuciones</h3>
-          <p class="sub">Cada distribución puede contener videos, un texto pequeño y un PDF. Puedes editar todo.</p>
+        <div style="margin-top:12px" id="gallery" class="gallery"></div>
+      </section>
 
-          <div class="grid" id="distsContainer">
-            <!-- Three distributions generated by JS -->
-          </div>
+      <!-- CONTACTO -->
+      <section id="contacto" class="card fade" style="display:none">
+        <h3>Contacto</h3>
+        <p class="small">Agrega aquí tus redes sociales o correo. Se guardarán en tu navegador.</p>
+        <input id="contactInput" placeholder="Correo o link de contacto">
+        <div style="margin-top:10px">
+          <button id="saveContactBtn" class="btn">Guardar contacto</button>
         </div>
+      </section>
 
+      <footer style="margin-top:18px;color:var(--muted);font-size:13px">CAPU Animation — Demo GitHub Pages (Opción A: subir archivos manualmente)</footer>
+    </main>
+  </div>
+
+  <!-- Register / Login Modal -->
+  <div id="registerModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.36);align-items:center;justify-content:center;padding:20px;z-index:2000">
+    <div class="card" style="max-width:480px;margin:auto">
+      <h3 style="margin-top:0">Crear cuenta / Iniciar sesión</h3>
+      <p class="small">Ingresa tu correo (la demo usa almacenamiento local en tu navegador).</p>
+      <input id="modalEmail" type="email" placeholder="tu@correo.com" style="margin-top:8px;padding:10px;border-radius:8px;border:1px solid #eee">
+      <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:12px">
+        <button onclick="closeModal()" class="btn secondary">Cancelar</button>
+        <button onclick="submitModal()" class="btn">Crear / Entrar</button>
       </div>
-    </section>
+      <hr style="margin:12px 0">
+      <div class="small">¿Ya tienes cuenta? Inserta el mismo correo con el que te registraste.</div>
+    </div>
+  </div>
 
-    <footer style="padding:28px;text-align:center;color:var(--muted)">CAPU Animation • Demo local • Guarda tu navegador para volver a entrar</footer>
-  </main>
+<script>
+/* ---------------------------
+   Utilidades y estado
+   --------------------------- */
+const sections = ['home','distribuciones','galeria','contacto'];
+function showSection(id){ sections.forEach(s=>document.getElementById(s).style.display=(s===id?'':'none')); }
 
-  <script>
-    // --- Simple client-side "auth" using localStorage ---
-    const btnCreate = document.getElementById('openCreate');
-    const registerModal = document.getElementById('registerModal');
-    const cancelReg = document.getElementById('cancelReg');
-    const submitReg = document.getElementById('submitReg');
-    const emailInput = document.getElementById('emailInput');
-    const landing = document.getElementById('landing');
-    const app = document.getElementById('app');
-    const topRight = document.getElementById('topRight');
-    const btnCreateMain = document.getElementById('btnCreate');
+/* Sidebar menu wiring */
+document.querySelectorAll('.menu button').forEach(btn=>btn.addEventListener('click',()=>{
+  const sec = btn.dataset.section || btn.textContent.toLowerCase();
+  if(sec.includes('inicio')||sec==='home') showSection('home');
+  else if(sec.includes('distribuciones')) { showSection('distribuciones'); renderDists(); }
+  else if(sec.includes('galeria')) showSection('galeria');
+  else if(sec.includes('contacto')) showSection('contacto');
+}));
 
-    function showRegister(){ registerModal.style.display='flex'; }
-    function hideRegister(){ registerModal.style.display='none'; }
+/* Open register modal */
+const registerModal = document.getElementById('registerModal');
+document.getElementById('openRegister').onclick = ()=> registerModal.style.display='flex';
+document.getElementById('openRegisterTop').onclick = ()=> registerModal.style.display='flex';
+function closeModal(){ registerModal.style.display='none'; }
 
-    btnCreate.addEventListener('click', showRegister);
-    btnCreateMain.addEventListener('click', showRegister);
-    cancelReg.addEventListener('click', hideRegister);
+/* Modal submit */
+function submitModal(){
+  const email = document.getElementById('modalEmail').value.trim();
+  if(!email || !email.includes('@')){ alert('Ingresa un correo válido'); return; }
+  const user = {email, name: email.split('@')[0], avatar:null};
+  localStorage.setItem('capu_user', JSON.stringify(user));
+  registerModal.style.display='none';
+  initApp();
+}
 
-    submitReg.addEventListener('click', ()=>{
-      const email = emailInput.value.trim();
-      if(!email.includes('@')){ alert('Ingresa un correo válido.'); return; }
-      const user = {email, name: email.split('@')[0], avatar: null};
-      localStorage.setItem('capu_user', JSON.stringify(user));
-      hideRegister();
-      initApp();
-    });
+/* Avatar upload */
+const avatarWrap = document.getElementById('avatarWrap');
+const avatarInput = document.getElementById('avatarInput');
+const avatarImg = document.getElementById('avatarImg');
+avatarWrap.addEventListener('click', ()=> avatarInput.click());
+avatarInput.addEventListener('change', (e)=>{
+  const f = e.target.files[0]; if(!f) return;
+  const r = new FileReader();
+  r.onload = ()=> {
+    avatarImg.src = r.result;
+    const u = JSON.parse(localStorage.getItem('capu_user') || '{}');
+    u.avatar = r.result;
+    localStorage.setItem('capu_user', JSON.stringify(u));
+    document.getElementById('sideName').textContent = u.name || 'Usuario';
+    document.getElementById('sideEmail').textContent = u.email || '';
+  };
+  r.readAsDataURL(f);
+});
 
-    // --- App logic ---
-    function initApp(){
-      const userStr = localStorage.getItem('capu_user');
-      if(!userStr) return;
-      const user = JSON.parse(userStr);
-      landing.style.display='none';
-      app.style.display='block';
-      document.getElementById('userName').textContent = user.name || 'Usuario';
-      document.getElementById('userEmail').textContent = user.email;
+/* Init app if user exists */
+function initApp(){
+  const raw = localStorage.getItem('capu_user');
+  if(!raw) return;
+  const u = JSON.parse(raw);
+  document.getElementById('sideName').textContent = u.name || 'Usuario';
+  document.getElementById('sideEmail').textContent = u.email || '';
+  if(u.avatar) avatarImg.src = u.avatar;
+  document.getElementById('logoutBtn').style.display='block';
+  document.getElementById('searchBox').style.display='inline-block';
+  // show home
+  showSection('home');
+  renderDists();
+  renderGallery();
+}
 
-      // show search only after login
-      document.getElementById('searchBox').style.display='inline-block';
+/* Logout */
+document.getElementById('logoutBtn').addEventListener('click', ()=>{
+  localStorage.removeItem('capu_user');
+  location.reload();
+});
 
-      // change top-right: show logout & upload avatar
-      topRight.innerHTML = `
-        <input id="avatarUpload" type="file" accept="image/*" style="display:none">
-        <button id="btnLogout" class="btn secondary">Salir</button>
+/* Save purpose */
+document.getElementById('savePurposeBtn').addEventListener('click', ()=>{
+  const p = document.getElementById('purposeText').textContent;
+  localStorage.setItem('capu_purpose', p);
+  alert('Propósito guardado en tu navegador.');
+});
+
+/* Contact save */
+document.getElementById('saveContactBtn').addEventListener('click', ()=>{
+  const v = document.getElementById('contactInput').value.trim();
+  if(!v) { alert('Escribe un correo o link.'); return; }
+  localStorage.setItem('capu_contact', v);
+  alert('Contacto guardado.');
+});
+
+/* ---------------------------
+   DISTRIBUCIONES (localStorage)
+   --------------------------- */
+const defaultDists = [
+  {id:1,title:'Distribución 1', text:'Descripción...', videos:[]},
+  {id:2,title:'Distribución 2', text:'Descripción...', videos:[]},
+  {id:3,title:'Distribución 3', text:'Descripción...', videos:[]}
+];
+
+function loadDists(){ const raw = localStorage.getItem('capu_dists'); if(!raw){ localStorage.setItem('capu_dists', JSON.stringify(defaultDists)); return defaultDists; } try{return JSON.parse(raw);}catch(e){localStorage.setItem('capu_dists', JSON.stringify(defaultDists)); return defaultDists;} }
+function saveDists(d){ localStorage.setItem('capu_dists', JSON.stringify(d)); }
+
+function renderDists(){
+  const container = document.getElementById('distsContainer');
+  container.innerHTML = '';
+  const dists = loadDists();
+  dists.forEach((d, idx) => {
+    const el = document.createElement('div');
+    el.className = 'dist card';
+    el.innerHTML = `
+      <h3 contenteditable="true" class="dist-title">${d.title}</h3>
+      <div><small class="small">Texto (editable)</small><div contenteditable="true" class="editable dist-text">${d.text||''}</div></div>
+      <div style="margin-top:8px">
+        <label class="btn">Subir video <input type="file" accept="video/*" style="display:none" class="video-uploader"></label>
+        <label class="btn">Subir PDF <input type="file" accept="application/pdf" style="display:none" class="pdf-uploader"></label>
+        <button class="btn secondary save-dist">Guardar sección</button>
+      </div>
+      <div class="videos"></div>
+    `;
+    container.appendChild(el);
+
+    // populate videos
+    const videosDiv = el.querySelector('.videos');
+    (d.videos||[]).forEach((v, vi)=>{
+      const vEl = document.createElement('div'); vEl.className='vid';
+      vEl.innerHTML = `
+        ${v.videoURL?`<video controls src="${v.videoURL}"></video>`:''}
+        <div class="meta">
+          <strong contenteditable="true" class="vtitle">${v.title||'Sin título'}</strong>
+          <p contenteditable="true" class="vdesc">${v.desc||''}</p>
+          <div><a href="${v.pdfURL||'#'}" target="_blank" class="small">${v.pdfURL?'Abrir PDF':''}</a></div>
+          <div style="margin-top:6px"><button class="btn secondary removeVid">Eliminar</button></div>
+        </div>
       `;
-      document.getElementById('btnLogout').addEventListener('click', ()=>{ localStorage.removeItem('capu_user'); location.reload(); });
-      const avatarUpload = document.getElementById('avatarUpload');
-      avatarUpload.addEventListener('change', (e)=>{
-        const f = e.target.files[0];
-        if(!f) return;
-        const url = URL.createObjectURL(f);
-        document.getElementById('avatarImg').src = url;
-        const u = JSON.parse(localStorage.getItem('capu_user'));
-        u.avatar = url; // note: this URL will be session-bound; for real hosting you'd upload it
-        localStorage.setItem('capu_user', JSON.stringify(u));
+      videosDiv.appendChild(vEl);
+      vEl.querySelector('.removeVid').addEventListener('click', ()=> {
+        d.videos.splice(vi,1);
+        saveDists(dists);
+        renderDists();
       });
-
-      // clicking avatar opens file selector
-      document.querySelector('.avatar').addEventListener('click', ()=> avatarUpload.click());
-
-      // load purpose if saved
-      const savedPurpose = localStorage.getItem('capu_purpose');
-      if(savedPurpose) document.getElementById('purposeText').textContent = savedPurpose;
-
-      document.getElementById('savePurpose').addEventListener('click', ()=>{
-        const txt = document.getElementById('purposeText').textContent;
-        localStorage.setItem('capu_purpose', txt);
-        alert('Propósito guardado.');
-      });
-      document.getElementById('resetPurpose').addEventListener('click', ()=>{
-        document.getElementById('purposeText').textContent = 'Aquí puedes escribir el propósito de tu sitio. Haz clic y edita este texto. Luego haz clic en "Guardar".';
-        localStorage.removeItem('capu_purpose');
-      });
-
-      // generate distributions
-      const dcont = document.getElementById('distsContainer');
-      const dists = JSON.parse(localStorage.getItem('capu_dists') || 'null') || [
-        {id:1,title:'Distribución 1', videos:[]},
-        {id:2,title:'Distribución 2', videos:[]},
-        {id:3,title:'Distribución 3', videos:[]}
-      ];
-
-      function saveDists(){ localStorage.setItem('capu_dists', JSON.stringify(dists)); }
-
-      function renderDists(){ dcont.innerHTML='';
-        dists.forEach((d, idx)=>{
-          const el = document.createElement('div'); el.className='dist card';
-          el.innerHTML = `
-            <h3 contenteditable="true" class="dist-title">${d.title}</h3>
-            <div>
-              <small class="sub">Texto pequeño (editable):</small>
-              <div contenteditable="true" class="editable dist-text">${d.text||'Agrega un breve texto descriptivo aquí.'}</div>
-            </div>
-            <div style="margin-top:8px">
-              <label class="btn">Subir video <input type="file" accept="video/*" style="display:none" class="video-uploader"></label>
-              <label class="btn">Subir PDF <input type="file" accept="application/pdf" style="display:none" class="pdf-uploader"></label>
-              <button class="btn secondary save-dist">Guardar sección</button>
-            </div>
-            <div class="videos"></div>
-          `;
-          // append
-          dcont.appendChild(el);
-
-          // populate existing videos
-          const videosDiv = el.querySelector('.videos');
-          (d.videos||[]).forEach(v=>{
-            const vEl = document.createElement('div'); vEl.className='vid';
-            vEl.innerHTML = `
-              <video controls src="${v.videoURL}"></video>
-              <div class="meta">
-                <strong contenteditable="true" class="vtitle">${v.title||'Sin título'}</strong>
-                <p contenteditable="true" class="vdesc">${v.desc||''}</p>
-                <div><a href="${v.pdfURL||'#'}" target="_blank" class="pdfLink">PDF</a></div>
-                <div style="margin-top:6px"><button class="btn secondary removeVid">Eliminar</button></div>
-              </div>
-            `;
-            videosDiv.appendChild(vEl);
-            vEl.querySelector('.removeVid').addEventListener('click', ()=>{
-              const i = d.videos.indexOf(v);
-              if(i>-1){ d.videos.splice(i,1); saveDists(); renderDists(); }
-            });
-          });
-
-          // handlers
-          const vupload = el.querySelector('.video-uploader');
-          const pupload = el.querySelector('.pdf-uploader');
-          const saveBtn = el.querySelector('.save-dist');
-
-          vupload.addEventListener('change', (e)=>{
-            const f = e.target.files[0]; if(!f) return;
-            const url = URL.createObjectURL(f);
-            // create a new video entry with optional title/desc
-            const newV = {videoURL:url, title:f.name, desc:'Describe este video', pdfURL:null};
-            d.videos = d.videos || [];
-            d.videos.push(newV); saveDists(); renderDists();
-          });
-
-          pupload.addEventListener('change', (e)=>{
-            const f = e.target.files[0]; if(!f) return;
-            const url = URL.createObjectURL(f);
-            // attach to last video or create a placeholder
-            d.videos = d.videos || [];
-            if(d.videos.length===0){ d.videos.push({videoURL:'', title:'Archivo PDF', desc:'', pdfURL:url}); }
-            else { d.videos[d.videos.length-1].pdfURL = url; }
-            saveDists(); renderDists();
-          });
-
-          saveBtn.addEventListener('click', ()=>{
-            d.title = el.querySelector('.dist-title').textContent.trim();
-            d.text = el.querySelector('.dist-text').textContent.trim();
-            saveDists(); alert('Sección guardada.');
-          });
-        });
-      }
-
-      renderDists();
-
-      // search
-      const searchBox = document.getElementById('searchBox');
-      searchBox.addEventListener('input', ()=>{
-        const q = searchBox.value.toLowerCase();
-        // naive filter: hide distributions without match
-        dcont.querySelectorAll('.dist').forEach((el,i)=>{
-          const t = el.querySelector('.dist-title').textContent + ' ' + el.querySelector('.dist-text').textContent;
-          el.style.display = t.toLowerCase().includes(q) ? '' : 'none';
-        });
-      });
-
-    }
-
-    // on load, check if user exists
-    window.addEventListener('DOMContentLoaded', ()=>{
-      if(localStorage.getItem('capu_user')){
-        initApp();
-      }
-
-      // convenience: press L to open login modal
-      window.addEventListener('keydown', (e)=>{ if(e.key==='l' || e.key==='L') showRegister(); });
     });
-  </script>
+
+    // handlers
+    const vupload = el.querySelector('.video-uploader');
+    const pupload = el.querySelector('.pdf-uploader');
+    const saveBtn = el.querySelector('.save-dist');
+
+    vupload.addEventListener('change', (ev)=>{
+      const f = ev.target.files[0]; if(!f) return;
+      const url = URL.createObjectURL(f);
+      d.videos = d.videos || [];
+      d.videos.push({videoURL:url, title:f.name, desc:'Describe este video', pdfURL:null});
+      saveDists(dists);
+      renderDists();
+    });
+
+    pupload.addEventListener('change', (ev)=>{
+      const f = ev.target.files[0]; if(!f) return;
+      const url = URL.createObjectURL(f);
+      d.videos = d.videos || [];
+      if(d.videos.length===0) d.videos.push({videoURL:'', title:'PDF', desc:'', pdfURL:url});
+      else d.videos[d.videos.length-1].pdfURL = url;
+      saveDists(dists);
+      renderDists();
+    });
+
+    saveBtn.addEventListener('click', ()=>{
+      d.title = el.querySelector('.dist-title').textContent.trim();
+      d.text = el.querySelector('.dist-text').textContent.trim();
+      saveDists(dists);
+      alert('Sección guardada en tu navegador.');
+    });
+
+  });
+}
+
+/* ---------------------------
+   GALLERY (manual add / load from repo)
+   --------------------------- */
+function isImage(url){ return /\.(png|jpg|jpeg|gif|webp|svg)$/i.test(url); }
+function isVideo(url){ return /\.(mp4|webm|ogg)$/i.test(url); }
+function isPDF(url){ return /\.pdf$/i.test(url); }
+
+function loadGalleryFromStorage(){
+  const raw = localStorage.getItem('capu_gallery');
+  if(!raw){ const sample = [
+    {url:'https://upload.wikimedia.org/wikipedia/commons/thumb/5/57/Saint_Dominic_-_Carlo_Crivelli.jpg/640px-Saint_Dominic_-_Carlo_Crivelli.jpg', type:'image'},
+    {url:'https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/El_Greco_St_Dominic.jpg/640px-El_Greco_St_Dominic.jpg', type:'image'}
+  ]; localStorage.setItem('capu_gallery', JSON.stringify(sample)); return sample; }
+  try{return JSON.parse(raw);}catch(e){localStorage.setItem('capu_gallery', '[]'); return [];}
+}
+function saveGallery(data){ localStorage.setItem('capu_gallery', JSON.stringify(data)); }
+
+function renderGallery(){
+  const g = document.getElementById('gallery');
+  g.innerHTML='';
+  const list = loadGalleryFromStorage();
+  list.forEach((item, idx)=>{
+    const card = document.createElement('div'); card.className='gallery-item';
+    if(item.type==='image') card.innerHTML = `<img src="${item.url}" alt="img" onerror="this.style.opacity=0.5">`;
+    else if(item.type==='video') card.innerHTML = `<video controls src="${item.url}" onerror="this.style.opacity=0.5"></video>`;
+    else if(item.type==='pdf') card.innerHTML = `<a href="${item.url}" target="_blank">Ver PDF</a>`;
+    const del = document.createElement('button'); del.textContent='Eliminar'; del.className='btn secondary'; del.style.marginTop='8px';
+    del.addEventListener('click', ()=>{ list.splice(idx,1); saveGallery(list); renderGallery(); });
+    card.appendChild(del);
+    g.appendChild(card);
+  });
+}
+
+/* Add resource UI */
+document.getElementById('addResourceBtn').addEventListener('click', ()=>{
+  const url = document.getElementById('newResourceUrl').value.trim();
+  if(!url){ alert('Pega una URL válida'); return; }
+  const forced = document.getElementById('newResourceType').value;
+  let type = 'image';
+  if(forced==='auto'){ if(isVideo(url)) type='video'; else if(isPDF(url)) type='pdf'; else type='image'; }
+  else type = forced;
+  const list = loadGalleryFromStorage();
+  list.unshift({url,type});
+  saveGallery(list);
+  document.getElementById('newResourceUrl').value='';
+  renderGallery();
+});
+
+/* Load assets.json from repo (raw URL) */
+document.getElementById('loadFromRepoBtn').addEventListener('click', async ()=>{
+  const url = prompt('Pega la URL RAW de assets.json (ej. https://raw.githubusercontent.com/usuario/repo/main/assets.json)');
+  if(!url) return;
+  try{
+    const res = await fetch(url);
+    if(!res.ok) throw new Error('No se pudo cargar');
+    const data = await res.json();
+    if(!Array.isArray(data)){ alert('assets.json debe ser un array de objetos {url,type}'); return; }
+    const list = loadGalleryFromStorage();
+    const merged = data.concat(list);
+    saveGallery(merged);
+    renderGallery();
+    alert('Recursos cargados desde repo.');
+  }catch(e){ alert('Error cargando assets.json — revisa la URL y el formato.'); }
+});
+
+/* ---------------------------
+   Inicialización
+   --------------------------- */
+window.addEventListener('DOMContentLoaded', ()=>{
+  // load purpose if exists
+  const p = localStorage.getItem('capu_purpose');
+  if(p) document.getElementById('purposeText').textContent = p;
+
+  // init user if exists
+  if(localStorage.getItem('capu_user')) initApp();
+  renderGallery();
+
+  // quick keyboard help
+  window.addEventListener('keydown', (e)=>{ if(e.key==='r' || e.key==='R') registerModal.style.display='flex'; });
+});
+</script>
 </body>
 </html>
