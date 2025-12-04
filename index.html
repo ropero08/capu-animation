@@ -21,69 +21,54 @@
     *{box-sizing:border-box}
     html,body{height:100%;margin:0;font-family:'Poppins',system-ui,Roboto,Arial;color:var(--primary);background:linear-gradient(180deg,#fffaf6,#fff1e6);}
 
-    /* ---------- LANDING / REGISTER ---------- */
+    /* LANDING / REGISTER */
     #landing-wrap{
-      position:relative;
-      min-height:100vh;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      background:linear-gradient(180deg,#fffaf6,#fff1e6); /* default */
-      background-size:cover;
-      background-position:center;
+      position:relative; min-height:100vh; display:flex; align-items:center; justify-content:center;
+      background:linear-gradient(180deg,#fffaf6,#fff1e6); background-size:cover; background-position:center;
     }
-    #landing-overlay{
-      position:absolute;inset:0;background:linear-gradient(180deg, rgba(255,255,255,0.12), rgba(255,255,255,0.18));backdrop-filter: blur(3px);
-    }
-    .card-join{
-      position:relative; z-index:2;
-      width:92%; max-width:640px;
-      padding:36px;border-radius:18px;background:var(--soft-bg);
-      box-shadow: 0 18px 50px rgba(20,10,30,0.12); text-align:center;
-    }
-    .title { font-family:'Playfair Display', serif; font-size:42px; color:var(--primary); margin:0 0 6px 0; }
-    .lead { color:var(--muted); margin-bottom:16px; font-size:15px }
-    .input { width:100%; padding:12px 14px; border-radius:12px; border:1px solid #efe6ee; margin-top:10px; font-size:15px }
-    .btn { display:inline-block; padding:12px 20px; border-radius:12px; background:linear-gradient(180deg,var(--accent1),#f1cfe1); border:none; font-weight:600; cursor:pointer; color:#3a233a; margin-top:14px; box-shadow:0 8px 22px rgba(100,60,100,0.08) }
-    .btn:hover{ transform:translateY(-3px) }
-    .small-tip{ font-size:13px;color:var(--muted); margin-top:12px; }
+    #landing-overlay{position:absolute;inset:0;background:linear-gradient(180deg, rgba(255,255,255,0.12), rgba(255,255,255,0.18));backdrop-filter: blur(3px);}
 
-    /* ---------- APP HEADER ---------- */
-    header.app-header{
-      display:flex; gap:16px; align-items:center; justify-content:space-between;
-      padding:12px 28px; background:rgba(255,255,255,0.95); position:sticky; top:0; z-index:50;
-      backdrop-filter: blur(6px); box-shadow:0 10px 30px rgba(20,10,30,0.04);
-    }
+    .card-join{position:relative; z-index:2; width:92%; max-width:640px; padding:36px; border-radius:18px; background:var(--soft-bg); box-shadow:0 18px 50px rgba(20,10,30,0.12); text-align:center;}
+    .title{font-family:'Playfair Display',serif;font-size:42px;color:var(--primary);margin:0 0 6px 0}
+    .lead{color:var(--muted);margin-bottom:16px;font-size:15px}
+    .input{width:100%;padding:12px 14px;border-radius:12px;border:1px solid #efe6ee;margin-top:10px;font-size:15px}
+    .btn{display:inline-block;padding:12px 20px;border-radius:12px;background:linear-gradient(180deg,var(--accent1),#f1cfe1);border:none;font-weight:600;cursor:pointer;color:#3a233a;margin-top:14px;box-shadow:0 8px 22px rgba(100,60,100,0.08)}
+    .btn:hover{transform:translateY(-3px)}
+    .small-tip{font-size:13px;color:var(--muted);margin-top:12px}
+
+    /* APP HEADER */
+    header.app-header{display:flex;gap:16px;align-items:center;justify-content:space-between;padding:12px 20px;background:rgba(255,255,255,0.95);position:sticky;top:0;z-index:60;backdrop-filter:blur(6px);box-shadow:0 10px 30px rgba(20,10,30,0.04)}
     .logo-left{display:flex;align-items:center;gap:12px}
     .logo-text{font-weight:700;font-size:20px;color:var(--primary);font-family:'Playfair Display',serif}
-    .search{flex:1;max-width:640px;margin:0 16px}
+    .search{flex:1;max-width:640px;margin:0 12px}
     .search input{width:100%;padding:10px 12px;border-radius:999px;border:1px solid #efe6ee;font-size:15px}
     .user-area{display:flex;align-items:center;gap:12px}
     .username{font-weight:600;color:var(--muted);font-size:14px}
     .avatar{width:50px;height:50px;border-radius:50%;overflow:hidden;border:2px solid rgba(0,0,0,0.06);cursor:pointer}
     .avatar img{width:100%;height:100%;object-fit:cover}
 
-    /* ---------- LAYOUT ---------- */
+    /* Layout */
     .container{max-width:1100px;margin:22px auto;padding:0 18px}
     .card{background:var(--card);padding:18px;border-radius:12px;box-shadow:0 10px 30px rgba(20,10,30,0.04)}
     .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:18px;align-items:start}
     @media(max-width:980px){.grid{grid-template-columns:1fr}.search{max-width:300px}}
 
-    /* distribution */
+    /* Distribution */
     .dist{padding:16px;border-radius:12px;background:linear-gradient(180deg,rgba(255,255,255,0.96),#fff);min-height:260px;display:flex;flex-direction:column;gap:10px}
     .dist .hdr{display:flex;align-items:center;justify-content:space-between;gap:10px}
     .dist h3{margin:0;font-size:18px}
-    .desc { flex:1; margin-top:8px; padding:10px; border-radius:10px; border:1px solid #f0e7f1; min-height:70px; resize:vertical }
+    .desc{flex:1;margin-top:8px;padding:10px;border-radius:10px;border:1px solid #f0e7f1;min-height:70px;resize:vertical}
     .file-row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
     .file-row label{background:#fff;border:1px solid #efe6ee;padding:8px 10px;border-radius:10px;cursor:pointer}
     .preview{margin-top:8px;border-radius:10px;overflow:hidden;background:#faf7fb;padding:8px;border:1px dashed #efe6ee}
     .preview video,.preview iframe,.preview img{width:100%;height:auto;display:block;border-radius:8px}
 
-    /* gallery */
+    /* Gallery */
     .gallery-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin-top:12px}
 
-    /* edit panel (small) */
-    .edit-panel{position:fixed;right:18px;bottom:18px;background:var(--card);padding:12px;border-radius:12px;box-shadow:0 12px 36px rgba(20,10,40,0.08);width:220px;z-index:60}
+    /* Edit panel small (aparece en esquina y se puede abrir desde header) */
+    .edit-panel{position:fixed;right:18px;bottom:18px;background:var(--card);padding:12px;border-radius:12px;box-shadow:0 12px 36px rgba(20,10,40,0.08);width:260px;z-index:80;transition:transform .18s ease,opacity .18s ease}
+    .edit-panel.hidden{transform:translateY(18px);opacity:0.02;pointer-events:none}
     .edit-panel input[type=color], .edit-panel input[type=file]{display:block;margin:8px 0;width:100%}
     .edit-panel .tiny{font-size:13px;color:var(--muted);margin-top:6px}
     .small-btn{padding:8px 10px;border-radius:10px;border:1px solid #efe6ee;background:#fff;cursor:pointer}
@@ -91,21 +76,21 @@
     /* footer */
     .footer{text-align:center;color:var(--muted);padding:28px 0}
 
-    /* accessibility focus */
+    /* focus */
     input:focus, textarea:focus, button:focus { outline: 3px solid rgba(165,122,166,0.12); outline-offset:3px }
   </style>
 </head>
 <body>
 
-  <!-- small decorative -->
-  <img src="https://i.imgur.com/BO5WC0m.png" alt="Madre Eduviges" style="position:fixed;left:16px;top:16px;width:86px;border-radius:10px;box-shadow:0 10px 26px rgba(0,0,0,0.08);z-index:30;opacity:0.95">
+  <!-- decorative small image -->
+  <img src="https://i.imgur.com/BO5WC0m.png" alt="Madre Eduviges" style="position:fixed;left:16px;top:16px;width:86px;border-radius:10px;box-shadow:0 10px 26px rgba(0,0,0,0.08);z-index:70;opacity:0.95">
 
-  <!-- LANDING (register) -->
+  <!-- LANDING / REGISTER -->
   <div id="landing-wrap" role="banner">
     <div id="landing-overlay" aria-hidden="true"></div>
 
-    <div class="card-join" role="main" aria-labelledby="brand">
-      <div id="brand" class="title">CAPU ANIMATION</div>
+    <div class="card-join" role="main" aria-labelledby="brandTitle">
+      <div id="brandTitle" class="title">CAPU ANIMATION</div>
       <div class="lead">Comparte animaciones, formación y devoción en tonos delicados</div>
 
       <form id="registerForm" onsubmit="return doRegister(event)" aria-label="Formulario de registro">
@@ -116,22 +101,23 @@
         </div>
       </form>
 
-      <div class="small-tip">Personaliza el fondo con el panel 🎨 abajo a la derecha.</div>
+      <div class="small-tip">Personaliza el fondo desde el panel 🎨 (se aplicará aquí y en la página principal cuando hagas clic en "Aplicar").</div>
     </div>
   </div>
 
   <!-- APP header (hidden until login) -->
   <header class="app-header" id="appHeader" style="display:none" role="navigation">
-    <div class="logo-left">
-      <div class="logo-text">CAPU <span style="color:#a57aa6">Animation</span></div>
-    </div>
+    <div class="logo-left"><div class="logo-text">CAPU <span style="color:#a57aa6">Animation</span></div></div>
 
     <div class="search"><input id="searchInput" placeholder="Buscar por título o descripción..." aria-label="Buscar"></div>
 
-    <div class="user-area">
-      <div class="username" id="displayName"></div>
-      <div class="avatar" id="avatarWrap" title="Cambiar foto de perfil"><img id="avatarImg" src="https://via.placeholder.com/120?text=U" alt="avatar"></div>
-      <button class="small-btn" id="logoutBtn" style="display:none">Salir</button>
+    <div style="display:flex;align-items:center;gap:12px">
+      <div class="user-area" style="margin-right:10px">
+        <div class="username" id="displayName"></div>
+        <div class="avatar" id="avatarWrap" title="Cambiar foto de perfil"><img id="avatarImg" src="https://via.placeholder.com/120?text=U" alt="avatar"></div>
+      </div>
+      <!-- header open panel button -->
+      <button id="openPanelHeader" class="small-btn" title="Personalizar">🎨</button>
     </div>
   </header>
 
@@ -144,13 +130,13 @@
         <p style="margin:0;color:var(--muted)">Crea distribuciones, sube video y PDF y verás una vista previa inmediata.</p>
       </section>
 
-      <!-- three sections / distribuciones -->
+      <!-- three sections -->
       <section class="card" style="margin-top:18px">
         <h3 style="margin:0 0 12px 0">Secciones principales</h3>
         <div class="grid" id="distsContainer" role="list"></div>
       </section>
 
-      <!-- gallery / resources -->
+      <!-- gallery -->
       <section class="card" style="margin-top:18px">
         <h3 style="margin:0 0 12px 0">Galería / Recursos</h3>
         <div style="display:flex;gap:8px;align-items:center">
@@ -170,15 +156,22 @@
     </div>
   </main>
 
-  <!-- small edit panel bottom-right -->
-  <div class="edit-panel" id="editPanel" aria-label="Panel de personalización">
+  <!-- EDIT PANEL (bottom-right) -->
+  <div class="edit-panel hidden" id="editPanel" aria-label="Panel de personalización">
     <div style="font-weight:700">🎨 Personalizar</div>
 
-    <div class="tiny">Fondo de registro (imagen)</div>
+    <div class="tiny">Fondo de registro / página</div>
     <input type="file" id="bgFile" accept="image/*">
 
     <div class="tiny">Color de fondo (sustituye imagen)</div>
     <input type="color" id="bgColor" value="#ffffff">
+
+    <!-- Apply button: applies to both register and app -->
+    <div style="display:flex;gap:8px;margin-top:8px">
+      <button class="small-btn" id="applyBg">Aplicar</button>
+      <button class="small-btn" id="previewBg">Vista previa</button>
+      <button class="small-btn" id="clearBg">Quitar</button>
+    </div>
 
     <hr style="margin:8px 0">
 
@@ -189,20 +182,21 @@
       <button class="small-btn" id="saveStyles">Guardar</button>
       <button class="small-btn" id="resetStyles">Reset</button>
     </div>
-    <div style="font-size:12px;color:var(--muted);margin-top:8px">Los cambios se guardan en tu navegador.</div>
+
+    <div style="font-size:12px;color:var(--muted);margin-top:8px">Los cambios se guardan en tu navegador. Usa "Aplicar" para que afecte registro y principal.</div>
   </div>
 
 <script>
-  // short helper
+  // helpers
   const $ = id => document.getElementById(id);
 
-  /* ---------- REGISTRO / LOGIN ---------- */
+  // --------- Register / Login ----------
   function doRegister(e){
     e.preventDefault();
     const name = $.regName.value.trim();
     const email = $.regEmail.value.trim();
-    if(!name || !email) return alert('Completa nombre y correo');
-    const user = { name, email, avatar: null };
+    if(!name || !email) return alert('Completa el nombre y correo');
+    const user = { name, email, avatar: localStorage.getItem('capu_user') ? JSON.parse(localStorage.getItem('capu_user')).avatar : null };
     localStorage.setItem('capu_user', JSON.stringify(user));
     initApp();
     return false;
@@ -213,22 +207,22 @@
     if(!raw) return;
     const user = JSON.parse(raw);
 
-    // swap views
+    // hide landing, show app
     document.getElementById('landing-wrap').style.display = 'none';
     $.appHeader.style.display = '';
     $.appMain.style.display = '';
 
-    // set user display
+    // set names and avatar
     $.welcomeName.textContent = user.name;
     $.displayName.textContent = user.name;
     if(user.avatar) $.avatarImg.src = user.avatar;
-    $.logoutBtn.style.display = 'inline-block';
+    $.logoutBtn && ($.logoutBtn.style.display = 'inline-block');
 
     renderDists();
     renderGallery();
   }
 
-  /* ---------- AVATAR UPLOAD ---------- */
+  // --------- Avatar handling ----------
   $.avatarFile.addEventListener('change', (ev) => {
     const f = ev.target.files[0]; if(!f) return;
     const fr = new FileReader();
@@ -240,42 +234,94 @@
     };
     fr.readAsDataURL(f);
   });
-  // click avatar to change
+  // click avatar in header opens avatar file
   document.getElementById('avatarWrap').addEventListener('click', ()=> $.avatarFile.click());
 
-  // logout
+  // --------- Logout ----------
+  // create logout button if missing for compatibility
+  if(!$.logoutBtn){
+    const lb = document.createElement('button'); lb.id='logoutBtn'; lb.className='small-btn'; lb.style.display='none'; lb.textContent='Salir';
+    document.querySelector('.user-area').appendChild(lb);
+  }
   $.logoutBtn.addEventListener('click', ()=>{
     localStorage.removeItem('capu_user');
     location.reload();
   });
 
-  /* ---------- BACKGROUND EDIT ---------- */
+  // --------- Background panel logic ----------
+  let stagedBg = { img: null, color: null }; // staged values (preview before apply)
+  // load stored bg on load
+  window.addEventListener('load', ()=>{
+    const bg = localStorage.getItem('capu_bg'); const bgc = localStorage.getItem('capu_bg_color');
+    if(bg) document.getElementById('landing-wrap').style.backgroundImage = `url('${bg}')`;
+    if(bgc) document.getElementById('landing-wrap').style.background = bgc;
+    if(localStorage.getItem('capu_user')) initApp();
+    // Ensure panel closed by default
+    hidePanel();
+  });
+
+  // open/close panel
+  function showPanel(){ $.editPanel.classList.remove('hidden'); }
+  function hidePanel(){ $.editPanel.classList.add('hidden'); }
+  // header button opens panel
+  $.openPanelHeader.addEventListener('click', ()=> {
+    if($.editPanel.classList.contains('hidden')) showPanel(); else hidePanel();
+  });
+
+  // bg file selected -> store staged image (dataURL)
   $.bgFile.addEventListener('change', (ev)=>{
     const f = ev.target.files[0]; if(!f) return;
     const fr = new FileReader();
-    fr.onload = ()=> {
-      document.getElementById('landing-wrap').style.backgroundImage = `url('${fr.result}')`;
-      localStorage.setItem('capu_bg', fr.result);
-    };
+    fr.onload = ()=> { stagedBg.img = fr.result; alert('Imagen cargada. Pulsa "Vista previa" o "Aplicar" para usarla.'); };
     fr.readAsDataURL(f);
   });
-  $.bgColor.addEventListener('input', (ev)=>{
-    document.getElementById('landing-wrap').style.background = ev.target.value;
-    localStorage.setItem('capu_bg_color', ev.target.value);
+
+  // bg color selection staged
+  $.bgColor.addEventListener('input', (ev)=> { stagedBg.color = ev.target.value; });
+
+  // preview (temporary, does not save)
+  $.previewBg.addEventListener('click', ()=>{
+    if(stagedBg.img){ document.getElementById('landing-wrap').style.backgroundImage = `url('${stagedBg.img}')`; document.getElementById('landing-wrap').style.backgroundSize='cover'; }
+    else if(stagedBg.color){ document.getElementById('landing-wrap').style.background = stagedBg.color; }
+    else alert('Selecciona una imagen o color primero.');
   });
 
-  // load stored styles
-  window.addEventListener('load', ()=>{
-    if(localStorage.getItem('capu_bg')) document.getElementById('landing-wrap').style.backgroundImage = `url('${localStorage.getItem('capu_bg')}')`;
-    if(localStorage.getItem('capu_bg_color')) document.getElementById('landing-wrap').style.background = localStorage.getItem('capu_bg_color');
-    if(localStorage.getItem('capu_user')) initApp();
+  // apply (save to localStorage and apply to both landing and app)
+  $.applyBg.addEventListener('click', ()=>{
+    if(stagedBg.img){
+      localStorage.setItem('capu_bg', stagedBg.img);
+      localStorage.removeItem('capu_bg_color');
+      // apply to landing and also to a CSS var for main (we use same element)
+      document.getElementById('landing-wrap').style.backgroundImage = `url('${stagedBg.img}')`;
+      document.getElementById('landing-wrap').style.backgroundSize='cover';
+      alert('Fondo aplicado y guardado.');
+    } else if(stagedBg.color){
+      localStorage.setItem('capu_bg_color', stagedBg.color);
+      localStorage.removeItem('capu_bg');
+      document.getElementById('landing-wrap').style.background = stagedBg.color;
+      alert('Color aplicado y guardado.');
+    } else {
+      alert('Selecciona una imagen o un color para aplicar.');
+    }
   });
 
-  // Save / Reset styles (buttons)
-  $.saveStyles.addEventListener('click', ()=>{ alert('Estilos guardados en tu navegador.'); });
+  // clear background
+  $.clearBg.addEventListener('click', ()=>{
+    localStorage.removeItem('capu_bg'); localStorage.removeItem('capu_bg_color');
+    document.getElementById('landing-wrap').style.background = 'linear-gradient(180deg,#fffaf6,#fff1e6)';
+    document.getElementById('landing-wrap').style.backgroundImage = '';
+    stagedBg = { img: null, color: null };
+    $.bgFile.value = ''; $.bgColor.value = '#ffffff';
+    alert('Fondo restablecido.');
+  });
+
+  // save styles (confirm)
+  $.saveStyles.addEventListener('click', ()=>{ alert('Estilos guardados en tu navegador. Pulsa Aplicar para aplicar los cambios actuales.'); });
+
+  // reset styles
   $.resetStyles.addEventListener('click', ()=>{ localStorage.removeItem('capu_bg'); localStorage.removeItem('capu_bg_color'); location.reload(); });
 
-  /* ---------- DISTRIBUCIONES with immediate preview ---------- */
+  // --------- DISTRIBUTIONS with immediate preview ----------
   function renderDists(){
     const cont = $.distsContainer;
     cont.innerHTML = '';
@@ -287,13 +333,11 @@
     if(!localStorage.getItem('capu_dists')) localStorage.setItem('capu_dists', JSON.stringify(saved));
 
     saved.forEach((d, idx)=>{
-      const box = document.createElement('div'); box.className = 'dist';
+      const box = document.createElement('div'); box.className='dist';
       box.innerHTML = `
         <div class="hdr">
           <h3 contenteditable="true" class="dist-title">${d.title}</h3>
-          <div style="display:flex;gap:8px">
-            <button class="small-btn edit-btn">Editar</button>
-          </div>
+          <div style="display:flex;gap:8px"><button class="small-btn edit-btn">Editar</button></div>
         </div>
         <textarea class="desc" placeholder="Descripción...">${d.text||''}</textarea>
         <div class="file-row">
@@ -310,36 +354,32 @@
       const preview = box.querySelector('.preview');
       const saveBtn = box.querySelector('.save-dist');
 
-      // paint existing media (object URLs only last session)
       function paintMedia(){
         preview.innerHTML = '';
         (d.media||[]).forEach((m)=>{
           if(m.type === 'video'){
-            const v = document.createElement('video'); v.controls = true; v.src = m.url; v.style.width='100%'; v.style.borderRadius='8px';
+            const v = document.createElement('video'); v.controls=true; v.src = m.url; v.style.width='100%'; v.style.borderRadius='8px';
             preview.appendChild(v);
           }
           if(m.type === 'pdf'){
-            const iframe = document.createElement('iframe'); iframe.src = m.url; iframe.style.width='100%'; iframe.style.height='300px'; iframe.style.border='none'; preview.appendChild(iframe);
+            const iframe = document.createElement('iframe'); iframe.src = m.url; iframe.style.width='100%'; iframe.style.height='300px'; iframe.style.border='none';
+            preview.appendChild(iframe);
           }
         });
       }
       paintMedia();
 
-      // video upload -> immediate preview + save in storage under objectURL
       videoUp.addEventListener('change', (ev)=>{
         const f = ev.target.files[0]; if(!f) return;
         const url = URL.createObjectURL(f);
-        d.media = d.media || [];
-        d.media.push({type:'video', url});
+        d.media = d.media || []; d.media.push({type:'video', url});
         saveAndRerender();
       });
 
-      // pdf upload -> immediate iframe preview
       pdfUp.addEventListener('change', (ev)=>{
         const f = ev.target.files[0]; if(!f) return;
         const url = URL.createObjectURL(f);
-        d.media = d.media || [];
-        d.media.push({type:'pdf', url});
+        d.media = d.media || []; d.media.push({type:'pdf', url});
         saveAndRerender();
       });
 
@@ -351,22 +391,21 @@
       });
 
       function saveAndRerender(){
-        const all = JSON.parse(localStorage.getItem('capu_dists')||'[]');
-        all[idx] = d;
+        const all = JSON.parse(localStorage.getItem('capu_dists')||'[]'); all[idx] = d;
         localStorage.setItem('capu_dists', JSON.stringify(all));
         renderDists();
       }
     });
   }
 
-  /* ---------- GALLERY ---------- */
+  // --------- GALLERY ----------
   function detectType(url){
     if(/\.(jpg|jpeg|png|gif|webp)$/i.test(url)) return 'image';
     if(/\.(mp4|webm|ogg)$/i.test(url)) return 'video';
     if(/\.pdf$/i.test(url)) return 'pdf';
     return 'image';
   }
-  document.getElementById('addResourceBtn').addEventListener('click', ()=>{
+  $.addResourceBtn && $.addResourceBtn.addEventListener('click', ()=>{
     const url = $.resourceUrl.value.trim(); if(!url) return alert('Pega una URL válida');
     let type = $.resourceType.value;
     if(type==='auto') type = detectType(url);
@@ -377,22 +416,20 @@
     $.resourceUrl.value = '';
   });
   function renderGallery(){
-    const g = $.gallery; g.innerHTML = '';
+    const g = $.gallery; if(!g) return; g.innerHTML = '';
     const list = JSON.parse(localStorage.getItem('capu_gallery')||'[]');
     list.forEach((it, idx) => {
-      const card = document.createElement('div');
-      card.style.background = '#fff'; card.style.padding = '8px'; card.style.borderRadius = '10px'; card.style.boxShadow = '0 10px 30px rgba(0,0,0,0.05)';
+      const card = document.createElement('div'); card.style.background='#fff'; card.style.padding='8px'; card.style.borderRadius='10px'; card.style.boxShadow='0 10px 30px rgba(0,0,0,0.05)';
       if(it.type === 'image') card.innerHTML = `<img src="${it.url}" style="width:100%;border-radius:8px">`;
       else if(it.type === 'video') card.innerHTML = `<video controls src="${it.url}" style="width:100%;border-radius:8px"></video>`;
       else if(it.type === 'pdf') card.innerHTML = `<a href="${it.url}" target="_blank">Abrir PDF</a>`;
       const del = document.createElement('button'); del.className='small-btn'; del.textContent='Eliminar'; del.style.marginTop='8px';
       del.addEventListener('click', ()=>{ list.splice(idx,1); localStorage.setItem('capu_gallery', JSON.stringify(list)); renderGallery(); });
-      card.appendChild(del);
-      g.appendChild(card);
+      card.appendChild(del); g.appendChild(card);
     });
   }
 
-  /* ---------- SEARCH ---------- */
+  // --------- SEARCH ----------
   $.searchInput.addEventListener('input', function(){
     const q = this.value.toLowerCase();
     document.querySelectorAll('.dist').forEach(div=>{
@@ -402,6 +439,11 @@
     });
   });
 
+  // expose some elements to ensure code works if buttons exist
+  window.onload = function(){ // re-bind in case some elements missing
+    if(document.querySelectorAll('.dist').length === 0) renderDists();
+    renderGallery();
+  };
 </script>
 </body>
 </html>
