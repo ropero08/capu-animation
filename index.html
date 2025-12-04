@@ -87,8 +87,11 @@ input:focus, textarea:focus, button:focus { outline: 3px solid rgba(165,122,166,
     <!-- REGISTER -->
     <input id="regName" class="input" type="text" placeholder="Tu nombre completo">
     <input id="regEmail" class="input" type="email" placeholder="Tu correo (Gmail)">
+    <label style="display:block;margin-top:8px;">Avatar:
+      <input type="file" id="regAvatar" accept="image/*">
+    </label>
     <button class="btn" onclick="register()">Crear cuenta y entrar</button>
-    <div class="small-tip">Personaliza el fondo desde el panel 🎨 (se aplicará en la página principal).</div>
+    <div class="small-tip">Personaliza el fondo desde el panel 🎨</div>
   </div>
 </div>
 
@@ -124,13 +127,22 @@ input:focus, textarea:focus, button:focus { outline: 3px solid rgba(165,122,166,
 
 <div class="edit-panel hidden" id="editPanel">
   <div style="font-weight:700">🎨 Personalizar</div>
-  <div class="tiny">Fondo de la página</div>
-  <input type="file" id="bgFile" accept="image/*">
-  <input type="color" id="bgColor" value="#ffffff">
+  <div class="tiny">Fondo Landing/Login</div>
+  <input type="file" id="bgLandingFile" accept="image/*">
+  <input type="color" id="bgLandingColor" value="#ffffff">
   <div style="display:flex;gap:8px;margin-top:8px">
-    <button class="small-btn" id="applyBg">Aplicar</button>
-    <button class="small-btn" id="previewBg">Vista previa</button>
-    <button class="small-btn" id="clearBg">Quitar</button>
+    <button class="small-btn" id="applyBgLanding">Aplicar</button>
+    <button class="small-btn" id="previewBgLanding">Vista previa</button>
+    <button class="small-btn" id="clearBgLanding">Quitar</button>
+  </div>
+  <hr>
+  <div class="tiny">Fondo App Principal</div>
+  <input type="file" id="bgAppFile" accept="image/*">
+  <input type="color" id="bgAppColor" value="#ffffff">
+  <div style="display:flex;gap:8px;margin-top:8px">
+    <button class="small-btn" id="applyBgApp">Aplicar</button>
+    <button class="small-btn" id="previewBgApp">Vista previa</button>
+    <button class="small-btn" id="clearBgApp">Quitar</button>
   </div>
   <hr>
   <div class="tiny">Avatar</div>
@@ -142,187 +154,148 @@ input:focus, textarea:focus, button:focus { outline: 3px solid rgba(165,122,166,
 </div>
 
 <script>
-const $ = id => document.getElementById(id);
+const $ = id=>document.getElementById(id);
 let users = JSON.parse(localStorage.getItem('capu_users')||'{}');
 
+// REGISTER
 function register(){
   const name = $('regName').value.trim();
   const email = $('regEmail').value.trim().toLowerCase();
-  if(!name || !email) return alert('Completa los campos');
+  if(!name||!email) return alert('Completa los campos');
   if(users[email]) return alert('Usuario ya existe');
-  users[email] = {name,email,avatar:null,dists:[]};
+
+  let avatar=null;
+  const f=$('regAvatar').files[0];
+  if(f){
+    const fr=new FileReader();
+    fr.onload=()=>{
+      avatar=fr.result;
+      saveUser(name,email,avatar);
+    };
+    fr.readAsDataURL(f);
+  }else saveUser(name,email,null);
+}
+
+function saveUser(name,email,avatar){
+  users[email]={name,email,avatar,dists:[]};
   localStorage.setItem('capu_users',JSON.stringify(users));
   localStorage.setItem('capu_current',email);
   initApp();
 }
 
+// LOGIN
 function login(){
-  const email = $('loginEmail').value.trim().toLowerCase();
+  const email=$('loginEmail').value.trim().toLowerCase();
   if(!users[email]) return alert('Usuario no existe');
   localStorage.setItem('capu_current',email);
   initApp();
 }
 
+// LOGOUT
 function logout(){
   localStorage.removeItem('capu_current');
   location.reload();
 }
 
-// Fondo personalizado para app
-function applyBackground(){
-  const bg = localStorage.getItem('capu_bg');
-  const bgc = localStorage.getItem('capu_bg_color');
-  if(bg){
-    document.body.style.backgroundImage = `url('${bg}')`;
-    document.body.style.backgroundSize = 'cover';
-    document.body.style.backgroundPosition = 'center';
-  }
-  else if(bgc){
-    document.body.style.background = bgc;
-  }
-  else{
-    document.body.style.background = 'linear-gradient(180deg,#fffaf6,#fff1e6)';
-  }
-}
+// AVATAR
+$('avatarFile').addEventListener('change',ev=>{
+  const f=ev.target.files[0]; if(!f) return;
+  const fr=new FileReader();
+  fr.onload=()=>{
+    const email = localStorage.getItem('capu_current');
+    users[email].avatar=fr.result;
+    localStorage.setItem('capu_users',JSON.stringify(users));
+    $('avatarImg').src=fr.result;
+  };
+  fr.readAsDataURL(f);
+});
+$('avatarWrap').addEventListener('click',()=>$('avatarFile').click());
 
-// Fondo personalizado para landing
-let stagedBgLanding = {img:null,color:null};
-function applyLandingBackground(){
-  const bg = localStorage.getItem('capu_landing_bg');
-  const bgc = localStorage.getItem('capu_landing_bg_color');
-  if(bg) $('landing-wrap').style.backgroundImage=`url('${bg}')`;
-  else if(bgc) $('landing-wrap').style.background=bgc;
-  else $('landing-wrap').style.background='linear-gradient(180deg,#fffaf6,#fff1e6)';
-}
+// PANEL TOGGLE
+$('openPanelHeader').addEventListener('click',()=>$('editPanel').classList.toggle('hidden'));
+$('saveStyles').addEventListener('click',()=>alert('Estilos guardados en tu navegador. Pulsa Aplicar.'));
+$('resetStyles').addEventListener('click',()=>{localStorage.clear(); location.reload();});
 
+// BACKGROUND LANDING
+let stagedBgLanding={img:null,color:null};
+$('bgLandingFile').addEventListener('change',ev=>{
+  const f=ev.target.files[0]; if(!f) return;
+  const fr=new FileReader();
+  fr.onload=()=>{ stagedBgLanding.img=fr.result; alert('Imagen cargada. Vista previa o Aplicar.');};
+  fr.readAsDataURL(f);
+});
+$('bgLandingColor').addEventListener('input',ev=>stagedBgLanding.color=ev.target.value);
+$('previewBgLanding').addEventListener('click',()=>{
+  if(stagedBgLanding.img) $('landing-wrap').style.backgroundImage=`url('${stagedBgLanding.img}')`;
+  else if(stagedBgLanding.color) $('landing-wrap').style.background=stagedBgLanding.color;
+});
+$('applyBgLanding').addEventListener('click',()=>{
+  if(stagedBgLanding.img){ localStorage.setItem('capu_landing_bg',stagedBgLanding.img); $('landing-wrap').style.backgroundImage=`url('${stagedBgLanding.img}')`; }
+  else if(stagedBgLanding.color){ localStorage.setItem('capu_landing_bg_color',stagedBgLanding.color); $('landing-wrap').style.background=stagedBgLanding.color; }
+});
+$('clearBgLanding').addEventListener('click',()=>{
+  localStorage.removeItem('capu_landing_bg'); localStorage.removeItem('capu_landing_bg_color');
+  stagedBgLanding={img:null,color:null}; $('bgLandingFile').value=''; $('bgLandingColor').value='#ffffff';
+  $('landing-wrap').style.background='linear-gradient(180deg,#fffaf6,#fff1e6)';
+});
+
+// BACKGROUND APP
+let stagedBgApp={img:null,color:null};
+$('bgAppFile').addEventListener('change',ev=>{
+  const f=ev.target.files[0]; if(!f) return;
+  const fr=new FileReader();
+  fr.onload=()=>{ stagedBgApp.img=fr.result; alert('Imagen cargada. Vista previa o Aplicar.'); };
+  fr.readAsDataURL(f);
+});
+$('bgAppColor').addEventListener('input',ev=>stagedBgApp.color=ev.target.value);
+$('previewBgApp').addEventListener('click',()=>{
+  if(stagedBgApp.img) $('appMain').style.backgroundImage=`url('${stagedBgApp.img}')`;
+  else if(stagedBgApp.color) $('appMain').style.background=stagedBgApp.color;
+});
+$('applyBgApp').addEventListener('click',()=>{
+  if(stagedBgApp.img){ localStorage.setItem('capu_app_bg',stagedBgApp.img); $('appMain').style.backgroundImage=`url('${stagedBgApp.img}')`; }
+  else if(stagedBgApp.color){ localStorage.setItem('capu_app_bg_color',stagedBgApp.color); $('appMain').style.background=stagedBgApp.color; }
+});
+$('clearBgApp').addEventListener('click',()=>{
+  localStorage.removeItem('capu_app_bg'); localStorage.removeItem('capu_app_bg_color');
+  stagedBgApp={img:null,color:null}; $('bgAppFile').value=''; $('bgAppColor').value='#ffffff';
+  $('appMain').style.background='linear-gradient(180deg,#fffaf6,#fff1e6)';
+});
+
+// INIT APP
 function initApp(){
   const email = localStorage.getItem('capu_current');
   if(!email || !users[email]) return;
   const user = users[email];
-  $('landing-wrap').style.display = 'none';
-  $('appHeader').style.display = 'flex';
-  $('appMain').style.display = 'block';
-  $('welcomeName').textContent = user.name;
-  $('displayName').textContent = user.name;
-  $('avatarImg').src = user.avatar || 'https://via.placeholder.com/120?text=U';
-  applyBackground();
+  $('landing-wrap').style.display='none';
+  $('appHeader').style.display='flex';
+  $('appMain').style.display='block';
+  $('welcomeName').textContent=user.name;
+  $('displayName').textContent=user.name;
+  $('avatarImg').src=user.avatar || 'https://via.placeholder.com/120?text=U';
+
+  // Aplicar fondos guardados
+  const bgLanding = localStorage.getItem('capu_landing_bg');
+  const bgLandingC = localStorage.getItem('capu_landing_bg_color');
+  if(bgLanding) $('landing-wrap').style.backgroundImage=`url('${bgLanding}')`;
+  else if(bgLandingC) $('landing-wrap').style.background=bgLandingC;
+
+  const bgApp = localStorage.getItem('capu_app_bg');
+  const bgAppC = localStorage.getItem('capu_app_bg_color');
+  if(bgApp) $('appMain').style.backgroundImage=`url('${bgApp}')`;
+  else if(bgAppC) $('appMain').style.background=bgAppC;
+
   renderDists();
 }
 
+// DISTRIBUCIONES
 function renderDists(){
-  const container = $('distsContainer');
-  container.innerHTML='';
+  const container = $('distsContainer'); container.innerHTML='';
   const email = localStorage.getItem('capu_current');
   let user = users[email];
-  if(user.dists.length===0){
-    user.dists = [{id:1,title:'Sección 1',text:'',media:[]},{id:2,title:'Sección 2',text:'',media:[]},{id:3,title:'Sección 3',text:'',media:[]}];
-  }
+  if(user.dists.length===0) user.dists = [{id:1,title:'Sección 1',text:'',media:[]},{id:2,title:'Sección 2',text:'',media:[]},{id:3,title:'Sección 3',text:'',media:[]}];
   localStorage.setItem('capu_users',JSON.stringify(users));
   user.dists.forEach((d,idx)=>{
-    const box = document.createElement('div'); box.className='dist';
+    const box=document.createElement('div'); box.className='dist';
     box.innerHTML=`
-      <div class="hdr"><h3 contenteditable="true" class="dist-title">${d.title}</h3></div>
-      <textarea class="desc">${d.text}</textarea>
-      <div class="file-row">
-        <label>Subir video<input type="file" accept="video/*" style="display:none" class="video-up"></label>
-        <label>Subir PDF<input type="file" accept="application/pdf" style="display:none" class="pdf-up"></label>
-        <button class="small-btn save-dist">Guardar</button>
-      </div>
-      <div class="preview"></div>
-    `;
-    container.appendChild(box);
-
-    const videoUp = box.querySelector('.video-up');
-    const pdfUp = box.querySelector('.pdf-up');
-    const saveBtn = box.querySelector('.save-dist');
-    const preview = box.querySelector('.preview');
-
-    function paintMedia(){
-      preview.innerHTML='';
-      (d.media||[]).forEach(m=>{
-        if(m.type==='video'){const v=document.createElement('video');v.controls=true;v.src=m.url;preview.appendChild(v);}
-        if(m.type==='pdf'){
-          const a=document.createElement('a'); a.href=m.url; a.target='_blank'; a.textContent='Abrir PDF';
-          a.style.display='block'; a.style.color='blue'; a.style.textDecoration='underline';
-          preview.appendChild(a);
-        }
-      });
-    }
-    paintMedia();
-
-    videoUp.addEventListener('change',ev=>{
-      const f=ev.target.files[0]; if(!f) return;
-      const url = URL.createObjectURL(f);
-      d.media.push({type:'video',url});
-      saveAndRerender();
-    });
-    pdfUp.addEventListener('change',ev=>{
-      const f=ev.target.files[0]; if(!f) return;
-      const url = URL.createObjectURL(f);
-      d.media.push({type:'pdf',url});
-      saveAndRerender();
-    });
-    saveBtn.addEventListener('click',()=>{
-      d.title = box.querySelector('.dist-title').textContent.trim();
-      d.text = box.querySelector('.desc').value.trim();
-      saveAndRerender();
-      alert('Sección guardada');
-    });
-
-    function saveAndRerender(){
-      users[email].dists[idx]=d;
-      localStorage.setItem('capu_users',JSON.stringify(users));
-      renderDists();
-    }
-  });
-}
-
-// Avatar
-$('avatarFile').addEventListener('change',(ev)=>{
-  const f = ev.target.files[0]; if(!f) return;
-  const fr = new FileReader();
-  fr.onload=()=>{
-    const email = localStorage.getItem('capu_current');
-    users[email].avatar = fr.result;
-    localStorage.setItem('capu_users',JSON.stringify(users));
-    $('avatarImg').src = fr.result;
-  };
-  fr.readAsDataURL(f);
-});
-$('avatarWrap').addEventListener('click',()=> $('avatarFile').click());
-
-// Panel
-$('openPanelHeader').addEventListener('click',()=>$('editPanel').classList.toggle('hidden'));
-
-// Fondo del landing
-$('previewBg').addEventListener('click',()=>{
-  if(stagedBgLanding.img) $('landing-wrap').style.backgroundImage=`url('${stagedBgLanding.img}')`;
-  else if(stagedBgLanding.color) $('landing-wrap').style.background=stagedBgLanding.color;
-});
-$('applyBg').addEventListener('click',()=>{
-  if(stagedBgLanding.img){ 
-    localStorage.setItem('capu_landing_bg', stagedBgLanding.img);
-    $('landing-wrap').style.backgroundImage=`url('${stagedBgLanding.img}')`;
-  } else if(stagedBgLanding.color){
-    localStorage.setItem('capu_landing_bg_color', stagedBgLanding.color);
-    $('landing-wrap').style.background=stagedBgLanding.color;
-  }
-});
-$('clearBg').addEventListener('click',()=>{
-  localStorage.removeItem('capu_landing_bg'); 
-  localStorage.removeItem('capu_landing_bg_color');
-  stagedBgLanding={img:null,color:null}; $('bgFile').value=''; $('bgColor').value='#ffffff';
-  applyLandingBackground();
-});
-
-// Background landing file/color
-$('bgFile').addEventListener('change',ev=>{
-  const f = ev.target.files[0]; if(!f) return;
-  const fr = new FileReader();
-  fr.onload=()=>{ stagedBgLanding.img=fr.result; alert('Imagen cargada. Vista previa o Aplicar.'); };
-  fr.readAsDataURL(f);
-});
-$('bgColor').addEventListener('input',ev=>stagedBgLanding.color=ev.target.value);
-
-$('saveStyles').addEventListener('click',()=>alert('Estilos guardados en tu navegador. Pulsa Aplicar.'));
-$('resetStyles').addEventListener('click',()=>{localStorage.removeItem('capu_bg');localStorage.removeItem('capu_bg_color');localStorage.removeItem('capu_landing_bg');localStorage.removeItem('cap
+      <div class="hdr"><h3 contenteditable="true
