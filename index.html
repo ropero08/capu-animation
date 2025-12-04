@@ -4,7 +4,6 @@ function renderDists(){
   const email = localStorage.getItem('capu_current');
   let user = users[email];
   
-  // Si no hay secciones, crear por defecto
   if(user.dists.length===0){
     user.dists = [
       {id:1,title:'Sección 1',text:'',media:[]},
@@ -27,24 +26,28 @@ function renderDists(){
         <label>Subir PDF<input type="file" accept="application/pdf" style="display:none" class="pdf-up"></label>
         <button class="small-btn save-dist">Guardar</button>
       </div>
-      <div class="preview"></div>
+      <div class="preview-video"></div>
+      <div class="preview-pdf"></div>
     `;
     container.appendChild(box);
 
     const videoUp = box.querySelector('.video-up');
     const pdfUp = box.querySelector('.pdf-up');
     const saveBtn = box.querySelector('.save-dist');
-    const preview = box.querySelector('.preview');
+    const previewVideo = box.querySelector('.preview-video');
+    const previewPdf = box.querySelector('.preview-pdf');
 
     function paintMedia(){
-      preview.innerHTML='';
+      previewVideo.innerHTML='';
+      previewPdf.innerHTML='';
       (d.media||[]).forEach(m=>{
         if(m.type==='video'){
           const v=document.createElement('video');
           v.controls=true;
           v.src=m.url;
           v.style.width='100%';
-          preview.appendChild(v);
+          v.style.marginBottom='8px';
+          previewVideo.appendChild(v);
         }
         if(m.type==='pdf'){
           const a=document.createElement('a');
@@ -54,7 +57,8 @@ function renderDists(){
           a.style.display='block';
           a.style.color='blue';
           a.style.textDecoration='underline';
-          preview.appendChild(a);
+          a.style.marginBottom='8px';
+          previewPdf.appendChild(a);
         }
       });
     }
