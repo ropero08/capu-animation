@@ -4,7 +4,6 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>CAPU Animation</title>
-
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
 <style>
 :root{
@@ -144,7 +143,7 @@ let users = JSON.parse(localStorage.getItem('capu_users')||'{}');
 
 function register(){
   const name = $('regName').value.trim();
-  const email = $('regEmail').value.trim();
+  const email = $('regEmail').value.trim().toLowerCase();
   if(!name || !email) return alert('Completa los campos');
   if(users[email]) return alert('Usuario ya existe');
   users[email] = {name,email,avatar:null,dists:[]};
@@ -154,7 +153,7 @@ function register(){
 }
 
 function login(){
-  const email = $('loginEmail').value.trim();
+  const email = $('loginEmail').value.trim().toLowerCase();
   if(!users[email]) return alert('Usuario no existe');
   localStorage.setItem('capu_current',email);
   initApp();
@@ -163,6 +162,23 @@ function login(){
 function logout(){
   localStorage.removeItem('capu_current');
   location.reload();
+}
+
+// Fondo personalizado en toda la app
+function applyBackground(){
+  const bg = localStorage.getItem('capu_bg');
+  const bgc = localStorage.getItem('capu_bg_color');
+  if(bg){
+    document.body.style.backgroundImage = `url('${bg}')`;
+    document.body.style.backgroundSize = 'cover';
+    document.body.style.backgroundPosition = 'center';
+  }
+  else if(bgc){
+    document.body.style.background = bgc;
+  }
+  else{
+    document.body.style.background = 'linear-gradient(180deg,#fffaf6,#fff1e6)';
+  }
 }
 
 function initApp(){
@@ -175,6 +191,7 @@ function initApp(){
   $('welcomeName').textContent = user.name;
   $('displayName').textContent = user.name;
   $('avatarImg').src = user.avatar || 'https://via.placeholder.com/120?text=U';
+  applyBackground();
   renderDists();
 }
 
@@ -210,7 +227,11 @@ function renderDists(){
       preview.innerHTML='';
       (d.media||[]).forEach(m=>{
         if(m.type==='video'){const v=document.createElement('video');v.controls=true;v.src=m.url;preview.appendChild(v);}
-        if(m.type==='pdf'){const iframe=document.createElement('iframe');iframe.src=m.url;iframe.style.height='200px';preview.appendChild(iframe);}
+        if(m.type==='pdf'){
+          const a=document.createElement('a'); a.href=m.url; a.target='_blank'; a.textContent='Abrir PDF';
+          a.style.display='block'; a.style.color='blue'; a.style.textDecoration='underline';
+          preview.appendChild(a);
+        }
       });
     }
     paintMedia();
@@ -246,18 +267,18 @@ function renderDists(){
 $('avatarFile').addEventListener('change',(ev)=>{
   const f = ev.target.files[0]; if(!f) return;
   const fr = new FileReader();
-  fr.onload=()=> {
-    $('avatarImg').src=fr.result;
+  fr.onload=()=>{
     const email = localStorage.getItem('capu_current');
-    users[email].avatar=fr.result;
+    users[email].avatar = fr.result;
     localStorage.setItem('capu_users',JSON.stringify(users));
+    $('avatarImg').src = fr.result;
   };
   fr.readAsDataURL(f);
 });
-$('avatarWrap').addEventListener('click',()=>$('avatarFile').click());
+$('avatarWrap').addEventListener('click',()=> $('avatarFile').click());
 
 // Panel
-$('openPanelHeader').addEventListener('click',()=>{$('editPanel').classList.toggle('hidden');});
+$('openPanelHeader').addEventListener('click',()=>$('editPanel').classList.toggle('hidden'));
 
 // Background
 let stagedBg = {img:null,color:null};
@@ -269,26 +290,24 @@ $('bgFile').addEventListener('change',ev=>{
 });
 $('bgColor').addEventListener('input',ev=>stagedBg.color=ev.target.value);
 $('previewBg').addEventListener('click',()=>{
-  if(stagedBg.img) $('landing-wrap').style.backgroundImage=`url('${stagedBg.img}')`;
-  else if(stagedBg.color) $('landing-wrap').style.background=stagedBg.color;
+  if(stagedBg.img) document.body.style.backgroundImage=`url('${stagedBg.img}')`;
+  else if(stagedBg.color) document.body.style.background=stagedBg.color;
 });
 $('applyBg').addEventListener('click',()=>{
-  if(stagedBg.img){localStorage.setItem('capu_bg',stagedBg.img);$('landing-wrap').style.backgroundImage=`url('${stagedBg.img}')`;}
-  else if(stagedBg.color){localStorage.setItem('capu_bg_color',stagedBg.color);$('landing-wrap').style.background=stagedBg.color;}
+  if(stagedBg.img){localStorage.setItem('capu_bg',stagedBg.img); applyBackground();}
+  else if(stagedBg.color){localStorage.setItem('capu_bg_color',stagedBg.color); applyBackground();}
 });
 $('clearBg').addEventListener('click',()=>{
   localStorage.removeItem('capu_bg'); localStorage.removeItem('capu_bg_color');
-  $('landing-wrap').style.background='linear-gradient(180deg,#fffaf6,#fff1e6)'; $('landing-wrap').style.backgroundImage='';
   stagedBg={img:null,color:null}; $('bgFile').value=''; $('bgColor').value='#ffffff';
+  applyBackground();
 });
 $('saveStyles').addEventListener('click',()=>alert('Estilos guardados en tu navegador. Pulsa Aplicar.'));
 $('resetStyles').addEventListener('click',()=>{localStorage.removeItem('capu_bg');localStorage.removeItem('capu_bg_color');location.reload();});
 
 // Load
 window.addEventListener('load',()=>{
-  const bg = localStorage.getItem('capu_bg'); const bgc = localStorage.getItem('capu_bg_color');
-  if(bg) $('landing-wrap').style.backgroundImage=`url('${bg}')`;
-  if(bgc) $('landing-wrap').style.background=bgc;
+  applyBackground();
   if(localStorage.getItem('capu_current')) initApp();
 });
 
@@ -297,4 +316,3 @@ $('logoutBtn').addEventListener('click',logout);
 
 </body>
 </html>
-
