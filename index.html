@@ -8,134 +8,174 @@
 <link href="https://fonts.googleapis.com/css2?family:Poppins:wght@300;400;500;600&family:Playfair+Display:wght@600&display=swap" rel="stylesheet">
 
 <style>
+    /* -------------------- FONDO AESTHETIC -------------------- */
     body{
         margin:0;
         padding:40px;
         font-family: 'Poppins', sans-serif;
-        background: linear-gradient(135deg, #ece4ff, #fdfaff);
-    }
 
-    h1{
-        text-align:center;
-        color:#5b3fa3;
-        font-family: 'Playfair Display', serif;
-        font-size:42px;
-        margin-bottom:40px;
-        letter-spacing:1px;
-    }
+        background: radial-gradient(circle at 20% 30%, #ffeaff 0%, #e5e8ff 40%, #f5eaff 80%);
+        min-height:100vh;
 
-    .container{
-        max-width:900px;
-        margin:auto;
         display:flex;
         flex-direction:column;
-        gap:35px;
+        align-items:center;
     }
 
+    /* -------------------- TÍTULO -------------------- */
+    h1{
+        text-align:center;
+        color:#5e3cb5;
+        font-family:'Playfair Display', serif;
+        font-size:48px;
+        margin-bottom:45px;
+        text-shadow:0 4px 15px rgba(0,0,0,0.08);
+        letter-spacing:1px;
+        animation: fadein 1.2s ease;
+    }
+
+    @keyframes fadein {
+        from { opacity:0; transform:translateY(-12px); }
+        to   { opacity:1; transform:translateY(0); }
+    }
+
+    /* -------------------- CONTENEDOR -------------------- */
+    .container{
+        width:95%;
+        max-width:1000px;
+        display:flex;
+        flex-direction:column;
+        gap:40px;
+        animation: fadein 1.2s ease;
+    }
+
+    /* -------------------- TARJETAS GLASS -------------------- */
     .section{
-        background:white;
-        padding:30px;
-        border-radius:22px;
-        box-shadow:0 8px 25px rgba(0,0,0,0.08);
-        border:1px solid #f1eaff;
-        transition:0.3s ease;
+        padding:35px;
+        border-radius:28px;
+
+        background: rgba(255,255,255,0.45);
+        backdrop-filter: blur(18px) saturate(160%);
+        -webkit-backdrop-filter: blur(18px) saturate(160%);
+
+        border:1px solid rgba(255,255,255,0.4);
+        box-shadow:
+            0 10px 30px rgba(131, 93, 255, 0.18),
+            inset 0 0 22px rgba(255,255,255,0.35);
+
+        transition:0.35s ease;
+        transform:translateY(0);
     }
 
     .section:hover{
-        transform: translateY(-3px);
-        box-shadow:0 12px 35px rgba(0,0,0,0.12);
+        transform: translateY(-6px);
+        box-shadow:
+            0 20px 40px rgba(131, 93, 255, 0.25),
+            inset 0 0 28px rgba(255,255,255,0.55);
     }
 
+    /* -------------------- TÍTULO DE SECCIÓN -------------------- */
     h2{
-        margin:0 0 15px 0;
-        font-size:24px;
+        margin:0 0 20px 0;
+        font-size:26px;
         color:#5b3fa3;
         font-family:'Playfair Display', serif;
+        text-shadow:0 2px 8px rgba(0,0,0,0.1);
     }
 
+    /* -------------------- TEXTO Y INPUTS -------------------- */
     .label{
         font-weight:500;
         display:block;
         margin-top:15px;
-        color:#5b3fa3;
+        color:#6f4cd9;
         font-size:15px;
+        text-shadow:0 2px 6px rgba(0,0,0,0.05);
     }
 
     textarea{
         width:100%;
-        height:100px;
-        padding:15px;
-        border-radius:18px;
-        border:1px solid #d9cfff;
-        margin-top:8px;
+        height:110px;
+        padding:18px;
+        border-radius:20px;
+        border:1px solid #d3c6ff;
+        margin-top:10px;
         resize:none;
-        background:#fbf9ff;
-        font-size:14px;
+        background:rgba(255,255,255,0.7);
+        font-size:15px;
         outline:none;
-        transition:0.2s;
+        transition:0.25s;
     }
 
     textarea:focus{
         border-color:#b498ff;
-        box-shadow:0 0 0 3px #e8deff;
+        box-shadow:0 0 0 4px #eadfff;
         background:white;
     }
 
     input[type="file"]{
-        margin-top:10px;
-        padding:8px;
-        border-radius:12px;
-        background:#f7f2ff;
-        border:1px solid #d7c6ff;
+        margin-top:12px;
+        padding:10px;
+        border-radius:14px;
+        background:#f3ecff;
+        border:1px solid #cbb7ff;
         cursor:pointer;
         font-size:14px;
+        transition:0.25s;
     }
 
     input[type="file"]::-webkit-file-upload-button{
-        background:#d7c6ff;
+        background:#cbb7ff;
         border:none;
-        padding:8px 14px;
-        border-radius:10px;
+        padding:10px 16px;
+        border-radius:12px;
         cursor:pointer;
-        transition:0.2s;
+        font-weight:500;
+        color:#4c3588;
+        transition:0.25s;
     }
 
     input[type="file"]::-webkit-file-upload-button:hover{
-        background:#b59eff;
+        background:#ae90ff;
+        color:white;
     }
 
+    /* -------------------- PREVIEW -------------------- */
     .preview{
-        margin-top:20px;
-        border-radius:15px;
-        padding:15px;
-        background:#faf7ff;
-        border:1px dashed #c9b7ff;
+        margin-top:25px;
+        border-radius:18px;
+        padding:20px;
+        background:rgba(255,255,255,0.4);
+        border:1px dashed #c0aaff;
     }
 
     video{
         width:100%;
-        max-height:300px;
-        border-radius:14px;
+        max-height:320px;
+        border-radius:18px;
         margin-bottom:15px;
         outline:none;
+        box-shadow:0 8px 25px rgba(0,0,0,0.18);
     }
 
     a.pdf-link{
         display:inline-block;
-        background:#e8deff;
-        padding:12px 18px;
-        border-radius:14px;
+        background:linear-gradient(135deg, #e3d6ff, #f4edff);
+        padding:14px 22px;
+        border-radius:16px;
         text-decoration:none;
         color:#4a2f82;
         font-weight:600;
         border:1px solid #c9b7ff;
         transition:0.25s;
-        font-size:14px;
+        font-size:15px;
+        box-shadow:0 6px 15px rgba(0,0,0,0.08);
     }
 
     a.pdf-link:hover{
-        background:#c9b7ff;
+        background:linear-gradient(135deg, #c7b0ff, #e8d4ff);
         color:white;
+        box-shadow:0 10px 25px rgba(0,0,0,0.15);
     }
 </style>
 </head>
