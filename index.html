@@ -20,10 +20,10 @@
 *{box-sizing:border-box;}
 html,body{height:100%;margin:0;font-family:'Poppins',system-ui,Roboto,Arial;color:var(--primary);background:linear-gradient(180deg,#fffaf6,#fff1e6);}
 
-/* LANDING / LOGIN */
+/* LANDING */
 #landing-wrap{
   position:relative; min-height:100vh; display:flex; align-items:center; justify-content:center;
-  background:linear-gradient(180deg,#fffaf6,#fff1e6); background-size:cover; background-position:center;
+  background:linear-gradient(180deg,#fffaf6,#fff1e6);
 }
 #landing-overlay{position:absolute;inset:0;background:linear-gradient(180deg, rgba(255,255,255,0.12), rgba(255,255,255,0.18));backdrop-filter: blur(3px);}
 .card-join{position:relative; z-index:2; width:92%; max-width:640px; padding:36px; border-radius:18px; background:var(--soft-bg); box-shadow:0 18px 50px rgba(20,10,30,0.12); text-align:center;}
@@ -34,7 +34,7 @@ html,body{height:100%;margin:0;font-family:'Poppins',system-ui,Roboto,Arial;colo
 .btn:hover{transform:translateY(-3px)}
 .small-tip{font-size:13px;color:var(--muted);margin-top:12px}
 
-/* APP HEADER */
+/* HEADER */
 header.app-header{display:flex;gap:16px;align-items:center;justify-content:space-between;padding:12px 20px;background:rgba(255,255,255,0.95);position:sticky;top:0;z-index:60;backdrop-filter:blur(6px);box-shadow:0 10px 30px rgba(20,10,30,0.04)}
 .logo-left{display:flex;align-items:center;gap:12px}
 .logo-text{font-weight:700;font-size:20px;color:var(--primary);font-family:'Playfair Display',serif}
@@ -43,123 +43,51 @@ header.app-header{display:flex;gap:16px;align-items:center;justify-content:space
 .avatar{width:50px;height:50px;border-radius:50%;overflow:hidden;border:2px solid rgba(0,0,0,0.06);cursor:pointer}
 .avatar img{width:100%;height:100%;object-fit:cover}
 
-/* Layout */
 .container{max-width:1100px;margin:22px auto;padding:0 18px}
 .card{background:var(--card);padding:18px;border-radius:12px;box-shadow:0 10px 30px rgba(20,10,30,0.04)}
 .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:18px;align-items:start}
 @media(max-width:980px){.grid{grid-template-columns:1fr}}
 
-/* --- NUEVO ESTILO DE SECCIONES (COMO EN TU CAPTURA) --- */
-.dist{
-  background: #ffffff;
-  border-radius: 18px;
-  padding: 20px;
-  box-shadow: 0 10px 30px rgba(20,10,30,0.06);
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
+.dist{padding:16px;border-radius:12px;background:linear-gradient(180deg,rgba(255,255,255,0.96),#fff);min-height:260px;display:flex;flex-direction:column;gap:10px}
+.dist .hdr{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.dist h3{margin:0;font-size:18px}
+.desc{flex:1;margin-top:8px;padding:10px;border-radius:10px;border:1px solid #f0e7f1;min-height:70px;resize:vertical}
+.file-row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.file-row label{background:#fff;border:1px solid #efe6ee;padding:8px 10px;border-radius:10px;cursor:pointer}
+.preview{margin-top:8px;border-radius:10px;overflow:hidden;background:#faf7fb;padding:8px;border:1px dashed #efe6ee}
+.preview video,.preview iframe,.preview img{width:100%;height:auto;display:block;border-radius:8px}
 
-.dist .hdr{
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.dist h3{
-  margin: 0;
-  font-size: 18px;
-  font-weight: 600;
-}
-
-.desc{
-  padding: 12px;
-  border-radius: 12px;
-  min-height: 80px;
-  border: 1px solid #e8ddeb;
-  resize: vertical;
-}
-
-.file-row{
-  display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
-}
-
-.file-row label{
-  background: #fff;
-  padding: 10px 14px;
-  border-radius: 12px;
-  border: 1px solid #e8ddeb;
-  cursor: pointer;
-  font-size: 14px;
-}
-
-.small-btn{
-  border: 1px solid #e8ddeb;
-  padding: 10px 14px;
-  border-radius: 12px;
-  background: #fff;
-  cursor: pointer;
-}
-
-.preview{
-  margin-top: 8px;
-  border-radius: 12px;
-  border: 1px dashed #e8ddeb;
-  padding: 10px;
-  background: #faf7fb;
-}
-
-.preview video,
-.preview iframe,
-.preview img{
-  width: 100%;
-  border-radius: 12px;
-}
-
-/* Edit panel */
-.edit-panel{position:fixed;right:18px;bottom:18px;background:var(--card);padding:12px;border-radius:12px;box-shadow:0 12px 36px rgba(20,10,40,0.08);width:260px;z-index:80;transition:transform .18s ease,opacity .18s ease}
-.edit-panel.hidden{transform:translateY(18px);opacity:0.02;pointer-events:none}
-.edit-panel input[type=color], .edit-panel input[type=file]{display:block;margin:8px 0;width:100%}
-.edit-panel .tiny{font-size:13px;color:var(--muted);margin-top:6px}
 .small-btn{padding:8px 10px;border-radius:10px;border:1px solid #efe6ee;background:#fff;cursor:pointer}
 
-/* footer */
 .footer{text-align:center;color:var(--muted);padding:28px 0}
-
-/* focus */
-input:focus, textarea:focus, button:focus { outline: 3px solid rgba(165,122,166,0.12); outline-offset:3px }
 </style>
 </head>
 <body>
 
+<!-- LOGIN -->
 <div id="landing-wrap">
   <div id="landing-overlay"></div>
   <div class="card-join">
     <div class="title">CAPU ANIMATION</div>
-    <div class="lead">Comparte animaciones, formación y devoción en tonos delicados</div>
+    <div class="lead">Comparte animaciones, formación y devoción</div>
 
-    <!-- LOGIN -->
     <input class="input" type="email" id="loginEmail" placeholder="Correo">
     <button class="btn" onclick="login()">Entrar</button>
     <hr>
 
-    <!-- REGISTER -->
     <input id="regName" class="input" type="text" placeholder="Tu nombre completo">
-    <input id="regEmail" class="input" type="email" placeholder="Tu correo (Gmail)">
+    <input id="regEmail" class="input" type="email" placeholder="Tu correo">
     <button class="btn" onclick="register()">Crear cuenta y entrar</button>
-    <div class="small-tip">Personaliza el fondo desde el panel 🎨 (se aplicará en la página principal).</div>
   </div>
 </div>
 
+<!-- APP -->
 <header class="app-header" id="appHeader" style="display:none">
   <div class="logo-left"><div class="logo-text">CAPU <span style="color:#a57aa6">Animation</span></div></div>
   <div class="user-area">
     <div class="username" id="displayName"></div>
     <div class="avatar" id="avatarWrap"><img id="avatarImg" src="https://via.placeholder.com/120?text=U"></div>
   </div>
-  <button id="openPanelHeader" class="small-btn">🎨</button>
   <button id="logoutBtn" class="small-btn">Salir</button>
 </header>
 
@@ -167,7 +95,7 @@ input:focus, textarea:focus, button:focus { outline: 3px solid rgba(165,122,166,
   <div class="container">
     <section class="card">
       <h2>Bienvenid@, <span id="welcomeName"></span></h2>
-      <p style="color:var(--muted)">Crea distribuciones, sube videos y PDFs con vista previa inmediata.</p>
+      <p style="color:var(--muted)">Sube videos y PDF en cada una de las 3 secciones.</p>
     </section>
 
     <section class="card">
@@ -175,97 +103,66 @@ input:focus, textarea:focus, button:focus { outline: 3px solid rgba(165,122,166,
       <div class="grid" id="distsContainer"></div>
     </section>
 
-    <footer class="footer">CAPU Animation — Guardado en tu navegador</footer>
+    <footer class="footer">CAPU Animation — Guardado local</footer>
   </div>
 </main>
-
-<!-- Edit Panel -->
-<div class="edit-panel hidden" id="editPanel">
-  <div style="font-weight:700">🎨 Personalizar</div>
-  <div class="tiny">Fondo</div>
-  <input type="file" id="bgFile" accept="image/*">
-  <input type="color" id="bgColor" value="#ffffff">
-  <div style="display:flex;gap:8px;margin-top:8px">
-    <button class="small-btn" id="applyBg">Aplicar</button>
-    <button class="small-btn" id="previewBg">Vista previa</button>
-    <button class="small-btn" id="clearBg">Quitar</button>
-  </div>
-  <hr>
-  <div class="tiny">Avatar</div>
-  <input type="file" id="avatarFile" accept="image/*">
-  <div style="display:flex;gap:8px;margin-top:8px">
-    <button class="small-btn" id="saveStyles">Guardar</button>
-    <button class="small-btn" id="resetStyles">Reset</button>
-  </div>
-</div>
 
 <script>
 const $ = id => document.getElementById(id);
 let users = JSON.parse(localStorage.getItem('capu_users')||'{}');
 
-/* LOGIN */
 function register(){
   const name = $('regName').value.trim();
-  const email =$('regEmail').value.trim();
+  const email = $('regEmail').value.trim();
   if(!name || !email) return alert('Completa los campos');
-  if(users[email]) return alert('Usuario ya existe');
-  users[email]={name,email,avatar:null,dists:[]};
+  users[email] = {name,email,avatar:null,dists:[
+    {id:1,title:"Sección 1",text:"",media:[]},
+    {id:2,title:"Sección 2",text:"",media:[]},
+    {id:3,title:"Sección 3",text:"",media:[]}
+  ]};
   localStorage.setItem('capu_users',JSON.stringify(users));
   localStorage.setItem('capu_current',email);
   initApp();
 }
 
 function login(){
-  const email=$('loginEmail').value.trim();
+  const email = $('loginEmail').value.trim();
   if(!users[email]) return alert('Usuario no existe');
   localStorage.setItem('capu_current',email);
   initApp();
 }
 
-function logout(){
-  localStorage.removeItem('capu_current');
-  location.reload();
-}
+function logout(){ localStorage.removeItem('capu_current'); location.reload(); }
 
-/* INIT */
 function initApp(){
-  const email=localStorage.getItem('capu_current');
-  if(!email||!users[email])return;
-  const u=users[email];
-
+  const email = localStorage.getItem('capu_current');
+  const user = users[email];
   $('landing-wrap').style.display='none';
   $('appHeader').style.display='flex';
   $('appMain').style.display='block';
-
-  $('displayName').textContent=u.name;
-  $('welcomeName').textContent=u.name;
-  $('avatarImg').src=u.avatar||"https://via.placeholder.com/120?text=U";
-
+  $('welcomeName').textContent = user.name;
+  $('displayName').textContent = user.name;
+  $('avatarImg').src = user.avatar || "https://via.placeholder.com/120?text=U";
   renderDists();
 }
 
-/* RENDER SECCIONES */
 function renderDists(){
-  const container=$('distsContainer');
-  container.innerHTML="";
+  const email = localStorage.getItem('capu_current');
+  const user = users[email];
+  const cont = $('distsContainer');
+  cont.innerHTML='';
 
-  const email=localStorage.getItem('capu_current');
-  let user=users[email];
+  user.dists = [
+    user.dists[0] || {id:1,title:"Sección 1",text:"",media:[]},
+    user.dists[1] || {id:2,title:"Sección 2",text:"",media:[]},
+    user.dists[2] || {id:3,title:"Sección 3",text:"",media:[]}
+  ];
 
-  if(user.dists.length===0){
-    user.dists=[
-      {id:1,title:"Sección 1",text:"",media:[]},
-      {id:2,title:"Sección 2",text:"",media:[]},
-      {id:3,title:"Sección 3",text:"",media:[]}
-    ];
-  }
-  localStorage.setItem('capu_users',JSON.stringify(users));
+  user.dists.forEach((d,i)=>{
+    const box = document.createElement('div');
+    box.className='dist';
 
-  user.dists.forEach((d,idx)=>{
-    const box=document.createElement('div');
-    box.className="dist";
-
-    box.innerHTML=`
+    box.innerHTML = `
       <div class="hdr">
         <h3 contenteditable="true" class="dist-title">${d.title}</h3>
       </div>
@@ -287,126 +184,64 @@ function renderDists(){
       <div class="preview"></div>
     `;
 
-    container.appendChild(box);
+    cont.appendChild(box);
 
-    const videoUp=box.querySelector(".video-up");
-    const pdfUp=box.querySelector(".pdf-up");
-    const preview=box.querySelector(".preview");
-    const saveBtn=box.querySelector(".save-dist");
+    const preview = box.querySelector(".preview");
 
-    function paintMedia(){
+    function paint(){
       preview.innerHTML="";
-      (d.media||[]).forEach(m=>{
+      d.media.forEach(m=>{
         if(m.type==="video"){
           const v=document.createElement("video");
-          v.controls=true; v.src=m.url;
+          v.controls=true;
+          v.src=m.url;
           preview.appendChild(v);
-        }
-        if(m.type==="pdf"){
-          const f=document.createElement("iframe");
-          f.src=m.url; f.style.height="200px";
-          preview.appendChild(f);
+        } else if(m.type==="pdf"){
+          const a=document.createElement("a");
+          a.href=m.url;
+          a.target="_blank";
+          a.textContent="📄 Abrir PDF";
+          a.style.display="block";
+          a.style.padding="10px";
+          a.style.background="#f5f2f8";
+          a.style.borderRadius="10px";
+          preview.appendChild(a);
         }
       });
     }
-    paintMedia();
+    paint();
 
-    videoUp.addEventListener("change",ev=>{
-      const f=ev.target.files[0]; if(!f)return;
-      const url=URL.createObjectURL(f);
-      d.media.push({type:"video",url});
-      saveSection();
+    box.querySelector(".video-up").addEventListener("change",ev=>{
+      const f=ev.target.files[0];
+      if(!f) return;
+      d.media.push({type:"video",url:URL.createObjectURL(f)});
+      save();
     });
 
-    pdfUp.addEventListener("change",ev=>{
-      const f=ev.target.files[0]; if(!f)return;
-      const url=URL.createObjectURL(f);
-      d.media.push({type:"pdf",url});
-      saveSection();
+    box.querySelector(".pdf-up").addEventListener("change",ev=>{
+      const f=ev.target.files[0];
+      if(!f) return;
+      d.media.push({type:"pdf",url:URL.createObjectURL(f)});
+      save();
     });
 
-    saveBtn.addEventListener("click",()=>{
-      d.title=box.querySelector(".dist-title").textContent.trim();
-      d.text=box.querySelector(".desc").value.trim();
-      saveSection();
+    box.querySelector(".save-dist").addEventListener("click",()=>{
+      d.title = box.querySelector(".dist-title").textContent.trim();
+      d.text  = box.querySelector(".desc").value.trim();
+      save();
       alert("Sección guardada");
     });
 
-    function saveSection(){
-      users[email].dists[idx]=d;
-      localStorage.setItem("capu_users",JSON.stringify(users));
+    function save(){
+      users[email].dists[i]=d;
+      localStorage.setItem('capu_users',JSON.stringify(users));
       renderDists();
     }
   });
 }
 
-/* Avatar */
-$('avatarFile').addEventListener('change',ev=>{
-  const f=ev.target.files[0]; if(!f)return;
-  const fr=new FileReader();
-  fr.onload=()=>{
-    $('avatarImg').src=fr.result;
-    const email=localStorage.getItem('capu_current');
-    users[email].avatar=fr.result;
-    localStorage.setItem('capu_users',JSON.stringify(users));
-  };
-  fr.readAsDataURL(f);
-});
-
-$('avatarWrap').addEventListener("click",()=>$('avatarFile').click());
-
-/* Panel */
-$('openPanelHeader').addEventListener("click",()=>$('editPanel').classList.toggle("hidden"));
-
-/* Background */
-let stagedBg={img:null,color:null};
-
-$('bgFile').addEventListener("change",ev=>{
-  const f=ev.target.files[0]; if(!f)return;
-  const fr=new FileReader();
-  fr.onload=()=>{ stagedBg.img=fr.result; alert("Imagen cargada. Vista previa o Aplicar."); };
-  fr.readAsDataURL(f);
-});
-
-$('bgColor').addEventListener('input',ev=>stagedBg.color=ev.target.value);
-
-$('previewBg').addEventListener("click",()=>{
-  if(stagedBg.img) $('landing-wrap').style.backgroundImage=`url('${stagedBg.img}')`;
-  else if(stagedBg.color) $('landing-wrap').style.background=stagedBg.color;
-});
-
-$('applyBg').addEventListener("click",()=>{
-  if(stagedBg.img){
-    localStorage.setItem("capu_bg",stagedBg.img);
-    $('landing-wrap').style.backgroundImage=`url('${stagedBg.img}')`;
-  } else if(stagedBg.color){
-    localStorage.setItem("capu_bg_color",stagedBg.color);
-    $('landing-wrap').style.background=stagedBg.color;
-  }
-});
-
-$('clearBg').addEventListener("click",()=>{
-  localStorage.removeItem("capu_bg");
-  localStorage.removeItem("capu_bg_color");
-  $('landing-wrap').style.background='linear-gradient(180deg,#fffaf6,#fff1e6)';
-  $('landing-wrap').style.backgroundImage='';
-  stagedBg={img:null,color:null};
-  $('bgFile').value='';
-  $('bgColor').value='#ffffff';
-});
-
-/* Load */
-window.addEventListener("load",()=>{
-  const bg=localStorage.getItem("capu_bg");
-  const bgc=localStorage.getItem("capu_bg_color");
-
-  if(bg) $('landing-wrap').style.backgroundImage=`url('${bg}')`;
-  if(bgc) $('landing-wrap').style.background=bgc;
-
-  if(localStorage.getItem("capu_current")) initApp();
-});
-
-$('logoutBtn').addEventListener("click",logout);
+window.onload=()=>{ if(localStorage.getItem('capu_current')) initApp(); };
+$('logoutBtn').addEventListener('click',logout);
 </script>
 
 </body>
