@@ -1,274 +1,508 @@
 <!doctype html>
 <html lang="es">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>CAPU Animation</title>
-
-<link href="https://fonts.googleapis.com/css2?family:Poppins:wght@300;400;500;600&family:Playfair+Display:wght@600&display=swap" rel="stylesheet">
-
+<link rel="icon" id="faviconLink" href="data:," />
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
 <style>
-    /* -------------------- FONDO AESTHETIC -------------------- */
-    body{
-        margin:0;
-        padding:40px;
-        font-family: 'Poppins', sans-serif;
+  :root{
+    --bg1: #fff6fb;
+    --bg2: #f3f0ff;
+    --accent:#8b5cf6;
+    --muted:#6b6464;
+    --card: rgba(255,255,255,0.6);
+    --glass-border: rgba(255,255,255,0.6);
+    --soft-shadow: 0 10px 30px rgba(100,70,160,0.12);
+    --radius:18px;
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%;margin:0;font-family:'Poppins',system-ui,Roboto,Arial;color:#362b42;
+    background: radial-gradient(1200px 600px at 10% 10%, #fff0fb 0%, transparent 12%),
+                radial-gradient(900px 500px at 90% 90%, #f0f7ff 0%, transparent 10%),
+                linear-gradient(180deg,var(--bg1),var(--bg2));
+    transition:background 0.35s ease;
+    -webkit-font-smoothing:antialiased;
+  }
 
-        background: radial-gradient(circle at 20% 30%, #ffeaff 0%, #e5e8ff 40%, #f5eaff 80%);
-        min-height:100vh;
+  /* HEADER */
+  header.app-header{
+    position:sticky; top:12px; z-index:60;
+    display:flex; align-items:center; justify-content:space-between;
+    gap:12px; padding:12px 20px; margin:0 auto; width:calc(100% - 40px);
+    max-width:1100px; border-radius:14px; background:linear-gradient(180deg, rgba(255,255,255,0.6), rgba(255,255,255,0.45));
+    box-shadow: var(--soft-shadow); backdrop-filter: blur(10px) saturate(140%);
+    border:1px solid rgba(255,255,255,0.6);
+  }
+  .left-area{display:flex;align-items:center;gap:12px}
+  .avatar{width:56px;height:56px;border-radius:50%;overflow:hidden;border:2px solid rgba(255,255,255,0.6);cursor:pointer;flex-shrink:0}
+  .avatar img{width:100%;height:100%;object-fit:cover;display:block}
+  .user-name{font-weight:600;color:var(--muted);font-size:15px}
+  .right-area{display:flex;align-items:center;gap:12px}
+  .app-title{font-family:'Playfair Display',serif;font-weight:600;color:#4b2f79;font-size:20px;display:flex;align-items:center;gap:10px}
+  .app-title img{width:34px;height:34px;border-radius:8px;object-fit:cover;box-shadow:0 6px 18px rgba(80,50,150,0.12)}
+  .small-btn{padding:8px 12px;border-radius:12px;border:none;background:#ffffffaa;cursor:pointer;font-weight:600;box-shadow:0 6px 18px rgba(80,50,150,0.06)}
+  .small-btn:hover{transform:translateY(-2px)}
 
-        display:flex;
-        flex-direction:column;
-        align-items:center;
-    }
+  /* LAYOUT */
+  main{max-width:1100px;margin:28px auto;padding:0 20px 80px}
+  .top-card{display:flex;gap:18px;align-items:center;justify-content:space-between;padding:20px;border-radius:16px;background:var(--card);box-shadow:var(--soft-shadow);border:1px solid var(--glass-border);backdrop-filter:blur(10px)}
+  .top-left{display:flex;gap:14px;align-items:center}
+  .logo-badge{width:56px;height:56px;border-radius:12px;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#f9ecff,#e9f1ff);font-weight:700;color:#5b3fa3;font-family:'Playfair Display',serif;font-size:18px;box-shadow:0 8px 20px rgba(90,50,170,0.08)}
+  .top-right-controls{display:flex;gap:10px;align-items:center}
 
-    /* -------------------- TÍTULO -------------------- */
-    h1{
-        text-align:center;
-        color:#5e3cb5;
-        font-family:'Playfair Display', serif;
-        font-size:48px;
-        margin-bottom:45px;
-        text-shadow:0 4px 15px rgba(0,0,0,0.08);
-        letter-spacing:1px;
-        animation: fadein 1.2s ease;
-    }
+  /* GRID */
+  .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:20px}
+  @media(max-width:980px){.grid{grid-template-columns:1fr}}
 
-    @keyframes fadein {
-        from { opacity:0; transform:translateY(-12px); }
-        to   { opacity:1; transform:translateY(0); }
-    }
+  .card{
+    padding:18px;border-radius:18px;background:var(--card);box-shadow:var(--soft-shadow);border:1px solid var(--glass-border);
+    backdrop-filter: blur(8px);
+  }
 
-    /* -------------------- CONTENEDOR -------------------- */
-    .container{
-        width:95%;
-        max-width:1000px;
-        display:flex;
-        flex-direction:column;
-        gap:40px;
-        animation: fadein 1.2s ease;
-    }
+  .dist{padding:18px;border-radius:14px;background:linear-gradient(180deg, rgba(255,255,255,0.55), rgba(255,255,255,0.45));min-height:260px;display:flex;flex-direction:column;gap:10px}
+  .dist h3{margin:0;font-size:18px;color:#5b3fa3;font-family:'Playfair Display',serif}
+  .desc{flex:1;margin-top:8px;padding:12px;border-radius:12px;border:1px solid #eee;background:rgba(255,255,255,0.7);min-height:80px;resize:vertical}
+  .file-row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+  .file-row label{background:#fff;border:1px solid #efe6ee;padding:8px 10px;border-radius:10px;cursor:pointer}
+  .preview{margin-top:8px;border-radius:10px;overflow:hidden;background:linear-gradient(180deg,#fbf7ff,#fff);padding:10px;border:1px dashed rgba(180,150,255,0.25)}
+  .preview video{width:100%;height:auto;border-radius:10px}
+  .pdf-link{display:inline-block;padding:10px 12px;border-radius:10px;background:linear-gradient(135deg,#efe6ff,#fffafc);border:1px solid rgba(200,170,255,0.4);text-decoration:none;color:#4a2f82;font-weight:600;margin-top:8px}
 
-    /* -------------------- TARJETAS GLASS -------------------- */
-    .section{
-        padding:35px;
-        border-radius:28px;
+  /* Panel floating (edit) */
+  .edit-panel{position:fixed;right:18px;bottom:18px;background:var(--card);padding:12px;border-radius:12px;box-shadow:0 14px 40px rgba(80,40,160,0.12);width:320px;z-index:80;transition:transform .18s,opacity .18s}
+  .edit-panel.hidden{transform:translateY(22px);opacity:0.01;pointer-events:none}
+  .edit-panel h4{margin:0 0 8px 0;color:#5b3fa3}
+  .edit-panel input[type=file], .edit-panel input[type=color], .edit-panel input[type=text]{display:block;margin:8px 0;width:100%;padding:8px;border-radius:8px;border:1px solid rgba(200,180,255,0.6)}
+  .edit-row{display:flex;gap:8px}
 
-        background: rgba(255,255,255,0.45);
-        backdrop-filter: blur(18px) saturate(160%);
-        -webkit-backdrop-filter: blur(18px) saturate(160%);
+  footer.footer{text-align:center;color:var(--muted);padding:40px 0 20px}
+  hr.sep{border:0;height:1px;background:linear-gradient(90deg,transparent,#e8ddff,transparent);margin:12px 0}
 
-        border:1px solid rgba(255,255,255,0.4);
-        box-shadow:
-            0 10px 30px rgba(131, 93, 255, 0.18),
-            inset 0 0 22px rgba(255,255,255,0.35);
-
-        transition:0.35s ease;
-        transform:translateY(0);
-    }
-
-    .section:hover{
-        transform: translateY(-6px);
-        box-shadow:
-            0 20px 40px rgba(131, 93, 255, 0.25),
-            inset 0 0 28px rgba(255,255,255,0.55);
-    }
-
-    /* -------------------- TÍTULO DE SECCIÓN -------------------- */
-    h2{
-        margin:0 0 20px 0;
-        font-size:26px;
-        color:#5b3fa3;
-        font-family:'Playfair Display', serif;
-        text-shadow:0 2px 8px rgba(0,0,0,0.1);
-    }
-
-    /* -------------------- TEXTO Y INPUTS -------------------- */
-    .label{
-        font-weight:500;
-        display:block;
-        margin-top:15px;
-        color:#6f4cd9;
-        font-size:15px;
-        text-shadow:0 2px 6px rgba(0,0,0,0.05);
-    }
-
-    textarea{
-        width:100%;
-        height:110px;
-        padding:18px;
-        border-radius:20px;
-        border:1px solid #d3c6ff;
-        margin-top:10px;
-        resize:none;
-        background:rgba(255,255,255,0.7);
-        font-size:15px;
-        outline:none;
-        transition:0.25s;
-    }
-
-    textarea:focus{
-        border-color:#b498ff;
-        box-shadow:0 0 0 4px #eadfff;
-        background:white;
-    }
-
-    input[type="file"]{
-        margin-top:12px;
-        padding:10px;
-        border-radius:14px;
-        background:#f3ecff;
-        border:1px solid #cbb7ff;
-        cursor:pointer;
-        font-size:14px;
-        transition:0.25s;
-    }
-
-    input[type="file"]::-webkit-file-upload-button{
-        background:#cbb7ff;
-        border:none;
-        padding:10px 16px;
-        border-radius:12px;
-        cursor:pointer;
-        font-weight:500;
-        color:#4c3588;
-        transition:0.25s;
-    }
-
-    input[type="file"]::-webkit-file-upload-button:hover{
-        background:#ae90ff;
-        color:white;
-    }
-
-    /* -------------------- PREVIEW -------------------- */
-    .preview{
-        margin-top:25px;
-        border-radius:18px;
-        padding:20px;
-        background:rgba(255,255,255,0.4);
-        border:1px dashed #c0aaff;
-    }
-
-    video{
-        width:100%;
-        max-height:320px;
-        border-radius:18px;
-        margin-bottom:15px;
-        outline:none;
-        box-shadow:0 8px 25px rgba(0,0,0,0.18);
-    }
-
-    a.pdf-link{
-        display:inline-block;
-        background:linear-gradient(135deg, #e3d6ff, #f4edff);
-        padding:14px 22px;
-        border-radius:16px;
-        text-decoration:none;
-        color:#4a2f82;
-        font-weight:600;
-        border:1px solid #c9b7ff;
-        transition:0.25s;
-        font-size:15px;
-        box-shadow:0 6px 15px rgba(0,0,0,0.08);
-    }
-
-    a.pdf-link:hover{
-        background:linear-gradient(135deg, #c7b0ff, #e8d4ff);
-        color:white;
-        box-shadow:0 10px 25px rgba(0,0,0,0.15);
-    }
+  /* small */
+  .muted{color:var(--muted);font-size:13px}
 </style>
 </head>
 <body>
 
-<h1>CAPU Animation</h1>
+<!-- LANDING / LOGIN -->
+<div id="landing-wrap" style="position:fixed;inset:0;display:flex;align-items:center;justify-content:center;z-index:70">
+  <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(255,255,255,0.45),rgba(255,255,255,0.25));backdrop-filter:blur(6px)"></div>
 
-<div class="container">
-
-    <!-- SECCIÓN 1 -->
-    <div class="section" data-id="1">
-        <h2>Sección 1</h2>
-
-        <label class="label">Texto:</label>
-        <textarea class="text"></textarea>
-
-        <label class="label">Subir Video:</label>
-        <input type="file" accept="video/*" class="videoInput">
-
-        <label class="label">Subir PDF:</label>
-        <input type="file" accept="application/pdf" class="pdfInput">
-
-        <div class="preview"></div>
+  <div style="width:92%;max-width:680px;padding:30px;border-radius:20px;background:linear-gradient(180deg,rgba(255,255,255,0.74),rgba(255,255,255,0.62));box-shadow:0 30px 70px rgba(80,40,160,0.14);border:1px solid rgba(255,255,255,0.6);z-index:72">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px">
+      <div>
+        <div style="font-family:'Playfair Display',serif;font-size:30px;color:#5b3fa3">CAPU <span style="color:#a77cf0">Animation</span></div>
+        <div class="muted" style="margin-top:6px">Comparte animaciones con devoción y estilo</div>
+      </div>
+      <div style="text-align:right">
+        <div style="font-size:13px;color:#5b3fa3;margin-bottom:6px">Elige fondo • sube icono</div>
+        <input id="landingBgFile" type="file" accept="image/*" style="display:block;margin-bottom:6px">
+        <input id="landingBgColor" type="color" value="#fff6fb" style="width:56px;height:36px;border-radius:8px;padding:0;border:none">
+      </div>
     </div>
 
-    <!-- SECCIÓN 2 -->
-    <div class="section" data-id="2">
-        <h2>Sección 2</h2>
+    <div style="display:flex;gap:12px;flex-wrap:wrap">
+      <div style="flex:1;min-width:220px">
+        <div style="font-weight:600;margin-bottom:8px">Entrar (correo)</div>
+        <input id="loginEmail" class="inputbox" type="email" placeholder="tu@correo.com" style="width:100%;padding:12px;border-radius:12px;border:1px solid #efe6ee">
+        <button class="small-btn" onclick="login()" style="margin-top:10px">Entrar</button>
+      </div>
 
-        <label class="label">Texto:</label>
-        <textarea class="text"></textarea>
-
-        <label class="label">Subir Video:</label>
-        <input type="file" accept="video/*" class="videoInput">
-
-        <label class="label">Subir PDF:</label>
-        <input type="file" accept="application/pdf" class="pdfInput">
-
-        <div class="preview"></div>
+      <div style="flex:1;min-width:240px">
+        <div style="font-weight:600;margin-bottom:8px">Crear cuenta</div>
+        <input id="regName" type="text" placeholder="Tu nombre completo" style="width:100%;padding:12px;border-radius:12px;border:1px solid #efe6ee;margin-bottom:8px">
+        <input id="regEmail" type="email" placeholder="Correo (Gmail)" style="width:100%;padding:12px;border-radius:12px;border:1px solid #efe6ee;margin-bottom:8px">
+        <input id="regIcon" type="file" accept="image/*" style="display:block;margin-bottom:8px">
+        <button class="small-btn" onclick="register()" style="width:100%">Crear y Entrar</button>
+      </div>
     </div>
 
-    <!-- SECCIÓN 3 -->
-    <div class="section" data-id="3">
-        <h2>Sección 3</h2>
-
-        <label class="label">Texto:</label>
-        <textarea class="text"></textarea>
-
-        <label class="label">Subir Video:</label>
-        <input type="file" accept="video/*" class="videoInput">
-
-        <label class="label">Subir PDF:</label>
-        <input type="file" accept="application/pdf" class="pdfInput">
-
-        <div class="preview"></div>
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-top:14px">
+      <div class="muted">Al crear cuenta, los datos se guardan solo en tu navegador.</div>
+      <div style="font-size:13px" class="muted">Puedes cambiar fondo y favicon luego.</div>
     </div>
+  </div>
+</div>
 
+<!-- HEADER -->
+<header class="app-header" id="appHeader" style="display:none">
+  <div class="left-area">
+    <div class="avatar" id="avatarWrap" title="Cambiar avatar"><img id="avatarImg" src="https://via.placeholder.com/150?text=U"></div>
+    <div>
+      <div class="user-name" id="displayName">Usuario</div>
+      <div class="muted" id="userEmail" style="font-size:12px"></div>
+    </div>
+  </div>
+
+  <div class="right-area">
+    <div class="app-title" id="appTitleWrap"><img id="appIcon" src="https://via.placeholder.com/80?text=CA" alt="icon"><span id="appTitleText">CAPU Animation</span></div>
+    <button id="openPanelHeader" class="small-btn">Personalizar</button>
+    <button id="logoutBtn" class="small-btn">Salir</button>
+  </div>
+</header>
+
+<!-- MAIN -->
+<main id="appMain" style="display:none">
+  <div class="top-card">
+    <div class="top-left">
+      <div class="logo-badge" id="miniLogo">CA</div>
+      <div>
+        <div style="font-weight:700;font-size:18px;color:#52357a" id="welcomeName">Bienvenid@</div>
+        <div class="muted">Tu espacio para animaciones</div>
+      </div>
+    </div>
+    <div class="top-right-controls">
+      <div class="muted">Página guardada en tu navegador</div>
+    </div>
+  </div>
+
+  <section class="card" aria-label="Secciones">
+    <h3 style="margin-top:0;font-family:'Playfair Display',serif;color:#4b2f79">Secciones principales</h3>
+    <div class="grid" id="distsContainer"></div>
+  </section>
+
+  <footer class="footer">CAPU Animation — Hecho con cariño 💜</footer>
+</main>
+
+<!-- EDIT PANEL -->
+<div class="edit-panel hidden" id="editPanel">
+  <h4>Personalizar (usuario / sitio)</h4>
+
+  <div class="muted">Fondo (imagen)</div>
+  <input type="file" id="bgFile" accept="image/*">
+  <div class="muted">o color</div>
+  <input type="color" id="bgColor" value="#fff6fb">
+
+  <hr class="sep">
+
+  <div class="muted">Avatar</div>
+  <input type="file" id="avatarFile" accept="image/*">
+
+  <div class="muted">Favicon / Icono</div>
+  <input type="file" id="favFile" accept="image/*">
+
+  <div class="muted">Nombre de la página</div>
+  <input type="text" id="siteName" placeholder="CAPU Animation">
+
+  <div class="edit-row" style="margin-top:8px">
+    <button class="small-btn" id="applyStyles">Aplicar</button>
+    <button class="small-btn" id="saveStyles">Guardar</button>
+  </div>
+  <div style="margin-top:8px" class="muted">Aplicar cambia la vista. Guardar almacena en tu navegador.</div>
 </div>
 
 <script>
-// MANEJO DE ARCHIVOS
-document.querySelectorAll(".section").forEach(section => {
+  // Simple localStorage user system
+  const $ = id => document.getElementById(id);
+  let users = JSON.parse(localStorage.getItem('capu_users') || '{}');
 
-    const preview = section.querySelector(".preview");
-    const videoInput = section.querySelector(".videoInput");
-    const pdfInput = section.querySelector(".pdfInput");
+  function register(){
+    const name = $('regName').value.trim();
+    const email = $('regEmail').value.trim().toLowerCase();
+    if(!name || !email) return alert('Completa nombre y correo');
+    if(users[email]) return alert('Usuario ya existe. Usa Entrar.');
+    const iconFile = $('regIcon').files[0];
+    if(iconFile){
+      const fr = new FileReader();
+      fr.onload = () => {
+        users[email] = {
+          name, email, avatar: fr.result, dists: createEmptyDists(),
+          bg: localStorage.getItem('capu_bg') || null,
+          bgColor: localStorage.getItem('capu_bg_color') || null,
+          favicon: localStorage.getItem('capu_fav') || null,
+          siteName: localStorage.getItem('capu_site_name') || 'CAPU Animation'
+        };
+        localStorage.setItem('capu_users', JSON.stringify(users));
+        localStorage.setItem('capu_current', email);
+        initApp();
+      };
+      fr.readAsDataURL(iconFile);
+    } else {
+      users[email] = {
+        name, email, avatar: null, dists: createEmptyDists(),
+        bg: localStorage.getItem('capu_bg') || null,
+        bgColor: localStorage.getItem('capu_bg_color') || null,
+        favicon: localStorage.getItem('capu_fav') || null,
+        siteName: localStorage.getItem('capu_site_name') || 'CAPU Animation'
+      };
+      localStorage.setItem('capu_users', JSON.stringify(users));
+      localStorage.setItem('capu_current', email);
+      initApp();
+    }
+  }
 
-    // SUBIR VIDEO
-    videoInput.addEventListener("change", e => {
-        const file = e.target.files[0];
-        if(!file) return;
+  function login(){
+    const email = $('loginEmail').value.trim().toLowerCase();
+    if(!users[email]) return alert('Usuario no existe');
+    localStorage.setItem('capu_current', email);
+    initApp();
+  }
 
-        const url = URL.createObjectURL(file);
+  function logout(){
+    localStorage.removeItem('capu_current');
+    location.reload();
+  }
 
-        preview.innerHTML = `
-            <video controls src="${url}"></video>
-        `;
+  function createEmptyDists(){
+    return [
+      {id:1,title:'Sección 1',text:'',media:[]},
+      {id:2,title:'Sección 2',text:'',media:[]},
+      {id:3,title:'Sección 3',text:'',media:[]},
+    ];
+  }
+
+  function initApp(){
+    const email = localStorage.getItem('capu_current');
+    if(!email || !users[email]) return;
+    const user = users[email];
+
+    // Hide landing, show app
+    document.querySelector('#landing-wrap').style.display = 'none';
+    $('appHeader').style.display = 'flex';
+    $('appMain').style.display = 'block';
+
+    // Header
+    $('displayName').textContent = user.name;
+    $('userEmail').textContent = user.email;
+    $('avatarImg').src = user.avatar || 'https://via.placeholder.com/150?text=U';
+    $('miniLogo').textContent = (user.name || 'U').split(' ')[0].slice(0,2).toUpperCase();
+
+    // Site info
+    const siteName = user.siteName || 'CAPU Animation';
+    $('appTitleText').textContent = siteName;
+    $('siteName').value = siteName;
+    if(user.favicon) setFavicon(user.favicon);
+    if(user.bg) applyBgImage(user.bg);
+    else if(user.bgColor) applyBgColor(user.bgColor);
+
+    renderDists();
+  }
+
+  function renderDists(){
+    const email = localStorage.getItem('capu_current');
+    if(!email) return;
+    const user = users[email];
+    const container = $('distsContainer');
+    container.innerHTML = '';
+
+    // ensure 3
+    user.dists = [
+      user.dists[0] || {id:1,title:'Sección 1',text:'',media:[]},
+      user.dists[1] || {id:2,title:'Sección 2',text:'',media:[]},
+      user.dists[2] || {id:3,title:'Sección 3',text:'',media:[]}
+    ];
+
+    user.dists.forEach((d, idx) => {
+      const box = document.createElement('div'); box.className = 'dist card';
+      box.innerHTML = `
+        <h3 contenteditable="true" class="dist-title">${d.title}</h3>
+        <textarea class="desc" placeholder="Escribe aquí...">${d.text||''}</textarea>
+        <div class="file-row">
+          <label class="small-btn">Subir video <input type="file" accept="video/*" style="display:none" class="video-up"></label>
+          <label class="small-btn">Subir PDF <input type="file" accept="application/pdf" style="display:none" class="pdf-up"></label>
+          <button class="small-btn save-dist">Guardar</button>
+          <button class="small-btn del-media">Borrar medios</button>
+        </div>
+        <div class="preview"></div>
+      `;
+      container.appendChild(box);
+
+      const videoUp = box.querySelector('.video-up');
+      const pdfUp = box.querySelector('.pdf-up');
+      const saveBtn = box.querySelector('.save-dist');
+      const delBtn = box.querySelector('.del-media');
+      const preview = box.querySelector('.preview');
+
+      function paint(){
+        preview.innerHTML = '';
+        (d.media||[]).forEach((m,mi)=>{
+          if(m.type==='video'){
+            const v = document.createElement('video'); v.controls = true; v.src = m.url; preview.appendChild(v);
+          }
+          if(m.type==='pdf'){
+            const a = document.createElement('a'); a.href = m.url; a.target='_blank'; a.className='pdf-link'; a.textContent = '📄 Abrir PDF'; preview.appendChild(a);
+          }
+        });
+      }
+      paint();
+
+      videoUp.addEventListener('change', e=>{
+        const f = e.target.files[0]; if(!f) return;
+        const url = URL.createObjectURL(f);
+        d.media.push({type:'video',url});
+        saveAndRerender();
+      });
+      pdfUp.addEventListener('change', e=>{
+        const f = e.target.files[0]; if(!f) return;
+        const url = URL.createObjectURL(f);
+        d.media.push({type:'pdf',url});
+        saveAndRerender();
+      });
+      saveBtn.addEventListener('click', ()=>{
+        d.title = box.querySelector('.dist-title').textContent.trim();
+        d.text = box.querySelector('.desc').value.trim();
+        saveAndRerender();
+        alert('Sección guardada');
+      });
+      delBtn.addEventListener('click', ()=>{
+        if(!d.media || d.media.length===0) return alert('No hay medios que borrar');
+        if(!confirm('Borrar todos los medios de esta sección?')) return;
+        d.media = [];
+        saveAndRerender();
+      });
+
+      function saveAndRerender(){
+        users[email].dists[idx] = d;
+        localStorage.setItem('capu_users', JSON.stringify(users));
+        renderDists();
+      }
     });
 
-    // SUBIR PDF
-    pdfInput.addEventListener("change", e => {
-        const file = e.target.files[0];
-        if(!file) return;
+    // persist users object
+    localStorage.setItem('capu_users', JSON.stringify(users));
+  }
 
-        const url = URL.createObjectURL(file);
+  // Avatar change (header)
+  $('avatarWrap').addEventListener('click', ()=> $('avatarFile').click());
+  $('avatarFile').addEventListener('change', ev=>{
+    const f = ev.target.files[0]; if(!f) return;
+    const fr = new FileReader(); fr.onload = ()=> {
+      const email = localStorage.getItem('capu_current'); users[email].avatar = fr.result; localStorage.setItem('capu_users', JSON.stringify(users));
+      $('avatarImg').src = fr.result;
+      alert('Avatar actualizado');
+    }; fr.readAsDataURL(f);
+  });
 
-        preview.innerHTML += `
-            <a class="pdf-link" target="_blank" href="${url}">📄 Abrir PDF</a>
-        `;
-    });
+  // Landing background preview/apply
+  $('landingBgFile').addEventListener('change', ev=>{
+    const f = ev.target.files[0]; if(!f) return;
+    const fr = new FileReader(); fr.onload = ()=> {
+      applyBgImage(fr.result);
+      localStorage.setItem('capu_bg', fr.result);
+      // store for current user if logged
+      const email = localStorage.getItem('capu_current'); if(email && users[email]) { users[email].bg = fr.result; localStorage.setItem('capu_users', JSON.stringify(users)); }
+    }; fr.readAsDataURL(f);
+  });
+  $('landingBgColor').addEventListener('input', ev=>{
+    applyBgColor(ev.target.value);
+    localStorage.setItem('capu_bg_color', ev.target.value);
+    const email = localStorage.getItem('capu_current'); if(email && users[email]) { users[email].bgColor = ev.target.value; localStorage.setItem('capu_users', JSON.stringify(users)); }
+  });
 
-});
+  // Edit panel
+  $('openPanelHeader').addEventListener('click', ()=> $('editPanel').classList.toggle('hidden'));
+
+  // Panel file handlers
+  $('bgFile').addEventListener('change', ev=>{
+    const f = ev.target.files[0]; if(!f) return;
+    const fr = new FileReader(); fr.onload = ()=> { stagedBg = {img:fr.result}; applyBgImage(fr.result); };
+    fr.readAsDataURL(f);
+  });
+  $('bgColor').addEventListener('input', ev=>{ stagedBg = {color:ev.target.value}; applyBgColor(ev.target.value); });
+
+  $('favFile').addEventListener('change', ev=>{
+    const f = ev.target.files[0]; if(!f) return;
+    const fr = new FileReader(); fr.onload = ()=> {
+      setFavicon(fr.result);
+      localStorage.setItem('capu_fav', fr.result);
+      const email = localStorage.getItem('capu_current'); if(email && users[email]) { users[email].favicon = fr.result; users[email] && (users[email].favicon = fr.result); localStorage.setItem('capu_users', JSON.stringify(users)); }
+      alert('Favicon aplicado y guardado');
+    };
+    fr.readAsDataURL(f);
+  });
+
+  $('avatarFile').addEventListener('change', ev=>{
+    const f = ev.target.files[0]; if(!f) return;
+    const fr = new FileReader(); fr.onload = ()=> {
+      const email = localStorage.getItem('capu_current'); if(email && users[email]) { users[email].avatar = fr.result; localStorage.setItem('capu_users', JSON.stringify(users)); $('avatarImg').src = fr.result; alert('Avatar actualizado'); }
+    }; fr.readAsDataURL(f);
+  });
+
+  $('applyStyles').addEventListener('click', ()=>{
+    const name = $('siteName').value.trim();
+    if(name){
+      const email = localStorage.getItem('capu_current');
+      $('appTitleText').textContent = name;
+      if(email && users[email]) { users[email].siteName = name; localStorage.setItem('capu_users', JSON.stringify(users)); }
+    }
+    alert('Cambios aplicados (no guardados si no pulsas Guardar).');
+  });
+
+  $('saveStyles').addEventListener('click', ()=>{
+    const email = localStorage.getItem('capu_current');
+    if(!email || !users[email]) return alert('Inicia sesión para guardar estilos');
+    // bg already saved when file/color chosen; site name saved below
+    users[email].siteName = $('siteName').value.trim() || users[email].siteName;
+    localStorage.setItem('capu_users', JSON.stringify(users));
+    alert('Estilos guardados en tu navegador.');
+  });
+
+  // Helper: apply bg image or color
+  let stagedBg = {};
+  function applyBgImage(dataUrl){
+    document.body.style.background = `url('${dataUrl}') center/cover no-repeat, linear-gradient(180deg,var(--bg1),var(--bg2))`;
+  }
+  function applyBgColor(col){
+    document.body.style.background = `linear-gradient(180deg, ${col}, var(--bg2))`;
+  }
+
+  function setFavicon(dataUrl){
+    const link = $('faviconLink');
+    link.href = dataUrl;
+    // ensure page icon element exists / replace
+    let el = document.querySelector('link[rel="icon"]');
+    if(!el){
+      el = document.createElement('link'); el.rel='icon'; document.head.appendChild(el);
+    }
+    el.href = dataUrl;
+    // also change header mini icon image if present
+    $('appIcon').src = dataUrl;
+  }
+
+  // On load: restore global bg if saved
+  window.addEventListener('load', ()=>{
+    // load stored bg/color/fav from localStorage global
+    const bg = localStorage.getItem('capu_bg');
+    const bgc = localStorage.getItem('capu_bg_color');
+    const fav = localStorage.getItem('capu_fav');
+    const siteName = localStorage.getItem('capu_site_name');
+    if(bg) applyBgImage(bg);
+    else if(bgc) applyBgColor(bgc);
+    if(fav) setFavicon(fav);
+    if(siteName) $('appTitleText').textContent = siteName;
+
+    // prefill stage site name
+    $('siteName').value = $('appTitleText').textContent;
+
+    // init avatarFile input for header change
+    // link hidden input for avatar
+    const avatarInput = document.createElement('input'); avatarInput.type='file'; avatarInput.accept='image/*'; avatarInput.id='avatarFile'; avatarInput.style.display='none';
+    document.body.appendChild(avatarInput);
+
+    // if user logged -> init app
+    if(localStorage.getItem('capu_current')) initApp();
+  });
+
+  // allow clicking avatarWrap to open avatarFile (we added the hidden file on load)
+  document.addEventListener('click', function(e){
+    if(e.target.closest('#avatarWrap')) document.getElementById('avatarFile').click();
+  });
+
+  // small: register icon immediate preview to favicon on landing
+  $('regIcon').addEventListener('change', ev=>{
+    const f = ev.target.files[0]; if(!f) return;
+    const fr = new FileReader(); fr.onload = ()=> { $('appIcon').src = fr.result; setFavicon(fr.result); };
+    fr.readAsDataURL(f);
+  });
+
+  // small safety: ensure users variable persisted
+  window.addEventListener('beforeunload', ()=> localStorage.setItem('capu_users', JSON.stringify(users)));
+
+  // expose login/register for console debugging
+  window._capu = {users, renderDists, initApp};
+
 </script>
-
 </body>
 </html>
