@@ -1,89 +1,123 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-<meta charset="UTF-8">
-<title>3 Secciones Video + PDF</title>
-<style>
-body{font-family:Arial;margin:20px;background:#f7f7f7}
-.section{background:#fff;padding:20px;margin-bottom:20px;border-radius:10px;box-shadow:0 0 10px rgba(0,0,0,0.1)}
-button{padding:10px 15px;margin-top:10px;cursor:pointer}
-#modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.7);justify-content:center;align-items:center}
-#modalContent{background:#fff;padding:20px;border-radius:10px;max-width:800px;width:90%;max-height:90vh;overflow:auto}
-#closeModal{float:right;cursor:pointer;padding:5px 10px}
-iframe,video{width:100%;height:400px;margin-top:15px}
-</style>
-</head>
-<body>
+<!-- ==== SECCIONES INTERACTIVAS ==== -->
+<section class="card">
+  <h3>Secciones Interactivas</h3>
+  <div class="grid" id="interactiveSections"></div>
+</section>
 
-<h2>3 Secciones con video y PDF</h2>
-
-<!-- SECCION 1 -->
-<div class="section">
-  <h3>Sección 1</h3>
-  <input type="file" id="video1" accept="video/*">
-  <br><br>
-  <input type="file" id="pdf1" accept="application/pdf">
-  <br><br>
-  <button onclick="abrir(1)">Abrir Contenido</button>
-</div>
-
-<!-- SECCION 2 -->
-<div class="section">
-  <h3>Sección 2</h3>
-  <input type="file" id="video2" accept="video/*">
-  <br><br>
-  <input type="file" id="pdf2" accept="application/pdf">
-  <br><br>
-  <button onclick="abrir(2)">Abrir Contenido</button>
-</div>
-
-<!-- SECCION 3 -->
-<div class="section">
-  <h3>Sección 3</h3>
-  <input type="file" id="video3" accept="video/*">
-  <br><br>
-  <input type="file" id="pdf3" accept="application/pdf">
-  <br><br>
-  <button onclick="abrir(3)">Abrir Contenido</button>
-</div>
-
-<!-- MODAL -->
-<div id="modal">
-  <div id="modalContent">
-    <button id="closeModal">Cerrar</button>
-    <div id="modalBody"></div>
+<!-- ==== MODAL ==== -->
+<div id="modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.7);align-items:center;justify-content:center;z-index:100;">
+  <div style="background:#fff;padding:20px;border-radius:12px;max-width:800px;width:90%;position:relative;">
+    <button id="closeModal" style="position:absolute;top:10px;right:10px;padding:6px 12px;cursor:pointer;">Cerrar</button>
+    <div id="modalContent"></div>
   </div>
 </div>
 
 <script>
-function abrir(n){
-  const video = document.getElementById("video"+n).files[0];
-  const pdf = document.getElementById("pdf"+n).files[0];
-  const modal = document.getElementById("modal");
-  const body = document.getElementById("modalBody");
-  body.innerHTML = "";
+/* ---- FUNCIÓN PARA AGARRAR ELEMENTOS ---- */
+function $(id){ return document.getElementById(id); }
 
-  if(!video && !pdf){
-    body.innerHTML = "<p>No subiste nada aún.</p>";
-  }
+/* ---- TRES SECCIONES ---- */
+let sections = [
+  { id:1, title:"Sección 1", media:[] },
+  { id:2, title:"Sección 2", media:[] },
+  { id:3, title:"Sección 3", media:[] }
+];
 
-  if(video){
-    const url = URL.createObjectURL(video);
-    body.innerHTML += `<video controls src="${url}"></video>`;
-  }
+const interactiveSections = $('interactiveSections');
 
-  if(pdf){
-    const url = URL.createObjectURL(pdf);
-    body.innerHTML += `<iframe src="${url}"></iframe>`;
-  }
+function renderInteractiveSections(){
 
-  modal.style.display = "flex";
+  interactiveSections.innerHTML = '';
+
+  sections.forEach(sec => {
+
+    const div = document.createElement('div');
+    div.className = 'dist';
+
+    div.innerHTML = `
+      <div class="hdr"><h3>${sec.title}</h3></div>
+
+      <div class="file-row">
+        <label class="upload-btn">
+          Subir video
+          <input type="file" accept="video/*" style="display:none">
+        </label>
+
+        <label class="upload-btn">
+          Subir PDF
+          <input type="file" accept="application/pdf" style="display:none">
+        </label>
+      </div>
+
+      <div style="margin-top:10px;text-align:center;">
+        <button class="small-btn view-btn">Ver Contenido</button>
+      </div>
+    `;
+
+    interactiveSections.appendChild(div);
+
+    // Inputs
+    const inputs = div.querySelectorAll('input[type="file"]');
+    const videoInput = inputs[0];
+    const pdfInput = inputs[1];
+
+    /* ---- SUBIR VIDEO ---- */
+    videoInput.addEventListener("change", e => {
+      const file = e.target.files[0];
+      if(!file) return;
+      sec.media.push({ type:"video", url:URL.createObjectURL(file) });
+      alert("¡Video agregado!");
+    });
+
+    /* ---- SUBIR PDF ---- */
+    pdfInput.addEventListener("change", e => {
+      const file = e.target.files[0];
+      if(!file) return;
+      sec.media.push({ type:"pdf", url:URL.createObjectURL(file) });
+      alert("¡PDF agregado!");
+    });
+
+    /* ---- VER CONTENIDO ---- */
+    div.querySelector(".view-btn").addEventListener("click", () => {
+
+      const modal = $('modal');
+      const content = $('modalContent');
+      content.innerHTML = '';
+
+      if(sec.media.length === 0){
+        content.innerHTML = "<p>No hay contenido aún.</p>";
+      }
+      else{
+        sec.media.forEach(m => {
+          if(m.type === "video"){
+            const vid = document.createElement("video");
+            vid.controls = true;
+            vid.src = m.url;
+            vid.style.width = "100%";
+            content.appendChild(vid);
+          }
+
+          if(m.type === "pdf"){
+            const frame = document.createElement("iframe");
+            frame.src = m.url;
+            frame.style.width = "100%";
+            frame.style.height = "500px";
+            content.appendChild(frame);
+          }
+        });
+      }
+
+      modal.style.display = "flex";
+    });
+
+  });
 }
 
-document.getElementById("closeModal").onclick = () => {
-  document.getElementById("modal").style.display = "none";
-}
+/* ---- CERRAR MODAL ---- */
+$('closeModal').addEventListener("click", () => {
+  $('modal').style.display = "none";
+});
+
+/* ---- INICIAR ---- */
+renderInteractiveSections();
 </script>
-
-</body>
-</html>
