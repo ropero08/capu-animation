@@ -1,266 +1,33 @@
-<!doctype html>
-<html lang="es">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>CAPU Animation</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
-<style>
-:root{
-  --primary:#5b3f5b;
-  --muted:#6b6464;
-  --card:#ffffff;
-  --soft-bg: rgba(255,255,255,0.92);
-  --accent1:#f5d6e6;
-  --accent2:#e8f2fb;
-  --round:14px;
-}
-*{box-sizing:border-box;}
-html,body{height:100%;margin:0;font-family:'Poppins',system-ui,Roboto,Arial;color:var(--primary);background:linear-gradient(180deg,#fffaf6,#fff1e6);}
-
-/* LANDING / LOGIN */
-#landing-wrap{
-  position:relative; min-height:100vh; display:flex; align-items:center; justify-content:center;
-  background:linear-gradient(180deg,#fffaf6,#fff1e6); background-size:cover; background-position:center;
-}
-#landing-overlay{position:absolute;inset:0;background:linear-gradient(180deg, rgba(255,255,255,0.12), rgba(255,255,255,0.18));backdrop-filter: blur(3px);}
-
-.card-join{
-  position:relative; z-index:2; width:92%; max-width:640px; padding:36px; border-radius:18px;
-  background:var(--soft-bg); box-shadow:0 18px 50px rgba(20,10,30,0.12); text-align:center;
-}
-
-.title{font-family:'Playfair Display',serif;font-size:42px;color:var(--primary);margin:0 0 6px 0}
-.lead{color:var(--muted);margin-bottom:16px;font-size:15px}
-.input{width:100%;padding:12px 14px;border-radius:12px;border:1px solid #efe6ee;margin-top:10px;font-size:15px}
-.btn{
-  display:inline-block;padding:12px 20px;border-radius:12px;
-  background:linear-gradient(180deg,var(--accent1),#f1cfe1);
-  border:none;font-weight:600;cursor:pointer;color:#3a233a;
-  margin-top:14px;box-shadow:0 8px 22px rgba(100,60,100,0.08)
-}
-.btn:hover{transform:translateY(-3px)}
-.small-tip{font-size:13px;color:var(--muted);margin-top:12px}
-
-/* HEADER */
-header.app-header{
-  display:flex;gap:16px;align-items:center;justify-content:space-between;
-  padding:12px 20px;background:rgba(255,255,255,0.95);
-  position:sticky;top:0;z-index:60;backdrop-filter:blur(6px);
-  box-shadow:0 10px 30px rgba(20,10,30,0.04)
-}
-
-.logo-text{
-  font-weight:700;font-size:20px;color:var(--primary);
-  font-family:'Playfair Display',serif
-}
-
-.user-area{display:flex;align-items:center;gap:12px}
-.username{font-weight:600;color:var(--muted);font-size:14px}
-
-.avatar{width:50px;height:50px;border-radius:50%;overflow:hidden;border:2px solid rgba(0,0,0,0.06);cursor:pointer}
-.avatar img{width:100%;height:100%;object-fit:cover}
-
-/* Layout */
-.container{max-width:1100px;margin:22px auto;padding:0 18px}
-.card{
-  background:var(--card);padding:18px;border-radius:12px;
-  box-shadow:0 10px 30px rgba(20,10,30,0.04)
-}
-
-.grid{
-  display:grid;grid-template-columns:repeat(3,1fr);
-  gap:18px;margin-top:18px;align-items:start
-}
-@media(max-width:980px){.grid{grid-template-columns:1fr}}
-
-/* DISTRIBUTIONS */
-.dist{
-  padding:16px;border-radius:12px;background:linear-gradient(180deg,rgba(255,255,255,0.96),#fff);
-  min-height:260px;display:flex;flex-direction:column;gap:10px
-}
-.dist .hdr{display:flex;align-items:center;justify-content:space-between;gap:10px}
-.dist h3{margin:0;font-size:18px}
-
-.desc{
-  flex:1;margin-top:8px;padding:10px;border-radius:10px;
-  border:1px solid #f0e7f1;min-height:70px;resize:vertical
-}
-
-.file-row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
-.file-row label{
-  background:#fff;border:1px solid #efe6ee;padding:8px 10px;
-  border-radius:10px;cursor:pointer
-}
-
-.preview{
-  margin-top:8px;border-radius:10px;overflow:hidden;
-  background:#faf7fb;padding:8px;border:1px dashed #efe6ee
-}
-
-.preview video,
-.preview iframe,
-.preview img{
-  width:100%;height:auto;display:block;border-radius:8px;
-}
-
-/* Botón PDF */
-.pdf-link{
-  display:block;
-  padding:8px;
-  background:#f7ecff;
-  border-radius:8px;
-  margin-top:6px;
-  color:#5b3f5b;
-  font-weight:600;
-  text-align:center;
-  cursor:pointer;
-}
-
-/* edit */
-.small-btn{padding:8px 10px;border-radius:10px;border:1px solid #efe6ee;background:#fff;cursor:pointer}
-
-.footer{text-align:center;color:var(--muted);padding:28px 0}
-
-input:focus, textarea:focus, button:focus {
-  outline: 3px solid rgba(165,122,166,0.12); outline-offset:3px
-}
-</style>
-</head>
-<body>
-<div id="landing-wrap">
-  <div id="landing-overlay"></div>
-  <div class="card-join">
-    <div class="title">CAPU ANIMATION</div>
-    <div class="lead">Comparte animaciones, formación y devoción</div>
-
-    <!-- LOGIN -->
-    <input class="input" type="email" id="loginEmail" placeholder="Correo">
-    <button class="btn" onclick="login()">Entrar</button>
-    <hr>
-
-    <!-- REGISTER -->
-    <input id="regName" class="input" type="text" placeholder="Tu nombre completo">
-    <input id="regEmail" class="input" type="email" placeholder="Tu correo">
-    <button class="btn" onclick="register()">Crear cuenta y entrar</button>
-    <div class="small-tip">El fondo y avatar se guardan en tu navegador 🎨</div>
-  </div>
-</div>
-
-<header class="app-header" id="appHeader" style="display:none">
-  <div class="logo-left">
-    <div class="logo-text">CAPU <span style="color:#a57aa6">Animation</span></div>
-  </div>
-  <div class="user-area">
-    <div class="username" id="displayName"></div>
-    <div class="avatar" id="avatarWrap">
-      <img id="avatarImg" src="https://via.placeholder.com/120?text=U">
-    </div>
-  </div>
-  <button id="logoutBtn" class="small-btn">Salir</button>
-</header>
-
-<main id="appMain" style="display:none">
-  <div class="container">
-    <section class="card">
-      <h2>Bienvenid@, <span id="welcomeName"></span></h2>
-      <p style="color:var(--muted)">Sube videos y PDFs. Al tocarlos se abren al instante.</p>
-    </section>
-
-    <!-- 3 SECCIONES -->
-    <section class="card">
-      <h3>Secciones principales</h3>
-      <div class="grid" id="distsContainer"></div>
-    </section>
-
-    <footer class="footer">CAPU Animation — Guardado en tu navegador</footer>
-  </div>
-</main>
-
-<script>
-const $ = id => document.getElementById(id);
-let users = JSON.parse(localStorage.getItem('capu_users') || '{}');
-
-// =============== AUTH ==================
-function register(){
-  const name = $('regName').value.trim();
-  const email = $('regEmail').value.trim();
-  if(!name || !email) return alert('Completa los campos');
-  if(users[email]) return alert('El usuario ya existe');
-
-  users[email] = {
-    name,
-    email,
-    avatar:null,
-    dists:[
-      { id:1, title:"Sección 1", text:"", media:[] },
-      { id:2, title:"Sección 2", text:"", media:[] },
-      { id:3, title:"Sección 3", text:"", media:[] }
-    ]
-  };
-  localStorage.setItem('capu_users', JSON.stringify(users));
-  localStorage.setItem('capu_current', email);
-  initApp();
-}
-
-function login(){
-  const email = $('loginEmail').value.trim();
-  if(!users[email]) return alert('Usuario no existe');
-  localStorage.setItem('capu_current', email);
-  initApp();
-}
-
-function logout(){
-  localStorage.removeItem('capu_current');
-  location.reload();
-}
-
-// =============== APP ==================
-function initApp(){
-  const email = localStorage.getItem('capu_current');
-  if(!email || !users[email]) return;
-
-  const user = users[email];
-
-  $('landing-wrap').style.display = 'none';
-  $('appHeader').style.display = 'flex';
-  $('appMain').style.display = 'block';
-
-  $('welcomeName').textContent = user.name;
-  $('displayName').textContent = user.name;
-  $('avatarImg').src = user.avatar || "https://via.placeholder.com/120?text=U";
-
-  renderDists();
-}
-
-// =============== RENDER SECTIONS ==================
 function renderDists(){
   const container = $('distsContainer');
-  container.innerHTML = '';
+  container.innerHTML='';
 
   const email = localStorage.getItem('capu_current');
-  const user = users[email];
+  let user = users[email];
 
-  user.dists.forEach((dist, index) => {
+  // Siempre 3 secciones
+  user.dists = [
+    user.dists[0] || {id:1,title:'Sección 1',text:'',media:[]},
+    user.dists[1] || {id:2,title:'Sección 2',text:'',media:[]},
+    user.dists[2] || {id:3,title:'Sección 3',text:'',media:[]}
+  ];
+  localStorage.setItem('capu_users',JSON.stringify(users));
 
-    const card = document.createElement('div');
-    card.className = "dist";
+  user.dists.forEach((d,idx)=>{
+    const box = document.createElement('div'); 
+    box.className='dist';
 
-    card.innerHTML = `
-      <div class="hdr">
-        <h3 contenteditable="true" class="dist-title">${dist.title}</h3>
-      </div>
-
-      <textarea class="desc">${dist.text}</textarea>
+    box.innerHTML = `
+      <div class="hdr"><h3 contenteditable="true" class="dist-title">${d.title}</h3></div>
+      <textarea class="desc">${d.text}</textarea>
 
       <div class="file-row">
         <label>Subir video
-          <input type="file" accept="video/*" class="video-in" style="display:none">
+            <input type="file" accept="video/*" class="video-up" style="display:none">
         </label>
 
         <label>Subir PDF
-          <input type="file" accept="application/pdf" class="pdf-in" style="display:none">
+            <input type="file" accept="application/pdf" class="pdf-up" style="display:none">
         </label>
 
         <button class="small-btn save-dist">Guardar</button>
@@ -269,308 +36,72 @@ function renderDists(){
       <div class="preview"></div>
     `;
 
-    container.appendChild(card);
+    container.appendChild(box);
 
-    const preview = card.querySelector(".preview");
+    const videoUp = box.querySelector(".video-up");
+    const pdfUp   = box.querySelector(".pdf-up");
+    const preview = box.querySelector(".preview");
+    const saveBtn = box.querySelector(".save-dist");
 
-    // Mostrar media guardada
+    // ---- PINTAR MEDIOS ----
     function paintMedia(){
       preview.innerHTML = "";
-      dist.media.forEach(m => {
 
+      d.media.forEach(m=>{
         if(m.type === "video"){
           const v = document.createElement("video");
           v.controls = true;
           v.src = m.url;
+          v.style.maxHeight = "220px";
           preview.appendChild(v);
         }
 
         if(m.type === "pdf"){
-          const pdfBtn = document.createElement("div");
-          pdfBtn.className = "pdf-link";
-          pdfBtn.textContent = "📄 Abrir PDF";
-          pdfBtn.onclick = () => window.open(m.url, "_blank");
-          preview.appendChild(pdfBtn);
+          const link = document.createElement("a");
+          link.href = m.url;
+          link.textContent = "Abrir PDF 📄";
+          link.target = "_blank";
+          link.style.display = "block";
+          link.style.padding = "8px";
+          link.style.marginTop = "6px";
+          link.style.background = "#f5f2f8";
+          link.style.borderRadius = "10px";
+          preview.appendChild(link);
         }
-
       });
     }
     paintMedia();
 
-
-    // SUBIR VIDEO
-    card.querySelector(".video-in").addEventListener('change', e=>{
-      const f = e.target.files[0];
+    // ---- SUBIR VIDEO ----
+    videoUp.addEventListener("change", ev=>{
+      const f = ev.target.files[0];
       if(!f) return;
       const url = URL.createObjectURL(f);
-
-      dist.media.push({ type:"video", url });
-      save();
+      d.media.push({type:"video", url});
+      saveAndRerender();
     });
 
-    // SUBIR PDF
-    card.querySelector(".pdf-in").addEventListener('change', e=>{
-      const f = e.target.files[0];
+    // ---- SUBIR PDF ----
+    pdfUp.addEventListener("change", ev=>{
+      const f = ev.target.files[0];
       if(!f) return;
       const url = URL.createObjectURL(f);
-
-      dist.media.push({ type:"pdf", url });
-      save();
+      d.media.push({type:"pdf", url});
+      saveAndRerender();
     });
 
-    // GUARDAR CAMBIOS
-    card.querySelector(".save-dist").addEventListener("click", ()=>{
-      dist.title = card.querySelector(".dist-title").textContent.trim();
-      dist.text  = card.querySelector(".desc").value.trim();
-      save();
-      alert("Sección guardada ✔");
+    // ---- GUARDAR ----
+    saveBtn.addEventListener("click", ()=>{
+      d.title = box.querySelector(".dist-title").textContent.trim();
+      d.text  = box.querySelector(".desc").value.trim();
+      saveAndRerender();
+      alert("Sección guardada");
     });
 
-    function save(){
-      users[email].dists[index] = dist;
-      localStorage.setItem('capu_users', JSON.stringify(users));
+    function saveAndRerender(){
+      users[email].dists[idx] = d;
+      localStorage.setItem("capu_users", JSON.stringify(users));
       renderDists();
     }
-
   });
 }
-
-// =============== AVATAR ==================
-$('avatarWrap').addEventListener("click", ()=>{
-  let input = document.createElement("input");
-  input.type = "file";
-  input.accept = "image/*";
-  input.onchange = e => {
-    const f = e.target.files[0];
-    if(!f) return;
-
-    const fr = new FileReader();
-    fr.onload = ()=>{
-      $('avatarImg').src = fr.result;
-      const email = localStorage.getItem('capu_current');
-      users[email].avatar = fr.result;
-      localStorage.setItem('capu_users', JSON.stringify(users));
-    };
-    fr.readAsDataURL(f);
-  };
-  input.click();
-});
-
-window.addEventListener("load", ()=>{
-  if(localStorage.getItem("capu_current"))
-    initApp();
-});
-</script>
-<script>
-// =========================
-//   SISTEMA DE SECCIONES
-// =========================
-
-let sections = JSON.parse(localStorage.getItem("sections")) || [
-  { title: "Sección 1", text: "", media: [] },
-  { title: "Sección 2", text: "", media: [] },
-  { title: "Sección 3", text: "", media: [] }
-];
-
-function saveSections() {
-  localStorage.setItem("sections", JSON.stringify(sections));
-}
-
-function renderSections() {
-  const container = document.getElementById("sections-container");
-  container.innerHTML = "";
-
-  sections.forEach((sec, index) => {
-    const box = document.createElement("div");
-    box.className = "section-box";
-
-    box.innerHTML = `
-      <div class="section-title" contenteditable="true" 
-      oninput="updateTitle(${index}, this.innerText)">
-        ${sec.title}
-      </div>
-
-      <textarea class="section-text"
-      placeholder="Escribe aquí..."
-      oninput="updateText(${index}, this.value)">${sec.text}</textarea>
-
-      <div class="file-inputs">
-        <label class="file-button">
-          Subir Video
-          <input type="file" accept="video/*" onchange="uploadFile(event, ${index}, 'video')">
-        </label>
-
-        <label class="file-button">
-          Subir PDF
-          <input type="file" accept="application/pdf" onchange="uploadFile(event, ${index}, 'pdf')">
-        </label>
-      </div>
-
-      <div class="media-gallery" id="media-${index}"></div>
-    `;
-
-    container.appendChild(box);
-    paintMedia(index);
-  });
-}
-
-function updateTitle(i, text) {
-  sections[i].title = text;
-  saveSections();
-}
-
-function updateText(i, text) {
-  sections[i].text = text;
-  saveSections();
-}
-
-function uploadFile(event, index, type) {
-  const file = event.target.files[0];
-  if (!file) return;
-
-  const reader = new FileReader();
-
-  reader.onload = function(e) {
-    sections[index].media.push({
-      type,
-      url: e.target.result,
-      name: file.name
-    });
-
-    saveSections();
-    paintMedia(index);
-  };
-
-  reader.readAsDataURL(file);
-}
-
-function paintMedia(index) {
-  const gallery = document.getElementById("media-" + index);
-  gallery.innerHTML = "";
-
-  sections[index].media.forEach((m, i) => {
-    const item = document.createElement("div");
-    item.className = "media-item";
-
-    if (m.type === "video") {
-      const v = document.createElement("video");
-      v.src = m.url;
-      v.controls = true;
-      v.className = "media-preview";
-      item.appendChild(v);
-    }
-
-    if (m.type === "pdf") {
-      const a = document.createElement("a");
-      a.href = m.url;
-      a.target = "_blank";
-      a.className = "pdf-link";
-      a.textContent = "📄 " + m.name;
-      item.appendChild(a);
-    }
-
-    gallery.appendChild(item);
-  });
-}
-</script>
-<script>
-// =====================
-//  LOGIN / REGISTRO
-// =====================
-
-document.addEventListener("DOMContentLoaded", () => {
-  const savedUser = localStorage.getItem("userData");
-  if (savedUser) {
-    document.getElementById("login-screen").classList.add("hidden");
-    document.getElementById("main-screen").classList.remove("hidden");
-
-    const user = JSON.parse(savedUser);
-    document.getElementById("display-username").innerText = user.name || "";
-    if (user.avatar) {
-      document.getElementById("profile-avatar").src = user.avatar;
-    }
-    if (user.background) {
-      document.body.style.backgroundImage = `url(${user.background})`;
-    }
-  }
-});
-
-// CREAR CUENTA
-function createAccount() {
-  const name = document.getElementById("reg-name").value;
-  const email = document.getElementById("reg-email").value;
-
-  if (!name || !email) {
-    alert("Rellena todos los campos.");
-    return;
-  }
-
-  const user = { name, email, avatar: "", background: "" };
-  localStorage.setItem("userData", JSON.stringify(user));
-
-  alert("Cuenta creada. Ahora inicia sesión.");
-}
-
-// INICIAR SESIÓN
-function login() {
-  const email = document.getElementById("login-email").value;
-  const saved = JSON.parse(localStorage.getItem("userData"));
-
-  if (!saved || saved.email !== email) {
-    alert("Correo incorrecto o cuenta no existe.");
-    return;
-  }
-
-  document.getElementById("login-screen").classList.add("hidden");
-  document.getElementById("main-screen").classList.remove("hidden");
-
-  document.getElementById("display-username").innerText = saved.name;
-
-  if (saved.avatar) {
-    document.getElementById("profile-avatar").src = saved.avatar;
-  }
-
-  if (saved.background) {
-    document.body.style.backgroundImage = `url(${saved.background})`;
-  }
-
-  renderSections();
-}
-
-// SUBIR FOTO PERFIL
-function uploadAvatar(event) {
-  const file = event.target.files[0];
-  const reader = new FileReader();
-
-  reader.onload = e => {
-    const img = e.target.result;
-    document.getElementById("profile-avatar").src = img;
-
-    let user = JSON.parse(localStorage.getItem("userData"));
-    user.avatar = img;
-    localStorage.setItem("userData", JSON.stringify(user));
-  };
-
-  reader.readAsDataURL(file);
-}
-
-// SUBIR FONDO
-function uploadBackground(event) {
-  const file = event.target.files[0];
-  const reader = new FileReader();
-
-  reader.onload = e => {
-    const img = e.target.result;
-    document.body.style.backgroundImage = `url(${img})`;
-
-    let user = JSON.parse(localStorage.getItem("userData"));
-    user.background = img;
-    localStorage.setItem("userData", JSON.stringify(user));
-  };
-
-  reader.readAsDataURL(file);
-}
-</script>
-
-</body>
-</html>
