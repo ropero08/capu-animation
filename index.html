@@ -5,137 +5,205 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>CAPU Animation</title>
 
+<link href="https://fonts.googleapis.com/css2?family:Poppins:wght@300;400;500;600&family:Playfair+Display:wght@600&display=swap" rel="stylesheet">
+
 <style>
     body{
         margin:0;
-        padding:20px;
-        font-family: Arial, sans-serif;
-        background:#e3d9f5;
+        padding:40px;
+        font-family: 'Poppins', sans-serif;
+        background: linear-gradient(135deg, #ece4ff, #fdfaff);
     }
 
     h1{
         text-align:center;
-        margin-bottom:30px;
-        color:#4a3d79;
+        color:#5b3fa3;
+        font-family: 'Playfair Display', serif;
+        font-size:42px;
+        margin-bottom:40px;
+        letter-spacing:1px;
+    }
+
+    .container{
+        max-width:900px;
+        margin:auto;
+        display:flex;
+        flex-direction:column;
+        gap:35px;
     }
 
     .section{
         background:white;
-        padding:20px;
-        margin-bottom:25px;
-        border-radius:15px;
-        box-shadow:0 4px 10px rgba(0,0,0,0.1);
+        padding:30px;
+        border-radius:22px;
+        box-shadow:0 8px 25px rgba(0,0,0,0.08);
+        border:1px solid #f1eaff;
+        transition:0.3s ease;
+    }
+
+    .section:hover{
+        transform: translateY(-3px);
+        box-shadow:0 12px 35px rgba(0,0,0,0.12);
+    }
+
+    h2{
+        margin:0 0 15px 0;
+        font-size:24px;
+        color:#5b3fa3;
+        font-family:'Playfair Display', serif;
     }
 
     .label{
-        font-weight:bold;
-        margin-top:10px;
+        font-weight:500;
         display:block;
+        margin-top:15px;
+        color:#5b3fa3;
+        font-size:15px;
     }
 
     textarea{
         width:100%;
-        height:80px;
-        padding:10px;
-        border-radius:10px;
-        border:1px solid #ccc;
-        margin-top:10px;
+        height:100px;
+        padding:15px;
+        border-radius:18px;
+        border:1px solid #d9cfff;
+        margin-top:8px;
         resize:none;
+        background:#fbf9ff;
+        font-size:14px;
+        outline:none;
+        transition:0.2s;
+    }
+
+    textarea:focus{
+        border-color:#b498ff;
+        box-shadow:0 0 0 3px #e8deff;
+        background:white;
+    }
+
+    input[type="file"]{
+        margin-top:10px;
+        padding:8px;
+        border-radius:12px;
+        background:#f7f2ff;
+        border:1px solid #d7c6ff;
+        cursor:pointer;
+        font-size:14px;
+    }
+
+    input[type="file"]::-webkit-file-upload-button{
+        background:#d7c6ff;
+        border:none;
+        padding:8px 14px;
+        border-radius:10px;
+        cursor:pointer;
+        transition:0.2s;
+    }
+
+    input[type="file"]::-webkit-file-upload-button:hover{
+        background:#b59eff;
     }
 
     .preview{
-        margin-top:15px;
+        margin-top:20px;
+        border-radius:15px;
+        padding:15px;
+        background:#faf7ff;
+        border:1px dashed #c9b7ff;
     }
 
     video{
         width:100%;
-        max-height:280px;
-        border-radius:12px;
-        margin-top:10px;
+        max-height:300px;
+        border-radius:14px;
+        margin-bottom:15px;
+        outline:none;
     }
 
     a.pdf-link{
-        display:block;
-        background:#f8f5ff;
-        padding:12px;
-        border-radius:12px;
-        margin-top:10px;
+        display:inline-block;
+        background:#e8deff;
+        padding:12px 18px;
+        border-radius:14px;
         text-decoration:none;
-        color:#4a3d79;
-        font-weight:bold;
-        border:1px solid #d9cfff;
+        color:#4a2f82;
+        font-weight:600;
+        border:1px solid #c9b7ff;
+        transition:0.25s;
+        font-size:14px;
     }
 
+    a.pdf-link:hover{
+        background:#c9b7ff;
+        color:white;
+    }
 </style>
 </head>
 <body>
 
-<h1>CAPU Animation – Secciones</h1>
+<h1>CAPU Animation</h1>
 
-<!-- =============================
-     SECCIÓN 1
-============================= -->
-<div class="section" data-id="1">
-    <h2>Sección 1</h2>
+<div class="container">
 
-    <label class="label">Texto:</label>
-    <textarea class="text"></textarea>
+    <!-- SECCIÓN 1 -->
+    <div class="section" data-id="1">
+        <h2>Sección 1</h2>
 
-    <label class="label">Subir Video:</label>
-    <input type="file" accept="video/*" class="videoInput">
+        <label class="label">Texto:</label>
+        <textarea class="text"></textarea>
 
-    <label class="label">Subir PDF:</label>
-    <input type="file" accept="application/pdf" class="pdfInput">
+        <label class="label">Subir Video:</label>
+        <input type="file" accept="video/*" class="videoInput">
 
-    <div class="preview"></div>
+        <label class="label">Subir PDF:</label>
+        <input type="file" accept="application/pdf" class="pdfInput">
+
+        <div class="preview"></div>
+    </div>
+
+    <!-- SECCIÓN 2 -->
+    <div class="section" data-id="2">
+        <h2>Sección 2</h2>
+
+        <label class="label">Texto:</label>
+        <textarea class="text"></textarea>
+
+        <label class="label">Subir Video:</label>
+        <input type="file" accept="video/*" class="videoInput">
+
+        <label class="label">Subir PDF:</label>
+        <input type="file" accept="application/pdf" class="pdfInput">
+
+        <div class="preview"></div>
+    </div>
+
+    <!-- SECCIÓN 3 -->
+    <div class="section" data-id="3">
+        <h2>Sección 3</h2>
+
+        <label class="label">Texto:</label>
+        <textarea class="text"></textarea>
+
+        <label class="label">Subir Video:</label>
+        <input type="file" accept="video/*" class="videoInput">
+
+        <label class="label">Subir PDF:</label>
+        <input type="file" accept="application/pdf" class="pdfInput">
+
+        <div class="preview"></div>
+    </div>
+
 </div>
-
-<!-- =============================
-     SECCIÓN 2
-============================= -->
-<div class="section" data-id="2">
-    <h2>Sección 2</h2>
-
-    <label class="label">Texto:</label>
-    <textarea class="text"></textarea>
-
-    <label class="label">Subir Video:</label>
-    <input type="file" accept="video/*" class="videoInput">
-
-    <label class="label">Subir PDF:</label>
-    <input type="file" accept="application/pdf" class="pdfInput">
-
-    <div class="preview"></div>
-</div>
-
-<!-- =============================
-     SECCIÓN 3
-============================= -->
-<div class="section" data-id="3">
-    <h2>Sección 3</h2>
-
-    <label class="label">Texto:</label>
-    <textarea class="text"></textarea>
-
-    <label class="label">Subir Video:</label>
-    <input type="file" accept="video/*" class="videoInput">
-
-    <label class="label">Subir PDF:</label>
-    <input type="file" accept="application/pdf" class="pdfInput">
-
-    <div class="preview"></div>
-</div>
-
 
 <script>
-// MANEJO DE VIDEOS Y PDF PARA CADA SECCIÓN
+// MANEJO DE ARCHIVOS
 document.querySelectorAll(".section").forEach(section => {
 
     const preview = section.querySelector(".preview");
     const videoInput = section.querySelector(".videoInput");
     const pdfInput = section.querySelector(".pdfInput");
 
-    // --- SUBIR VIDEO ---
+    // SUBIR VIDEO
     videoInput.addEventListener("change", e => {
         const file = e.target.files[0];
         if(!file) return;
@@ -147,7 +215,7 @@ document.querySelectorAll(".section").forEach(section => {
         `;
     });
 
-    // --- SUBIR PDF ---
+    // SUBIR PDF
     pdfInput.addEventListener("change", e => {
         const file = e.target.files[0];
         if(!file) return;
