@@ -5,243 +5,161 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>CAPU Animation</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
-
 <style>
-:root{
-  --primary:#5b3f5b;
-  --muted:#6b6464;
-  --card:#ffffff;
-  --soft-bg: rgba(255,255,255,0.92);
-  --accent1:#f5d6e6;
-  --accent2:#e8f2fb;
-  --round:14px;
-}
-*{box-sizing:border-box;}
-html,body{height:100%;margin:0;font-family:'Poppins',system-ui,Roboto,Arial;color:var(--primary);background:linear-gradient(180deg,#fffaf6,#fff1e6);}
+    body{
+        margin:0;
+        padding:20px;
+        font-family: Arial, sans-serif;
+        background:#e3d9f5;
+    }
 
-/* LANDING */
-#landing-wrap{
-  position:relative; min-height:100vh; display:flex; align-items:center; justify-content:center;
-  background:linear-gradient(180deg,#fffaf6,#fff1e6);
-}
-#landing-overlay{position:absolute;inset:0;background:linear-gradient(180deg, rgba(255,255,255,0.12), rgba(255,255,255,0.18));backdrop-filter: blur(3px);}
-.card-join{position:relative; z-index:2; width:92%; max-width:640px; padding:36px; border-radius:18px; background:var(--soft-bg); box-shadow:0 18px 50px rgba(20,10,30,0.12); text-align:center;}
-.title{font-family:'Playfair Display',serif;font-size:42px;color:var(--primary);margin:0 0 6px 0}
-.lead{color:var(--muted);margin-bottom:16px;font-size:15px}
-.input{width:100%;padding:12px 14px;border-radius:12px;border:1px solid #efe6ee;margin-top:10px;font-size:15px}
-.btn{display:inline-block;padding:12px 20px;border-radius:12px;background:linear-gradient(180deg,var(--accent1),#f1cfe1);border:none;font-weight:600;cursor:pointer;color:#3a233a;margin-top:14px;box-shadow:0 8px 22px rgba(100,60,100,0.08)}
-.btn:hover{transform:translateY(-3px)}
-.small-tip{font-size:13px;color:var(--muted);margin-top:12px}
+    h1{
+        text-align:center;
+        margin-bottom:30px;
+        color:#4a3d79;
+    }
 
-/* HEADER */
-header.app-header{display:flex;gap:16px;align-items:center;justify-content:space-between;padding:12px 20px;background:rgba(255,255,255,0.95);position:sticky;top:0;z-index:60;backdrop-filter:blur(6px);box-shadow:0 10px 30px rgba(20,10,30,0.04)}
-.logo-left{display:flex;align-items:center;gap:12px}
-.logo-text{font-weight:700;font-size:20px;color:var(--primary);font-family:'Playfair Display',serif}
-.user-area{display:flex;align-items:center;gap:12px}
-.username{font-weight:600;color:var(--muted);font-size:14px}
-.avatar{width:50px;height:50px;border-radius:50%;overflow:hidden;border:2px solid rgba(0,0,0,0.06);cursor:pointer}
-.avatar img{width:100%;height:100%;object-fit:cover}
+    .section{
+        background:white;
+        padding:20px;
+        margin-bottom:25px;
+        border-radius:15px;
+        box-shadow:0 4px 10px rgba(0,0,0,0.1);
+    }
 
-.container{max-width:1100px;margin:22px auto;padding:0 18px}
-.card{background:var(--card);padding:18px;border-radius:12px;box-shadow:0 10px 30px rgba(20,10,30,0.04)}
-.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:18px;align-items:start}
-@media(max-width:980px){.grid{grid-template-columns:1fr}}
+    .label{
+        font-weight:bold;
+        margin-top:10px;
+        display:block;
+    }
 
-.dist{padding:16px;border-radius:12px;background:linear-gradient(180deg,rgba(255,255,255,0.96),#fff);min-height:260px;display:flex;flex-direction:column;gap:10px}
-.dist .hdr{display:flex;align-items:center;justify-content:space-between;gap:10px}
-.dist h3{margin:0;font-size:18px}
-.desc{flex:1;margin-top:8px;padding:10px;border-radius:10px;border:1px solid #f0e7f1;min-height:70px;resize:vertical}
-.file-row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
-.file-row label{background:#fff;border:1px solid #efe6ee;padding:8px 10px;border-radius:10px;cursor:pointer}
-.preview{margin-top:8px;border-radius:10px;overflow:hidden;background:#faf7fb;padding:8px;border:1px dashed #efe6ee}
-.preview video,.preview iframe,.preview img{width:100%;height:auto;display:block;border-radius:8px}
+    textarea{
+        width:100%;
+        height:80px;
+        padding:10px;
+        border-radius:10px;
+        border:1px solid #ccc;
+        margin-top:10px;
+        resize:none;
+    }
 
-.small-btn{padding:8px 10px;border-radius:10px;border:1px solid #efe6ee;background:#fff;cursor:pointer}
+    .preview{
+        margin-top:15px;
+    }
 
-.footer{text-align:center;color:var(--muted);padding:28px 0}
+    video{
+        width:100%;
+        max-height:280px;
+        border-radius:12px;
+        margin-top:10px;
+    }
+
+    a.pdf-link{
+        display:block;
+        background:#f8f5ff;
+        padding:12px;
+        border-radius:12px;
+        margin-top:10px;
+        text-decoration:none;
+        color:#4a3d79;
+        font-weight:bold;
+        border:1px solid #d9cfff;
+    }
+
 </style>
 </head>
 <body>
 
-<!-- LOGIN -->
-<div id="landing-wrap">
-  <div id="landing-overlay"></div>
-  <div class="card-join">
-    <div class="title">CAPU ANIMATION</div>
-    <div class="lead">Comparte animaciones, formación y devoción</div>
+<h1>CAPU Animation – Secciones</h1>
 
-    <input class="input" type="email" id="loginEmail" placeholder="Correo">
-    <button class="btn" onclick="login()">Entrar</button>
-    <hr>
+<!-- =============================
+     SECCIÓN 1
+============================= -->
+<div class="section" data-id="1">
+    <h2>Sección 1</h2>
 
-    <input id="regName" class="input" type="text" placeholder="Tu nombre completo">
-    <input id="regEmail" class="input" type="email" placeholder="Tu correo">
-    <button class="btn" onclick="register()">Crear cuenta y entrar</button>
-  </div>
+    <label class="label">Texto:</label>
+    <textarea class="text"></textarea>
+
+    <label class="label">Subir Video:</label>
+    <input type="file" accept="video/*" class="videoInput">
+
+    <label class="label">Subir PDF:</label>
+    <input type="file" accept="application/pdf" class="pdfInput">
+
+    <div class="preview"></div>
 </div>
 
-<!-- APP -->
-<header class="app-header" id="appHeader" style="display:none">
-  <div class="logo-left"><div class="logo-text">CAPU <span style="color:#a57aa6">Animation</span></div></div>
-  <div class="user-area">
-    <div class="username" id="displayName"></div>
-    <div class="avatar" id="avatarWrap"><img id="avatarImg" src="https://via.placeholder.com/120?text=U"></div>
-  </div>
-  <button id="logoutBtn" class="small-btn">Salir</button>
-</header>
+<!-- =============================
+     SECCIÓN 2
+============================= -->
+<div class="section" data-id="2">
+    <h2>Sección 2</h2>
 
-<main id="appMain" style="display:none">
-  <div class="container">
-    <section class="card">
-      <h2>Bienvenid@, <span id="welcomeName"></span></h2>
-      <p style="color:var(--muted)">Sube videos y PDF en cada una de las 3 secciones.</p>
-    </section>
+    <label class="label">Texto:</label>
+    <textarea class="text"></textarea>
 
-    <section class="card">
-      <h3>Secciones principales</h3>
-      <div class="grid" id="distsContainer"></div>
-    </section>
+    <label class="label">Subir Video:</label>
+    <input type="file" accept="video/*" class="videoInput">
 
-    <footer class="footer">CAPU Animation — Guardado local</footer>
-  </div>
-</main>
+    <label class="label">Subir PDF:</label>
+    <input type="file" accept="application/pdf" class="pdfInput">
+
+    <div class="preview"></div>
+</div>
+
+<!-- =============================
+     SECCIÓN 3
+============================= -->
+<div class="section" data-id="3">
+    <h2>Sección 3</h2>
+
+    <label class="label">Texto:</label>
+    <textarea class="text"></textarea>
+
+    <label class="label">Subir Video:</label>
+    <input type="file" accept="video/*" class="videoInput">
+
+    <label class="label">Subir PDF:</label>
+    <input type="file" accept="application/pdf" class="pdfInput">
+
+    <div class="preview"></div>
+</div>
+
 
 <script>
-const $ = id => document.getElementById(id);
-let users = JSON.parse(localStorage.getItem('capu_users')||'{}');
+// MANEJO DE VIDEOS Y PDF PARA CADA SECCIÓN
+document.querySelectorAll(".section").forEach(section => {
 
-function register(){
-  const name = $('regName').value.trim();
-  const email = $('regEmail').value.trim();
-  if(!name || !email) return alert('Completa los campos');
-  users[email] = {name,email,avatar:null,dists:[
-    {id:1,title:"Sección 1",text:"",media:[]},
-    {id:2,title:"Sección 2",text:"",media:[]},
-    {id:3,title:"Sección 3",text:"",media:[]}
-  ]};
-  localStorage.setItem('capu_users',JSON.stringify(users));
-  localStorage.setItem('capu_current',email);
-  initApp();
-}
+    const preview = section.querySelector(".preview");
+    const videoInput = section.querySelector(".videoInput");
+    const pdfInput = section.querySelector(".pdfInput");
 
-function login(){
-  const email = $('loginEmail').value.trim();
-  if(!users[email]) return alert('Usuario no existe');
-  localStorage.setItem('capu_current',email);
-  initApp();
-}
+    // --- SUBIR VIDEO ---
+    videoInput.addEventListener("change", e => {
+        const file = e.target.files[0];
+        if(!file) return;
 
-function logout(){ localStorage.removeItem('capu_current'); location.reload(); }
+        const url = URL.createObjectURL(file);
 
-function initApp(){
-  const email = localStorage.getItem('capu_current');
-  const user = users[email];
-  $('landing-wrap').style.display='none';
-  $('appHeader').style.display='flex';
-  $('appMain').style.display='block';
-  $('welcomeName').textContent = user.name;
-  $('displayName').textContent = user.name;
-  $('avatarImg').src = user.avatar || "https://via.placeholder.com/120?text=U";
-  renderDists();
-}
-
-function renderDists(){
-  const email = localStorage.getItem('capu_current');
-  const user = users[email];
-  const cont = $('distsContainer');
-  cont.innerHTML='';
-
-  user.dists = [
-    user.dists[0] || {id:1,title:"Sección 1",text:"",media:[]},
-    user.dists[1] || {id:2,title:"Sección 2",text:"",media:[]},
-    user.dists[2] || {id:3,title:"Sección 3",text:"",media:[]}
-  ];
-
-  user.dists.forEach((d,i)=>{
-    const box = document.createElement('div');
-    box.className='dist';
-
-    box.innerHTML = `
-      <div class="hdr">
-        <h3 contenteditable="true" class="dist-title">${d.title}</h3>
-      </div>
-
-      <textarea class="desc">${d.text}</textarea>
-
-      <div class="file-row">
-        <label>Subir video
-          <input type="file" accept="video/*" class="video-up" style="display:none">
-        </label>
-
-        <label>Subir PDF
-          <input type="file" accept="application/pdf" class="pdf-up" style="display:none">
-        </label>
-
-        <button class="small-btn save-dist">Guardar</button>
-      </div>
-
-      <div class="preview"></div>
-    `;
-
-    cont.appendChild(box);
-
-    const preview = box.querySelector(".preview");
-
-    function paint(){
-      preview.innerHTML="";
-      d.media.forEach(m=>{
-        if(m.type==="video"){
-          const v=document.createElement("video");
-          v.controls=true;
-          v.src=m.url;
-          preview.appendChild(v);
-        } else if(m.type==="pdf"){
-          const a=document.createElement("a");
-          a.href=m.url;
-          a.target="_blank";
-          a.textContent="📄 Abrir PDF";
-          a.style.display="block";
-          a.style.padding="10px";
-          a.style.background="#f5f2f8";
-          a.style.borderRadius="10px";
-          preview.appendChild(a);
-        }
-      });
-    }
-    paint();
-
-    box.querySelector(".video-up").addEventListener("change",ev=>{
-      const f=ev.target.files[0];
-      if(!f) return;
-      d.media.push({type:"video",url:URL.createObjectURL(f)});
-      save();
+        preview.innerHTML = `
+            <video controls src="${url}"></video>
+        `;
     });
 
-    box.querySelector(".pdf-up").addEventListener("change",ev=>{
-      const f=ev.target.files[0];
-      if(!f) return;
-      d.media.push({type:"pdf",url:URL.createObjectURL(f)});
-      save();
+    // --- SUBIR PDF ---
+    pdfInput.addEventListener("change", e => {
+        const file = e.target.files[0];
+        if(!file) return;
+
+        const url = URL.createObjectURL(file);
+
+        preview.innerHTML += `
+            <a class="pdf-link" target="_blank" href="${url}">📄 Abrir PDF</a>
+        `;
     });
 
-    box.querySelector(".save-dist").addEventListener("click",()=>{
-      d.title = box.querySelector(".dist-title").textContent.trim();
-      d.text  = box.querySelector(".desc").value.trim();
-      save();
-      alert("Sección guardada");
-    });
-
-    function save(){
-      users[email].dists[i]=d;
-      localStorage.setItem('capu_users',JSON.stringify(users));
-      renderDists();
-    }
-  });
-}
-
-window.onload=()=>{ if(localStorage.getItem('capu_current')) initApp(); };
-$('logoutBtn').addEventListener('click',logout);
+});
 </script>
 
 </body>
