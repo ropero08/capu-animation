@@ -70,6 +70,10 @@ header.app-header{display:flex;gap:16px;align-items:center;justify-content:space
 
 /* focus */
 input:focus, textarea:focus, button:focus { outline: 3px solid rgba(165,122,166,0.12); outline-offset:3px }
+
+/* DEBUG overlay (hidden by default) */
+#debugOverlay{position:fixed;inset:12px;background:rgba(0,0,0,0.6);color:white;display:none;z-index:9999;padding:20px;border-radius:12px;overflow:auto}
+#debugOverlay pre{white-space:pre-wrap;font-size:13px}
 </style>
 </head>
 <body>
@@ -82,13 +86,13 @@ input:focus, textarea:focus, button:focus { outline: 3px solid rgba(165,122,166,
 
     <!-- LOGIN -->
     <input class="input" type="email" id="loginEmail" placeholder="Correo">
-    <button class="btn" onclick="login()">Entrar</button>
+    <button class="btn" id="btnLogin">Entrar</button>
     <hr>
 
     <!-- REGISTER -->
     <input id="regName" class="input" type="text" placeholder="Tu nombre completo">
     <input id="regEmail" class="input" type="email" placeholder="Tu correo (Gmail)">
-    <button class="btn" onclick="register()">Crear cuenta y entrar</button>
+    <button class="btn" id="btnRegister">Crear cuenta y entrar</button>
     <div class="small-tip">Personaliza el fondo desde el panel 🎨 (se aplicará en la página principal).</div>
   </div>
 </div>
@@ -138,189 +142,252 @@ input:focus, textarea:focus, button:focus { outline: 3px solid rgba(165,122,166,
   </div>
 </div>
 
+<!-- Debug overlay -->
+<div id="debugOverlay"><h3>Error detectado</h3><pre id="debugText"></pre><button onclick="document.getElementById('debugOverlay').style.display='none'">Cerrar</button></div>
+
 <script>
-const $ = id => document.getElementById(id);
-let users = JSON.parse(localStorage.getItem('capu_users')||'{}');
+/*
+  Versión robusta del script: evita errores que dejen la pantalla en blanco.
+  - Comprueba existencia de elementos antes de añadir event listeners.
+  - Captura errores globales y muestra debugOverlay en vez de pantalla en blanco.
+  - Asegura renderDists() se llama tras iniciar sesión.
+*/
 
-function register(){
-  const name = $('regName').value.trim();
-  const email = $('regEmail').value.trim();
-  if(!name || !email) return alert('Completa los campos');
-  if(users[email]) return alert('Usuario ya existe');
-  users[email] = {name,email,avatar:null,dists:[]};
-  localStorage.setItem('capu_users',JSON.stringify(users));
-  localStorage.setItem('capu_current',email);
-  initApp();
-}
+(function(){
+  // global error handler: show overlay instead de pantalla blanca
+  window.addEventListener('error', function(e){
+    try {
+      const overlay = document.getElementById('debugOverlay');
+      const txt = document.getElementById('debugText');
+      overlay.style.display = 'block';
+      txt.textContent = 'Error: ' + (e && e.message ? e.message : JSON.stringify(e)) + '\n\nStack:\n' + (e.error && e.error.stack ? e.error.stack : 'no stack');
+    } catch(err){
+      console.error('Error handler failed', err);
+    }
+    console.error(e);
+  });
 
-function login(){
-  const email = $('loginEmail').value.trim();
-  if(!users[email]) return alert('Usuario no existe');
-  localStorage.setItem('capu_current',email);
-  initApp();
-}
+  const $ = id => document.getElementById(id);
+  let users = {};
+  try{ users = JSON.parse(localStorage.getItem('capu_users') || '{}'); } catch(e){ users = {}; }
 
-function logout(){
-  localStorage.removeItem('capu_current');
-  location.reload();
-}
-
-function initApp(){
-  const email = localStorage.getItem('capu_current');
-  if(!email || !users[email]) return;
-  const user = users[email];
-  $('landing-wrap').style.display = 'none';
-  $('appHeader').style.display = 'flex';
-  $('appMain').style.display = 'block';
-  $('welcomeName').textContent = user.name;
-  $('displayName').textContent = user.name;
-  $('avatarImg').src = user.avatar || 'https://via.placeholder.com/120?text=U';
-
-  /* ⭐ AQUÍ ESTÁ LA LÍNEA QUE FALTABA ⭐ */
-  renderDists();
-}
-
-function renderDists(){
-  const container = $('distsContainer');
-  container.innerHTML='';
-  const email = localStorage.getItem('capu_current');
-  let user = users[email];
-  if(user.dists.length===0){
-    user.dists = [
-      {id:1,title:'Sección 1',text:'',media:[]},
-      {id:2,title:'Sección 2',text:'',media:[]},
-      {id:3,title:'Sección 3',text:'',media:[]}
-    ];
+  // safe addEvent helper
+  function safeOn(el, evt, fn){
+    if(!el) return;
+    el.addEventListener(evt, fn);
   }
-  localStorage.setItem('capu_users',JSON.stringify(users));
-  user.dists.forEach((d,idx)=>{
-    const box = document.createElement('div'); 
-    box.className='dist';
-    box.innerHTML=`
-      <div class="hdr">
-        <h3 contenteditable="true" class="dist-title">${d.title}</h3>
-      </div>
-      <textarea class="desc">${d.text}</textarea>
-      <div class="file-row">
-        <label>Subir video<input type="file" accept="video/*" style="display:none" class="video-up"></label>
-        <label>Subir PDF<input type="file" accept="application/pdf" style="display:none" class="pdf-up"></label>
-        <button class="small-btn save-dist">Guardar</button>
-      </div>
-      <div class="preview"></div>
-    `;
-    container.appendChild(box);
 
-    const videoUp = box.querySelector('.video-up');
-    const pdfUp = box.querySelector('.pdf-up');
-    const saveBtn = box.querySelector('.save-dist');
-    const preview = box.querySelector('.preview');
+  // register/login wiring (safe)
+  safeOn($('btnRegister'), 'click', register);
+  safeOn($('btnLogin'), 'click', login);
+  safeOn($('logoutBtn'), 'click', logout);
+  safeOn($('openPanelHeader'), 'click', ()=>{ const p=$('editPanel'); if(p) p.classList.toggle('hidden'); });
 
-    function paintMedia(){
-      preview.innerHTML='';
-      (d.media||[]).forEach(m=>{
-        if(m.type==='video'){
-          const v=document.createElement('video');
-          v.controls=true; v.src=m.url;
-          preview.appendChild(v);
+  function register(){
+    try{
+      const name = $('regName').value.trim();
+      const email = $('regEmail').value.trim().toLowerCase();
+      if(!name || !email) return alert('Completa los campos');
+      if(users[email]) return alert('Usuario ya existe');
+      users[email] = {name,email,avatar:null,dists:[]};
+      localStorage.setItem('capu_users',JSON.stringify(users));
+      localStorage.setItem('capu_current',email);
+      initApp();
+    } catch(e){ console.error(e); alert('Error al registrar'); }
+  }
+
+  function login(){
+    try{
+      const email = $('loginEmail').value.trim().toLowerCase();
+      if(!users[email]) return alert('Usuario no existe');
+      localStorage.setItem('capu_current',email);
+      initApp();
+    } catch(e){ console.error(e); alert('Error al iniciar sesión'); }
+  }
+
+  function logout(){
+    localStorage.removeItem('capu_current');
+    location.reload();
+  }
+
+  function initApp(){
+    try{
+      const email = localStorage.getItem('capu_current');
+      if(!email || !users[email]){
+        // ensure landing remains visible if no session
+        $('landing-wrap') && ($('landing-wrap').style.display='flex');
+        $('appHeader') && ($('appHeader').style.display='none');
+        $('appMain') && ($('appMain').style.display='none');
+        return;
+      }
+      const user = users[email];
+      // show app
+      $('landing-wrap') && ($('landing-wrap').style.display='none');
+      $('appHeader') && ($('appHeader').style.display='flex');
+      $('appMain') && ($('appMain').style.display='block');
+
+      // fill header
+      if($('welcomeName')) $('welcomeName').textContent = user.name || '';
+      if($('displayName')) $('displayName').textContent = user.name || '';
+      if($('avatarImg')) $('avatarImg').src = user.avatar || 'https://via.placeholder.com/120?text=U';
+
+      // IMPORTANT: call render
+      if(typeof renderDists === 'function') renderDists();
+    } catch(e){ console.error(e); throw e; }
+  }
+
+  // renderDists - robust version
+  function renderDists(){
+    try{
+      const container = $('distsContainer');
+      if(!container) return;
+      container.innerHTML = '';
+      const email = localStorage.getItem('capu_current');
+      if(!email || !users[email]) return;
+      const user = users[email];
+
+      if(!user.dists || user.dists.length === 0){
+        user.dists = [
+          {id:1,title:'Sección 1',text:'',media:[]},
+          {id:2,title:'Sección 2',text:'',media:[]},
+          {id:3,title:'Sección 3',text:'',media:[]}
+        ];
+      }
+
+      // persist (safe)
+      try{ localStorage.setItem('capu_users', JSON.stringify(users)); }catch(e){console.warn('Could not persist users',e);}
+
+      user.dists.forEach((d,idx)=>{
+        const box = document.createElement('div');
+        box.className = 'dist';
+        box.innerHTML = `
+          <div class="hdr"><h3 contenteditable="true" class="dist-title">${escapeHtml(d.title)}</h3></div>
+          <textarea class="desc">${escapeHtml(d.text||'')}</textarea>
+          <div class="file-row">
+            <label>Subir video<input type="file" accept="video/*" style="display:none" class="video-up"></label>
+            <label>Subir PDF<input type="file" accept="application/pdf" style="display:none" class="pdf-up"></label>
+            <button class="small-btn save-dist">Guardar</button>
+          </div>
+          <div class="preview"></div>
+        `;
+        container.appendChild(box);
+
+        const videoUp = box.querySelector('.video-up');
+        const pdfUp = box.querySelector('.pdf-up');
+        const saveBtn = box.querySelector('.save-dist');
+        const preview = box.querySelector('.preview');
+
+        function paintMedia(){
+          preview.innerHTML = '';
+          (d.media || []).forEach(m=>{
+            if(m.type === 'video'){
+              const v = document.createElement('video');
+              v.controls = true; v.src = m.url; v.style.maxHeight='260px'; v.style.width='100%';
+              preview.appendChild(v);
+            }
+            if(m.type === 'pdf'){
+              // show link instead of iframe for better safety
+              const a = document.createElement('a');
+              a.href = m.url; a.target = '_blank'; a.textContent = '📄 Abrir PDF';
+              a.className = 'pdf-link';
+              preview.appendChild(a);
+            }
+          });
         }
-        if(m.type==='pdf'){
-          const iframe=document.createElement('iframe');
-          iframe.src=m.url;
-          iframe.style.height='200px';
-          preview.appendChild(iframe);
+        paintMedia();
+
+        safeOn(videoUp, 'change', e=>{
+          const f = e.target.files[0]; if(!f) return;
+          const url = URL.createObjectURL(f);
+          d.media = d.media || []; d.media.push({type:'video', url});
+          saveAndRerender();
+        });
+        safeOn(pdfUp, 'change', e=>{
+          const f = e.target.files[0]; if(!f) return;
+          const url = URL.createObjectURL(f);
+          d.media = d.media || []; d.media.push({type:'pdf', url});
+          saveAndRerender();
+        });
+        safeOn(saveBtn, 'click', ()=>{
+          d.title = box.querySelector('.dist-title').textContent.trim();
+          d.text = box.querySelector('.desc').value.trim();
+          saveAndRerender();
+          alert('Sección guardada');
+        });
+
+        function saveAndRerender(){
+          users[localStorage.getItem('capu_current')].dists[idx] = d;
+          try{ localStorage.setItem('capu_users', JSON.stringify(users)); }catch(e){console.warn(e);}
+          // re-render safely
+          setTimeout(()=>{ try{ renderDists(); } catch(e){ console.error(e); } }, 50);
         }
       });
-    }
-    paintMedia();
-
-    videoUp.addEventListener('change',ev=>{
-      const f=ev.target.files[0]; if(!f) return;
-      const url = URL.createObjectURL(f);
-      d.media.push({type:'video',url});
-      saveAndRerender();
-    });
-    pdfUp.addEventListener('change',ev=>{
-      const f=ev.target.files[0]; if(!f) return;
-      const url = URL.createObjectURL(f);
-      d.media.push({type:'pdf',url});
-      saveAndRerender();
-    });
-
-    saveBtn.addEventListener('click',()=>{
-      d.title = box.querySelector('.dist-title').textContent.trim();
-      d.text = box.querySelector('.desc').value.trim();
-      saveAndRerender();
-      alert('Sección guardada');
-    });
-
-    function saveAndRerender(){
-      users[email].dists[idx]=d;
-      localStorage.setItem('capu_users',JSON.stringify(users));
-      renderDists();
-    }
-  });
-}
-
-/* Avatar */
-$('avatarFile').addEventListener('change',(ev)=>{
-  const f = ev.target.files[0]; if(!f) return;
-  const fr = new FileReader();
-  fr.onload=()=> {
-    $('avatarImg').src=fr.result;
-    const email = localStorage.getItem('capu_current');
-    users[email].avatar=fr.result;
-    localStorage.setItem('capu_users',JSON.stringify(users));
-  };
-  fr.readAsDataURL(f);
-});
-$('avatarWrap').addEventListener('click',()=>$('avatarFile').click());
-
-/* Panel */
-$('openPanelHeader').addEventListener('click',()=>{$('editPanel').classList.toggle('hidden');});
-
-/* Background */
-let stagedBg = {img:null,color:null};
-$('bgFile').addEventListener('change',ev=>{
-  const f = ev.target.files[0]; if(!f) return;
-  const fr = new FileReader();
-  fr.onload=()=>{ stagedBg.img=fr.result; alert('Imagen cargada. Vista previa o Aplicar.'); };
-  fr.readAsDataURL(f);
-});
-$('bgColor').addEventListener('input',ev=>stagedBg.color=ev.target.value);
-$('previewBg').addEventListener('click',()=>{
-  if(stagedBg.img) $('landing-wrap').style.backgroundImage=`url('${stagedBg.img}')`;
-  else if(stagedBg.color) $('landing-wrap').style.background=stagedBg.color;
-});
-$('applyBg').addEventListener('click',()=>{
-  if(stagedBg.img){
-    localStorage.setItem('capu_bg',stagedBg.img);
-    $('landing-wrap').style.backgroundImage=`url('${stagedBg.img}')`;
-  } else if(stagedBg.color){
-    localStorage.setItem('capu_bg_color',stagedBg.color);
-    $('landing-wrap').style.background=stagedBg.color;
+    } catch(e){ console.error('renderDists error', e); throw e; }
   }
-});
-$('clearBg').addEventListener('click',()=>{
-  localStorage.removeItem('capu_bg'); 
-  localStorage.removeItem('capu_bg_color');
-  $('landing-wrap').style.background='linear-gradient(180deg,#fffaf6,#fff1e6)';
-  $('landing-wrap').style.backgroundImage='';
-  stagedBg={img:null,color:null}; 
-  $('bgFile').value=''; $('bgColor').value='#ffffff';
-});
-$('saveStyles').addEventListener('click',()=>alert('Estilos guardados en tu navegador. Pulsa Aplicar.'));
-$('resetStyles').addEventListener('click',()=>{localStorage.removeItem('capu_bg');localStorage.removeItem('capu_bg_color');location.reload();});
 
-/* Load */
-window.addEventListener('load',()=>{
-  const bg = localStorage.getItem('capu_bg'); 
-  const bgc = localStorage.getItem('capu_bg_color');
-  if(bg) $('landing-wrap').style.backgroundImage=`url('${bg}')`;
-  if(bgc) $('landing-wrap').style.background=bgc;
-  if(localStorage.getItem('capu_current')) initApp();
-});
+  // helper escape to avoid injecting raw HTML into editable titles
+  function escapeHtml(str){
+    if(!str) return '';
+    return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  }
 
-$('logoutBtn').addEventListener('click',logout);
+  // Avatar handling (safe)
+  safeOn($('avatarFile'), 'change', (ev)=>{
+    const f = ev.target.files ? ev.target.files[0] : null;
+    if(!f) return;
+    const fr = new FileReader();
+    fr.onload = ()=> {
+      $('avatarImg') && ($('avatarImg').src = fr.result);
+      const email = localStorage.getItem('capu_current');
+      if(email && users[email]){ users[email].avatar = fr.result; try{ localStorage.setItem('capu_users', JSON.stringify(users)); }catch(e){} }
+    };
+    fr.readAsDataURL(f);
+  });
+  safeOn($('avatarWrap'), 'click', ()=>{ const el = $('avatarFile'); if(el) el.click(); });
+
+  // Background handlers
+  let stagedBg = {img:null,color:null};
+  safeOn($('bgFile'), 'change', ev=>{
+    const f = ev.target.files ? ev.target.files[0] : null; if(!f) return;
+    const fr = new FileReader();
+    fr.onload=()=>{ stagedBg.img=fr.result; alert('Imagen cargada. Vista previa o Aplicar.'); };
+    fr.readAsDataURL(f);
+  });
+  safeOn($('bgColor'), 'input', ev=> stagedBg.color = ev.target.value );
+  safeOn($('previewBg'), 'click', ()=>{
+    if(stagedBg.img) $('landing-wrap') && ($('landing-wrap').style.backgroundImage = `url('${stagedBg.img}')`);
+    else if(stagedBg.color) $('landing-wrap') && ($('landing-wrap').style.background = stagedBg.color);
+  });
+  safeOn($('applyBg'), 'click', ()=>{
+    if(stagedBg.img){ localStorage.setItem('capu_bg', stagedBg.img); $('landing-wrap') && ($('landing-wrap').style.backgroundImage = `url('${stagedBg.img}')`); }
+    else if(stagedBg.color){ localStorage.setItem('capu_bg_color', stagedBg.color); $('landing-wrap') && ($('landing-wrap').style.background = stagedBg.color); }
+  });
+  safeOn($('clearBg'), 'click', ()=>{
+    localStorage.removeItem('capu_bg'); localStorage.removeItem('capu_bg_color');
+    $('landing-wrap') && ($('landing-wrap').style.background = 'linear-gradient(180deg,#fffaf6,#fff1e6)');
+    $('landing-wrap') && ($('landing-wrap').style.backgroundImage = '');
+    stagedBg = {img:null,color:null};
+    if($('bgFile')) $('bgFile').value='';
+    if($('bgColor')) $('bgColor').value='#ffffff';
+  });
+  safeOn($('saveStyles'), 'click', ()=> alert('Estilos guardados en tu navegador. Pulsa Aplicar.'));
+  safeOn($('resetStyles'), 'click', ()=>{ localStorage.removeItem('capu_bg'); localStorage.removeItem('capu_bg_color'); location.reload(); });
+
+  // On load: restore bg and init if session
+  window.addEventListener('load', ()=>{
+    try{
+      const bg = localStorage.getItem('capu_bg');
+      const bgc = localStorage.getItem('capu_bg_color');
+      if(bg && $('landing-wrap')) $('landing-wrap').style.backgroundImage = `url('${bg}')`;
+      if(bgc && $('landing-wrap')) $('landing-wrap').style.background = bgc;
+      if(localStorage.getItem('capu_current')) initApp();
+    } catch(e){ console.error(e); }
+  });
+
+  // expose for debugging if needed
+  window._capu = { users, renderDists, initApp };
+
+})();
 </script>
 
 </body>
